@@ -1,0 +1,20 @@
+{
+  "name": "betwyll-analytics",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Project Analytics from *.json",
+  "repository": "https://github.com/simonemontrucchio/betwyll",
+  "license": "MIT",
+  "devDependencies": {
+    "browser-sync": "^2.12.1",
+    "jshint": "^2.9.1",
+    "firebase-tools": "^2.2.1"
+  },
+  "scripts": {
+    "start-bsync": "browser-sync start --config bs-config.js",
+    "lint": "jshint app/**/*.js",
+    "fb-deploy": "firebase deploy",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Simone Montrucchio <simo.montrucchio@gmail.com>"
+}
