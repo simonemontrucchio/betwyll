@@ -1,0 +1,37 @@
+[
+  {
+    "id" : "amiciNostriDiavola",
+    "nome_pizza" : "Diavola",
+    "nome_pizzeria" : "Amici Nostri",
+    "img_url" : "images/amici-nostri-diavola.jpg",
+    "img_alt" : "Diavola di Amici Nostri"
+  },
+  {
+    "id" : "amiciNostriMargherita",
+    "nome_pizza" : "Margherita",
+    "nome_pizzeria" : "Amici Nostri",
+    "img_url" : "images/amici-nostri-margherita.jpg",
+    "img_alt" : "Margherita di Amici Nostri"
+  },
+  {
+    "id" : "amiciNostriMargherita",
+    "nome_pizza" : "Margherita (integrale)",
+    "nome_pizzeria" : "Amici Nostri",
+    "img_url" : "images/amici-nostri-margherita-integrale.jpg",
+    "img_alt" : "Margherita (integrale) di Amici Nostri"
+  },
+  {
+    "id" : "occupyMargherita",
+    "nome_pizza" : "Margherita",
+    "nome_pizzeria" : "Occupy",
+    "img_url" : "images/occupy-margherita.jpg",
+    "img_alt" : "Margherita di Occupy"
+  },
+  {
+    "id" : "occupyPiccante",
+    "nome_pizza" : "Salame piccante",
+    "nome_pizzeria" : "Occupy",
+    "img_url" : "images/occupy-salame-piccante.jpg",
+    "img_alt" : "Salame piccante di Occupy"
+  }
+]
