@@ -1,32 +1,71 @@
-<!--
-<div class="row">
-    <div class="col-xs-12">
-        <ul class="media-list">
-            <li class="media" ng-repeat="pizza in dati.pizzas">
-                <a href="#!/detailsPizza/{{pizza.id}}">
-                    <div class="media-left">
-                        <img class="media-object" ng-src="../{{pizza.img_url}}" alt="{{pizza.img_alt}}">
-                    </div>
-                    <div class="media-body">
-                        <h4 class="media-heading"><strong>{{pizza.nome_pizza}}</strong></h4>
-                        <p>{{pizza.nome_pizzeria}}</p>
-                    </div>
-                    <hr/>
-                </a>
-            </li>
-        </ul>
-    </div>
-</div>
--->
+<div ng-controller="AnalyticsViewCtrl as $ctrl">
 
-<div class="row">
-    <div class="col-xs-12">
-        Ci sono {{info.comments}} twyll originali.
+    <h2 ng-if="analytics.analyzed == true"><em>{{info.name}}</em> generated on {{info.date | date:'dd-MM-yyyy'}} at {{info.date | date:'HH:mm:ss'}}</h2>
+
+        <form id="frmAddJson" role="form" ng-submit="addJson()" enctype="multipart/form-data">
+            <h3>Add a new *.json file</h3>
+            <div class="form-group">
+                <input type="file" name="json_file" id="json_file"  on-change="$ctrl.onChange" />
+            </div>
+
+            <button type="submit" class="btn btn-success center-block">Analyze</button>
+        </form>
+
+
+
+
+
+
+    <div class="row" ng-if="analytics.analyzed == true">
+        <div class="col-xs-12">
+            Ci sono {{analytics.comments + analytics.answers}} twyll.
+        </div>
+        <div class="col-xs-12">
+            Ci sono {{analytics.comments}} twyll originali.
+        </div>
+        <div class="col-xs-12">
+            Ci sono {{analytics.answers}} twyll di risposta.
+        </div>
+
     </div>
-    <div class="col-xs-12">
-        Ci sono {{info.answers}} twyll di risposta.
+
+    <hr>
+
+    <form id="frmAdvanced" role="form" ng-submit="advanced()" enctype="multipart/form-data" ng-if="analytics.analyzed == true">
+        <h3>Advanced analytics</h3>
+        <div class="form-group">
+        </div>
+
+        <button type="submit" class="btn btn-success center-block">Advanced</button>
+    </form>
+
+
+    <div class="row" ng-if="analytics.advanced == true">
+        <div class="col-xs-12">
+            Ci sono {{analytics.users.length}} utenti unici attivi.
+        </div>
+        <div class="col-xs-12" >
+            Ci sono circa {{(analytics.answers + analytics.comments) / analytics.users.length | number : 0}} twyll medi per utente.
+        </div>
+
     </div>
-    <div class="col-xs-12">
-        Ci sono {{info.capitoli}} capitoli.
+
+    <div class="row" ng-if="analytics.advanced == true">
+        <div class="col-xs-12">
+            Il primo twyll è: <em>{{analytics.twylls.first.content}}</em>
+        </div>
+        <div class="col-xs-12" >
+            L'ultimo twyll è: <em>{{analytics.twylls.last.content}}</em>
+        </div>
+
+
+        <div class="col-xs-12" >
+            Sono stati scritti twyll per {{analytics.duration | number : 0}} giorni.
+        </div>
+        <div class="col-xs-12" >
+            Sono stati scritti  {{analytics.twylls.length / analytics.duration | number : 0}} twyll per giorno.
+        </div>
+
+
     </div>
 </div>

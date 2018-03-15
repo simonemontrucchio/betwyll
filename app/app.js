@@ -1,7 +1,10 @@
 'use strict';
 
 // Declare app level module which depends on views, and components
+
+
 angular.module('myApp', [
+    'ngMaterial',
   'ngRoute',
   'myApp.analyticsView',
     'myApp.analytics',

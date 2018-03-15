@@ -1,57 +1,192 @@
 'use strict';
 
-angular.module('myApp.analyticsView', ['ngRoute','myApp.analytics'])
+angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/analyticsView', {
     templateUrl: 'analyticsView/analyticsView.html',
-    controller: 'View1Ctrl'
+    controller: 'AnalyticsViewCtrl'
   });
 }])
 
-.controller('View1Ctrl', ['$scope','Analytics',function($scope, Analytics) {
-    Analytics.getData().then(function(data) {
-        $scope.dati={};
-        $scope.dati.twylls = data;
+.controller('AnalyticsViewCtrl', ['$scope', '$rootScope', '$http', 'Analytics',function($scope, $rootScope, $http, Analytics) {
 
-        $scope.dati.comments = 0;
+    $scope.analytics={};
+    $scope.analytics.analyzed=false;
+    $scope.analytics.advanced = false
+    $scope.analytics.users = {};
 
-        $scope.info={};
-        $scope.info.comments = 0;
-        $scope.info.answers = 0;
+    $scope.analytics.comments = 0;
+    $scope.analytics.answers = 0;
+    $scope.analytics.twylls = {};
+    $scope.analytics.twylls.first = "";
+    $scope.analytics.twylls.last = "";
 
-        $scope.info.capitoli = 0;
+    $rootScope.json = {};
+    $rootScope.json.uploaded = false;
 
-        // scorro ogni riga del file dei twyll
-        for (var i = 0; i < $scope.dati.twylls.length; i++) {
+    $rootScope.info = {};
 
-            // console.log("Paragrafo: " + $scope.dati.twylls[i].id);
 
-            // se è undefined, sto cambiando capitolo
-            if($scope.dati.twylls[i].comments == undefined){
-                $scope.info.capitoli++;
-                console.log("Capitolo: " + $scope.dati.twylls[i].content);
-            }
+    // save json file in global variable
+    $('#json_file').change(function(e) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            // console.log(e.target.result);
 
-            // se non è undefined entro nel capitolo
-            if($scope.dati.twylls[i].comments != undefined){
+            //if you want in JSON use
+            $rootScope.json = JSON.parse(e.target.result);
+            $rootScope.json.uploaded = true;
+            //console.log("rootscope json vale: " + $rootScope.json);
+        }
+        reader.readAsText(this.files[0]);
+        $rootScope.info.date = new Date(this.files[0].lastModifiedDate);
+        $rootScope.info.name = this.files[0].name;
+    });
 
-                // conto i twyll originali per ogni paragrafo
-                if ($scope.dati.twylls[i].comments.length != 0){
-                    $scope.info.comments += $scope.dati.twylls[i].comments.length;
-                    // console.log("Numero comments: " + $scope.dati.twylls[i].comments.length);
 
-                    // se ci sono, conto i twyll di risposta
-                    for   (var j = 0; j < $scope.dati.twylls[i].comments.length; j++) {
-                        if ($scope.dati.twylls[i].comments[j].answers != undefined) {
-                            $scope.info.answers += $scope.dati.twylls[i].comments[j].answers.length;
-                            // console.log("Answers: " + $scope.dati.twylls[i].comments[j].answers.length);
+
+    // analyze json file
+    $scope.addJson = function() {
+
+        if ($rootScope.json.uploaded == true){
+
+            // scorro ogni riga del file dei twyll
+            for (var i = 0; i < $rootScope.json.length; i++) {
+
+                // se è undefined, sto cambiando capitolo
+                if($rootScope.json[i].comments == undefined){
+                    $scope.analytics.capitoli++;
+                    // console.log("Capitolo: " + $rootScope.json[i].content);
+                }
+
+                // se non è undefined entro nel capitolo
+                if($rootScope.json[i].comments != undefined){
+
+                    // conto i twyll originali per ogni paragrafo
+                    if ($rootScope.json[i].comments.length != 0){
+                        $scope.analytics.comments += $rootScope.json[i].comments.length;
+                        // console.log("Numero comments: " + $rootScope.json[i].comments.length);
+
+                        for   (var j = 0; j < $rootScope.json[i].comments.length; j++) {
+
+                            // se ci sono, conto i twyll di risposta
+                            if ($rootScope.json[i].comments[j].answers != undefined) {
+                                $scope.analytics.answers += $rootScope.json[i].comments[j].answers.length;
+                                // console.log("Answers: " + $rootScope.json[i].comments[j].answers.length);
+                            }
                         }
                     }
+                }
+            }
+            $scope.analytics.analyzed=true;
+        }
+    };
 
+
+
+    // chiama tutte le funzioni per le statistiche avanzate
+    $scope.advanced = function() {
+
+
+
+        if ($rootScope.json.uploaded == true) {
+
+            $scope.usersCount();
+
+            $scope.timeDevelopment();
+
+
+            $scope.analytics.advanced = true;
+
+        }
+    };
+
+
+
+
+    // trova gli utenti attivi
+    $scope.usersCount = function () {
+        var array = [];
+        var twylls = [];
+        // scorro ogni riga del file dei twyll
+        for (var i = 0; i < $rootScope.json.length; i++) {
+            // se non è undefined entro nel capitolo
+            if ($rootScope.json[i].comments != undefined) {
+                // conto i twyll originali per ogni paragrafo
+                if ($rootScope.json[i].comments.length != 0) {
+                    for (var j = 0; j < $rootScope.json[i].comments.length; j++) {
+                        array.push($rootScope.json[i].comments[j].user);
+
+                        // aggiungi twyll ad array
+                        twylls.push($rootScope.json[i].comments[j]);
+
+                        // se ci sono, conto i twyll di risposta
+                        if ($rootScope.json[i].comments[j].answers != undefined) {
+                            for (var k = 0; k < $rootScope.json[i].comments[j].answers.length; k++) {
+                               array.push($rootScope.json[i].comments[j].answers[k].user);
+                               // $scope.analytics.users.push($rootScope.json[i].comments[j].answers[k].user);
+
+                                // aggiungi twyll ad array
+                                twylls.push($rootScope.json[i].comments[j].answers[k]);
+                            }
+                        }
+                    }
                 }
             }
 
         }
-    });
+        $scope.analytics.users = $scope.rimuoviDuplicati(array);
+        $scope.analytics.twylls = twylls;
+
+    };
+
+
+    // rimuove duplicati da un array
+    $scope.rimuoviDuplicati = function(arr){
+        var newArr = [];
+        angular.forEach(arr, function(value, key) {
+            var exists = false;
+            angular.forEach(newArr, function(val2, key) {
+                if(angular.equals(value.id, val2.id)){ exists = true };
+            });
+            if(exists == false && value.id != "") { newArr.push(value); }
+        });
+        return newArr;
+    }
+
+
+    // sviluppo nel tempo
+    $scope.timeDevelopment = function(){
+
+        $scope.analytics.twylls.first = $scope.analytics.twylls[0];
+        $scope.analytics.twylls.last = $scope.analytics.twylls[0];
+
+        for (var i = 0; i < $scope.analytics.twylls.length; i++) {
+            if ($scope.analytics.twylls[i].timestamp < $scope.analytics.twylls.first.timestamp){
+                $scope.analytics.twylls.first = $scope.analytics.twylls[i];
+            }
+
+            if ($scope.analytics.twylls[i].timestamp > $scope.analytics.twylls.last.timestamp){
+                $scope.analytics.twylls.last = $scope.analytics.twylls[i];
+            }
+        }
+
+        $scope.analytics.duration = $scope.timeDifference($scope.analytics.twylls.first.timestamp, $scope.analytics.twylls.last.timestamp);
+
+
+
+    };
+
+
+    $scope.timeDifference = function(date1, date2 ) {
+        var difference = date2 - date1;
+        return (difference / (60*60*24*1000));
+    }
+
+
+
+
+
+
 }]);
