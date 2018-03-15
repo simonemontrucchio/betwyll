@@ -45,7 +45,7 @@
             Ci sono {{analytics.users.length}} utenti unici attivi.
         </div>
         <div class="col-xs-12" >
-            Ci sono circa {{(analytics.answers + analytics.comments) / analytics.users.length | number : 0}} twyll medi per utente.
+            Ci sono circa {{analytics.twyll_per_user | number : 0}} twyll medi per utente.
         </div>
 
     </div>
@@ -63,7 +63,7 @@
             Sono stati scritti twyll per {{analytics.duration | number : 0}} giorni.
         </div>
         <div class="col-xs-12" >
-            Sono stati scritti  {{analytics.twylls.length / analytics.duration | number : 0}} twyll per giorno.
+            Sono stati scritti  {{analytics.twyll_per_day | number : 0}} twyll per giorno.
         </div>
 
 

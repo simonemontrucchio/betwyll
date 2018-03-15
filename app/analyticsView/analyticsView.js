@@ -93,8 +93,10 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'
         if ($rootScope.json.uploaded == true) {
 
             $scope.usersCount();
+            $scope.analytics.twyll_per_user = ($scope.analytics.answers + $scope.analytics.comments) / $scope.analytics.users.length;
 
             $scope.timeDevelopment();
+            $scope.analytics.twyll_per_day = $scope.analytics.twylls.length / $scope.analytics.duration;
 
 
             $scope.analytics.advanced = true;
@@ -158,7 +160,6 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'
 
     // sviluppo nel tempo
     $scope.timeDevelopment = function(){
-
         $scope.analytics.twylls.first = $scope.analytics.twylls[0];
         $scope.analytics.twylls.last = $scope.analytics.twylls[0];
 
@@ -166,16 +167,11 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'
             if ($scope.analytics.twylls[i].timestamp < $scope.analytics.twylls.first.timestamp){
                 $scope.analytics.twylls.first = $scope.analytics.twylls[i];
             }
-
             if ($scope.analytics.twylls[i].timestamp > $scope.analytics.twylls.last.timestamp){
                 $scope.analytics.twylls.last = $scope.analytics.twylls[i];
             }
         }
-
         $scope.analytics.duration = $scope.timeDifference($scope.analytics.twylls.first.timestamp, $scope.analytics.twylls.last.timestamp);
-
-
-
     };
 
 
