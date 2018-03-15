@@ -16,8 +16,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'
     $scope.analytics.advanced = false
     $scope.analytics.users = {};
 
-    $scope.analytics.comments = 0;
-    $scope.analytics.answers = 0;
+
     $scope.analytics.twylls = {};
     $scope.analytics.twylls.first = "";
     $scope.analytics.twylls.last = "";
@@ -37,11 +36,13 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'
             //if you want in JSON use
             $rootScope.json = JSON.parse(e.target.result);
             $rootScope.json.uploaded = true;
+            $scope.analytics.analyzed = false;
             //console.log("rootscope json vale: " + $rootScope.json);
         }
         reader.readAsText(this.files[0]);
         $rootScope.info.date = new Date(this.files[0].lastModifiedDate);
         $rootScope.info.name = this.files[0].name;
+
     });
 
 
@@ -50,6 +51,9 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'
     $scope.addJson = function() {
 
         if ($rootScope.json.uploaded == true){
+
+            $scope.analytics.comments = 0;
+            $scope.analytics.answers = 0;
 
             // scorro ogni riga del file dei twyll
             for (var i = 0; i < $rootScope.json.length; i++) {
@@ -161,14 +165,18 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'
     // sviluppo nel tempo
     $scope.timeDevelopment = function(){
         $scope.analytics.twylls.first = $scope.analytics.twylls[0];
+        $scope.analytics.twylls.first.date = new Date($scope.analytics.twylls[0].timestamp);
         $scope.analytics.twylls.last = $scope.analytics.twylls[0];
+        $scope.analytics.twylls.last.date = new Date($scope.analytics.twylls[0].timestamp);
 
         for (var i = 0; i < $scope.analytics.twylls.length; i++) {
             if ($scope.analytics.twylls[i].timestamp < $scope.analytics.twylls.first.timestamp){
                 $scope.analytics.twylls.first = $scope.analytics.twylls[i];
+                $scope.analytics.twylls.first.date = new Date($scope.analytics.twylls[i].timestamp);
             }
             if ($scope.analytics.twylls[i].timestamp > $scope.analytics.twylls.last.timestamp){
                 $scope.analytics.twylls.last = $scope.analytics.twylls[i];
+                $scope.analytics.twylls.last.date = new Date($scope.analytics.twylls[i].timestamp);
             }
         }
         $scope.analytics.duration = $scope.timeDifference($scope.analytics.twylls.first.timestamp, $scope.analytics.twylls.last.timestamp);

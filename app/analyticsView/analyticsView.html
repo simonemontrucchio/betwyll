@@ -1,6 +1,6 @@
 <div ng-controller="AnalyticsViewCtrl as $ctrl">
 
-    <h2 ng-if="analytics.analyzed == true"><em>{{info.name}}</em> generated on {{info.date | date:'dd-MM-yyyy'}} at {{info.date | date:'HH:mm:ss'}}</h2>
+    <h2 ng-if="analytics.analyzed == true"><em>{{info.name}}</em> generated on {{info.date | date:'dd/MM/yyyy'}} at {{info.date | date:'HH:mm:ss'}}</h2>
 
         <form id="frmAddJson" role="form" ng-submit="addJson()" enctype="multipart/form-data">
             <h3>Add a new *.json file</h3>
@@ -21,10 +21,10 @@
             Ci sono {{analytics.comments + analytics.answers}} twyll.
         </div>
         <div class="col-xs-12">
-            Ci sono {{analytics.comments}} twyll originali.
+            Ci sono {{analytics.comments}} twyll originali, che sono il {{100* analytics.comments / (analytics.comments + analytics.answers) | number : 0 }}% del totale.
         </div>
         <div class="col-xs-12">
-            Ci sono {{analytics.answers}} twyll di risposta.
+            Ci sono {{analytics.answers}} twyll di risposta, che sono il {{100* analytics.answers / (analytics.comments + analytics.answers) | number : 0 }}% del totale, cioè una risposta ogni {{analytics.comments / analytics.answers | number : 0}} twyll originali.
         </div>
 
     </div>
@@ -52,7 +52,13 @@
 
     <div class="row" ng-if="analytics.advanced == true">
         <div class="col-xs-12">
+            Il primo twyll è del: <em>{{analytics.twylls.first.date | date:'dd/MM/yyyy'}}</em>
+        </div>
+        <div class="col-xs-12">
             Il primo twyll è: <em>{{analytics.twylls.first.content}}</em>
+        </div>
+        <div class="col-xs-12" >
+            L'ultimo twyll è del: <em>{{analytics.twylls.last.date | date:'dd/MM/yyyy'}}</em>
         </div>
         <div class="col-xs-12" >
             L'ultimo twyll è: <em>{{analytics.twylls.last.content}}</em>
