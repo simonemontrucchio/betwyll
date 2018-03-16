@@ -86,7 +86,7 @@
             <input type="text" id="fiction" placeholder="don_rodrigo,renzo,{{analytics.users.fiction_tip}}" size="50">
             <div>Type the nicknames of the fictional (or teachers, or influencers) account, separated by comma.</div>
         </div>
-        <div class="col-xs-12">
+        <div class="col-xs-12" ng-if="analytics.users.fiction_tip != empty">
             Gli account finzionali potrebbero essere: {{analytics.users.fiction_tip}}
         </div>
         <button type="submit" class="btn btn-success center-block">Fiction</button>
@@ -112,6 +112,28 @@
             <br>
         </div>
     </div>
+
+
+    <hr>
+
+    <form id="frmHashtag" role="form" ng-submit="hashtag()" enctype="multipart/form-data" ng-if="analytics.advanced == true">
+        <h3>Hashtag</h3>
+        <div class="form-group">
+            <input type="text" id="hashtag" placeholder="#TwContare,{{analytics.users.fiction_tip}}" size="50">
+            <div>Type the hashtags of the project, separated by comma.</div>
+        </div>
+        <div class="col-xs-12">
+            Gli hashtag protrebbero essere: {{analytics.hashtag_tip}}
+        </div>
+        <div class="col-xs-12" ng-if="analytics.hashtag != undefined">
+            Ci sono {{analytics.hashtag}} twyll che contengono almeno un hashtag cercato.
+        </div>
+        <button type="submit" class="btn btn-success center-block">Hashtag</button>
+    </form>
+
+
+
+    <hr>
 
 
 

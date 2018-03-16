@@ -17,6 +17,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
     $scope.analytics.users = {};
     $scope.analytics.users.fiction_tip = "";
     $scope.analytics.users.fictional = [];
+    $scope.analytics.hashtag_tip = "";
 
 
     $scope.analytics.twylls = {};
@@ -166,6 +167,62 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
     };
 
 
+
+
+
+    // sviluppo nel tempo
+    $scope.timeDevelopment = function(){
+        $scope.analytics.twylls.first = $scope.analytics.twylls[0];
+        $scope.analytics.twylls.first.date = new Date($scope.analytics.twylls[0].timestamp);
+        $scope.analytics.twylls.last = $scope.analytics.twylls[0];
+        $scope.analytics.twylls.last.date = new Date($scope.analytics.twylls[0].timestamp);
+
+        for (var i = 0; i < $scope.analytics.twylls.length; i++) {
+
+
+            // find hashtags
+            var text = $scope.analytics.twylls[i].content.split(/[ /&]+/);
+            for (var j = 0; j < text.length; j++) {
+                if (text[j].includes("#")){
+                    var n = text[j].indexOf("#");
+                    //console.log("tip: " + $scope.analytics.hashtag_tip);
+                    //console.log("end: " + text[j][text[j].length - 1]);
+                    if(text[j][n-1] == undefined && isNaN(text[j][n+1]) && isNaN(text[j][text[j].length - 1]) && text[j] != " " &&!$scope.analytics.hashtag_tip.includes(text[j])){
+                        if ($scope.analytics.hashtag_tip != " "){
+                            $scope.analytics.hashtag_tip = $scope.analytics.hashtag_tip + ", " + text[j];
+                        }
+                        if ($scope.analytics.hashtag_tip == " "){
+                            $scope.analytics.hashtag_tip = text[j];
+                        }
+                    }
+
+                }
+
+            }
+
+
+
+            if ($scope.analytics.twylls[i].timestamp < $scope.analytics.twylls.first.timestamp){
+                $scope.analytics.twylls.first = $scope.analytics.twylls[i];
+                $scope.analytics.twylls.first.date = new Date($scope.analytics.twylls[i].timestamp);
+            }
+            if ($scope.analytics.twylls[i].timestamp > $scope.analytics.twylls.last.timestamp){
+                $scope.analytics.twylls.last = $scope.analytics.twylls[i];
+                $scope.analytics.twylls.last.date = new Date($scope.analytics.twylls[i].timestamp);
+            }
+        }
+
+        $scope.analytics.duration = $scope.timeDifference($scope.analytics.twylls.first.timestamp, $scope.analytics.twylls.last.timestamp);
+    };
+
+
+    $scope.timeDifference = function(date1, date2 ) {
+        var difference = date2 - date1;
+        return (difference / (60*60*24*1000));
+    };
+
+
+
     // rimuove duplicati da un array
     $scope.rimuoviDuplicati = function(arr){
         var newArr = [];
@@ -177,55 +234,28 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             if(exists == false && value.id != "") { newArr.push(value); }
         });
         return newArr;
-    }
-
-
-    // sviluppo nel tempo
-    $scope.timeDevelopment = function(){
-        $scope.analytics.twylls.first = $scope.analytics.twylls[0];
-        $scope.analytics.twylls.first.date = new Date($scope.analytics.twylls[0].timestamp);
-        $scope.analytics.twylls.last = $scope.analytics.twylls[0];
-        $scope.analytics.twylls.last.date = new Date($scope.analytics.twylls[0].timestamp);
-
-        for (var i = 0; i < $scope.analytics.twylls.length; i++) {
-            if ($scope.analytics.twylls[i].timestamp < $scope.analytics.twylls.first.timestamp){
-                $scope.analytics.twylls.first = $scope.analytics.twylls[i];
-                $scope.analytics.twylls.first.date = new Date($scope.analytics.twylls[i].timestamp);
-            }
-            if ($scope.analytics.twylls[i].timestamp > $scope.analytics.twylls.last.timestamp){
-                $scope.analytics.twylls.last = $scope.analytics.twylls[i];
-                $scope.analytics.twylls.last.date = new Date($scope.analytics.twylls[i].timestamp);
-            }
-        }
-        $scope.analytics.duration = $scope.timeDifference($scope.analytics.twylls.first.timestamp, $scope.analytics.twylls.last.timestamp);
     };
 
 
-    $scope.timeDifference = function(date1, date2 ) {
-        var difference = date2 - date1;
-        return (difference / (60*60*24*1000));
-    }
 
-
-
-    // chiama tutte le funzioni per le statistiche sugli utenti finzionali
+    /*
+    FICTION
+     */
     $scope.fiction = function() {
 
         var fictionals = $scope.fiction_array(document.getElementById('fiction').value);
-        console.log("Fictional array splitted 0: " + fictionals[0]);
+        //console.log("Fictional array splitted 0: " + fictionals[0]);
 
         $scope.fictional_users(fictionals);
 
     };
-
 
     // input string separated by comma to array
     $scope.fiction_array = function(search) {
         //remove spaces and set it to lowercase
         search = search.replace(/\s/g, '').toLowerCase();
         return search.split(",");
-    }
-
+    };
 
     $scope.fictional_users = function(list) {
         var fictional = [];
@@ -235,10 +265,52 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             }
         }
         $scope.analytics.users.fictional = fictional;
-        for (var i = 0; i < $scope.analytics.users.fictional.length; i++) {
-            console.log("Utenti finzionali: " + $scope.analytics.users.fictional[i].nickname + " | " + $scope.analytics.users.fictional[i].id);
+    };
+
+
+
+
+    /*
+    HASHTAG
+     */
+    $scope.hashtag = function() {
+
+        var hashtags = $scope.hashtag_array(document.getElementById('hashtag').value);
+        console.log("hashtag array splitted: " + hashtags);
+
+        if (hashtags[0] != ""){
+            $scope.hashtag_twylls(hashtags);
         }
-    }
+
+
+    };
+
+    // input string separated by comma to array
+    $scope.hashtag_array = function(search) {
+        //remove spaces and set it to lowercase
+        search = search.replace(/\s/g, '').toLowerCase();
+        return search.split(",");
+    };
+
+    $scope.hashtag_twylls = function(list) {
+        $scope.analytics.hashtag = 0;
+        for (var i = 0; i < $scope.analytics.twylls.length; i++) {
+
+            $scope.analytics.twylls[i].hashtag = false;
+
+            for (var j = 0; j < list.length; j++) {
+                if($scope.analytics.twylls[i].content.toLowerCase().indexOf(list[j]) != -1){
+                    $scope.analytics.hashtag++;
+                    $scope.analytics.twylls[i].hashtag = true;
+                    //console.log("Twyll trovato: " +$scope.analytics.twylls[i].content + " con hashtag: " + list[j]);
+                    break;
+                }
+            }
+        }
+        console.log("Twyll con hashtag: " + $scope.analytics.hashtag);
+    };
+
+
 }])
 
 
