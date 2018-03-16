@@ -199,6 +199,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                 }
 
             }
+            $scope.analytics.twylls[i].hashtag = false;
 
 
 
@@ -309,6 +310,14 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         }
         console.log("Twyll con hashtag: " + $scope.analytics.hashtag);
     };
+
+    $scope.hasHashtag = function(twyll) {
+        if (twyll.hashtag == true){
+            return true;
+        }
+        else return false;
+    }
+
 
 
 }])
