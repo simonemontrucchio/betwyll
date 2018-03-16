@@ -99,5 +99,20 @@
         <br>
     </div>
 
+    <hr>
+
+
+    <div ng-if="analytics.advanced == true">
+        <h3>Answers count</h3>
+        <div layout-wrap ng-repeat="twyll in analytics.twylls  | orderBy :'answersCount':true | limitTo:5">
+
+            <div>Nickname: {{twyll.user.nickname}}</div>
+            <div>Content: <span ng-bind-html="twyll.content | trusted"></span></div>
+            <div>Answers: {{twyll.answersCount}}</div>
+            <br>
+        </div>
+    </div>
+
+
 
 </div>

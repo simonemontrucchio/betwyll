@@ -76,6 +76,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 
                         for   (var j = 0; j < $rootScope.json[i].comments.length; j++) {
 
+
                             // se ci sono, conto i twyll di risposta
                             if ($rootScope.json[i].comments[j].answers != undefined) {
                                 $scope.analytics.answers += $rootScope.json[i].comments[j].answers.length;
@@ -127,15 +128,18 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                         users.push($rootScope.json[i].comments[j].user);
 
                         // aggiungi twyll ad array
+                        if ($rootScope.json[i].comments[j].answersCount == undefined){
+                            $rootScope.json[i].comments[j].answersCount = 0;
+                        }
                         twylls.push($rootScope.json[i].comments[j]);
 
                         // se ci sono, conto i twyll di risposta
                         if ($rootScope.json[i].comments[j].answers != undefined) {
                             for (var k = 0; k < $rootScope.json[i].comments[j].answers.length; k++) {
                                 users.push($rootScope.json[i].comments[j].answers[k].user);
-                               // $scope.analytics.users.push($rootScope.json[i].comments[j].answers[k].user);
 
                                 // aggiungi twyll ad array
+                                $rootScope.json[i].comments[j].answers[k].answersCount = 0;
                                 twylls.push($rootScope.json[i].comments[j].answers[k]);
                             }
                         }
@@ -146,6 +150,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         }
         $scope.analytics.users = $scope.rimuoviDuplicati(users);
         $scope.analytics.twylls = twylls;
+
 
         // trova possibili account finzionali
         for (var i = 0; i < $scope.analytics.users.length; i++) {
