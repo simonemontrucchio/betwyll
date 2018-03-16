@@ -132,21 +132,14 @@
     </form>
 
 
-
-    <div layout-wrap ng-repeat="twyll in analytics.twylls " ng-if="analytics.hashtag > 0">
-            <div>Nickname: {{twyll.user.nickname}}</div>
-            <div>Content: <span ng-bind-html="twyll.content | trusted"></span></div>
-            <div>Hashtag: {{twyll.hashtag}}</div>
-            <br>
+    <div ng-if="analytics.advanced == true && analytics.hashtag > 0">
+        <div layout-wrap ng-repeat="twyll in analytics.twylls | filter : {hashtag:true} | limitTo:999">
+                <div>Nickname: {{twyll.user.nickname}}</div>
+                <div>Content: <span ng-bind-html="twyll.content | trusted"></span></div>
+                <div>Hashtag: {{twyll.hashtag}}</div>
+                <br>
         </div>
-
-        <br>
     </div>
 
-
-
-    <hr>
-
-
-
+        <br>
 </div>

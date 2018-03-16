@@ -284,6 +284,8 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         }
 
 
+
+
     };
 
     // input string separated by comma to array
@@ -327,4 +329,4 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
     return function(val) {
         return $sce.trustAsHtml(val);
     };
-});
+})
