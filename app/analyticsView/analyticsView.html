@@ -2,14 +2,14 @@
 
     <h2 ng-if="analytics.analyzed == true"><em>{{info.name}}</em> generated on {{info.date | date:'dd/MM/yyyy'}} at {{info.date | date:'HH:mm:ss'}}</h2>
 
-        <form id="frmAddJson" role="form" ng-submit="addJson()" enctype="multipart/form-data">
-            <h3>Add a new *.json file</h3>
-            <div class="form-group">
-                <input type="file" name="json_file" id="json_file"  on-change="$ctrl.onChange" />
-            </div>
+    <form id="frmAddJson" role="form" ng-submit="addJson()" enctype="multipart/form-data">
+        <h3>Add a new *.json file</h3>
+        <div class="form-group">
+            <input type="file" name="json_file" id="json_file"  on-change="$ctrl.onChange" />
+        </div>
 
-            <button type="submit" class="btn btn-success center-block">Analyze</button>
-        </form>
+        <button type="submit" class="btn btn-success center-block">Analyze</button>
+    </form>
 
 
 
@@ -55,14 +55,17 @@
             Il primo twyll è del: <em>{{analytics.twylls.first.date | date:'dd/MM/yyyy'}}</em>
         </div>
         <div class="col-xs-12">
-            Il primo twyll è: <em>{{analytics.twylls.first.content}}</em>
+            Il primo twyll è: <em><span ng-bind-html="analytics.twylls.first.content | trusted"></span></em>
         </div>
+
         <div class="col-xs-12" >
             L'ultimo twyll è del: <em>{{analytics.twylls.last.date | date:'dd/MM/yyyy'}}</em>
         </div>
         <div class="col-xs-12" >
             L'ultimo twyll è: <em>{{analytics.twylls.last.content}}</em>
         </div>
+
+
 
 
         <div class="col-xs-12" >
@@ -74,4 +77,27 @@
 
 
     </div>
+
+    <hr>
+
+    <form id="frmFiction" role="form" ng-submit="fiction()" enctype="multipart/form-data" ng-if="analytics.advanced == true">
+        <h3>Fictional</h3>
+        <div class="form-group">
+            <input type="text" id="fiction" placeholder="don_rodrigo,renzo,{{analytics.users.fiction_tip}}" size="50">
+            <div>Type the nicknames of the fictional (or teachers, or influencers) account, separated by comma.</div>
+        </div>
+        <div class="col-xs-12">
+            Gli account finzionali potrebbero essere: {{analytics.users.fiction_tip}}
+        </div>
+        <button type="submit" class="btn btn-success center-block">Fiction</button>
+    </form>
+
+    <div ng-if="analytics.users.fictional.length != 0" layout="row" layout-wrap ng-repeat="user in analytics.users.fictional  | orderBy:'id'">
+        <div>Nickname: {{user.nickname}}</div>
+        <br>
+        <div>Id: {{user.id}}</div>
+        <br>
+    </div>
+
+
 </div>

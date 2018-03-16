@@ -6,6 +6,7 @@
 angular.module('myApp', [
     'ngMaterial',
   'ngRoute',
+  'ngSanitize',
   'myApp.analyticsView',
     'myApp.analytics',
     'myApp.detailsView'

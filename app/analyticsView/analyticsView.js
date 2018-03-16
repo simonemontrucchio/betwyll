@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'])
+angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'myApp.analytics'])
 
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/analyticsView', {
@@ -15,6 +15,8 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'
     $scope.analytics.analyzed=false;
     $scope.analytics.advanced = false
     $scope.analytics.users = {};
+    $scope.analytics.users.fiction_tip = "";
+    $scope.analytics.users.fictional = [];
 
 
     $scope.analytics.twylls = {};
@@ -113,7 +115,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'
 
     // trova gli utenti attivi
     $scope.usersCount = function () {
-        var array = [];
+        var users = [];
         var twylls = [];
         // scorro ogni riga del file dei twyll
         for (var i = 0; i < $rootScope.json.length; i++) {
@@ -122,7 +124,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'
                 // conto i twyll originali per ogni paragrafo
                 if ($rootScope.json[i].comments.length != 0) {
                     for (var j = 0; j < $rootScope.json[i].comments.length; j++) {
-                        array.push($rootScope.json[i].comments[j].user);
+                        users.push($rootScope.json[i].comments[j].user);
 
                         // aggiungi twyll ad array
                         twylls.push($rootScope.json[i].comments[j]);
@@ -130,7 +132,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'
                         // se ci sono, conto i twyll di risposta
                         if ($rootScope.json[i].comments[j].answers != undefined) {
                             for (var k = 0; k < $rootScope.json[i].comments[j].answers.length; k++) {
-                               array.push($rootScope.json[i].comments[j].answers[k].user);
+                                users.push($rootScope.json[i].comments[j].answers[k].user);
                                // $scope.analytics.users.push($rootScope.json[i].comments[j].answers[k].user);
 
                                 // aggiungi twyll ad array
@@ -142,9 +144,20 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'
             }
 
         }
-        $scope.analytics.users = $scope.rimuoviDuplicati(array);
+        $scope.analytics.users = $scope.rimuoviDuplicati(users);
         $scope.analytics.twylls = twylls;
 
+        // trova possibili account finzionali
+        for (var i = 0; i < $scope.analytics.users.length; i++) {
+            if($scope.analytics.users[i].nickname != undefined && $scope.analytics.users[i].nickname.includes("tw")){
+                if ($scope.analytics.users.fiction_tip != undefined){
+                    $scope.analytics.users.fiction_tip = $scope.analytics.users.fiction_tip + ", " + $scope.analytics.users[i].nickname;
+                }
+                if ($scope.analytics.users.fiction_tip == undefined){
+                    $scope.analytics.users.fiction_tip = $scope.analytics.users[i].nickname;
+                }
+            }
+        }
     };
 
 
@@ -190,7 +203,42 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute','myApp.analytics'
 
 
 
+    // chiama tutte le funzioni per le statistiche sugli utenti finzionali
+    $scope.fiction = function() {
+
+        var fictionals = $scope.fiction_array(document.getElementById('fiction').value);
+        console.log("Fictional array splitted 0: " + fictionals[0]);
+
+        $scope.fictional_users(fictionals);
+
+    };
 
 
+    // input string separated by comma to array
+    $scope.fiction_array = function(search) {
+        //remove spaces and set it to lowercase
+        search = search.replace(/\s/g, '').toLowerCase();
+        return search.split(",");
+    }
 
-}]);
+
+    $scope.fictional_users = function(list) {
+        var fictional = [];
+        for (var i = 0; i < $scope.analytics.users.length; i++) {
+            if(list.indexOf($scope.analytics.users[i].nickname) != -1){
+                fictional.push($scope.analytics.users[i]);
+            }
+        }
+        $scope.analytics.users.fictional = fictional;
+        for (var i = 0; i < $scope.analytics.users.fictional.length; i++) {
+            console.log("Utenti finzionali: " + $scope.analytics.users.fictional[i].nickname + " | " + $scope.analytics.users.fictional[i].id);
+        }
+    }
+}])
+
+
+.filter('trusted', function ($sce) {
+    return function(val) {
+        return $sce.trustAsHtml(val);
+    };
+});
