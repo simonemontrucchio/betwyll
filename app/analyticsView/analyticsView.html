@@ -83,7 +83,7 @@
     <form id="frmFiction" role="form" ng-submit="fiction()" enctype="multipart/form-data" ng-if="analytics.advanced == true">
         <h3>Fictional</h3>
         <div class="form-group">
-            <input type="text" id="fiction" placeholder="don_rodrigo,renzo,{{analytics.users.fiction_tip}}" size="50">
+            <input type="text" id="fiction" placeholder="@don_rodrigo, @renzo, {{analytics.users.fiction_tip}}" size="50">
             <div>Type the nicknames of the fictional (or teachers, or influencers) account, separated by comma.</div>
         </div>
         <div class="col-xs-12" ng-if="analytics.users.fiction_tip != empty">
@@ -92,11 +92,15 @@
         <button type="submit" class="btn btn-success center-block">Fiction</button>
     </form>
 
-    <div ng-if="analytics.users.fictional.length != 0" layout="row" layout-wrap ng-repeat="user in analytics.users.fictional  | orderBy:'id'">
-        <div>Nickname: {{user.nickname}}</div>
-        <br>
-        <div>Id: {{user.id}}</div>
-        <br>
+    <div ng-if="analytics.users.fictional.length != 0" layout="row" layout-wrap ng-repeat="user in analytics.users.fictional  | orderBy:'twyllsCount':true">
+        <div layout="row">Nickname: {{user.nickname}} | Twylls: {{user.twyllsCount}} | Answers: {{user.answersCount}} | Conversion: {{user.answersCount * 100 / user.twyllsCount | number : 0}}%</div>
+        <br><br>
+        <!--
+        <div ng-if="user.twylls.length != 0" layout="row" layout-wrap ng-repeat="twyll in user.twylls | limitTo:3">
+            <div layout="row">Nickname: {{twyll.user.nickname}} | Content: <span ng-bind-html="twyll.content | trusted"></span></div>
+            <br><br><br><br>
+        </div>
+        -->
     </div>
 
     <hr>
@@ -133,7 +137,7 @@
 
 
     <div ng-if="analytics.advanced == true && analytics.hashtag > 0">
-        <div layout-wrap ng-repeat="twyll in analytics.twylls | filter : {hashtag:true} | limitTo:999">
+        <div layout-wrap ng-repeat="twyll in analytics.twylls | filter : {hashtag:true} | limitTo:10">
                 <div>Nickname: {{twyll.user.nickname}}</div>
                 <div>Content: <span ng-bind-html="twyll.content | trusted"></span></div>
                 <div>Hashtag: {{twyll.hashtag}}</div>

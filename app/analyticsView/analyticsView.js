@@ -157,10 +157,10 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         for (var i = 0; i < $scope.analytics.users.length; i++) {
             if($scope.analytics.users[i].nickname != undefined && $scope.analytics.users[i].nickname.includes("tw")){
                 if ($scope.analytics.users.fiction_tip != undefined){
-                    $scope.analytics.users.fiction_tip = $scope.analytics.users.fiction_tip + ", " + $scope.analytics.users[i].nickname;
+                    $scope.analytics.users.fiction_tip = $scope.analytics.users.fiction_tip + ", @" + $scope.analytics.users[i].nickname;
                 }
                 if ($scope.analytics.users.fiction_tip == undefined){
-                    $scope.analytics.users.fiction_tip = $scope.analytics.users[i].nickname;
+                    $scope.analytics.users.fiction_tip = "@" + $scope.analytics.users[i].nickname;
                 }
             }
         }
@@ -249,16 +249,19 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 
         $scope.fictional_users(fictionals);
 
+        $scope.fictional_interactions();
+
     };
 
     // input string separated by comma to array
     $scope.fiction_array = function(search) {
         //remove spaces and set it to lowercase
-        search = search.replace(/\s/g, '').toLowerCase();
+        search = search.replace(/@|\s/g, '').toLowerCase();
         return search.split(",");
     };
 
     $scope.fictional_users = function(list) {
+        $scope.analytics.users.fictional = {};
         var fictional = [];
         for (var i = 0; i < $scope.analytics.users.length; i++) {
             if(list.indexOf($scope.analytics.users[i].nickname) != -1){
@@ -266,6 +269,33 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             }
         }
         $scope.analytics.users.fictional = fictional;
+    };
+
+
+    $scope.fictional_interactions = function() {
+
+        for (var i = 0; i < $scope.analytics.users.length; i++) {
+
+            for (var j = 0; j < $scope.analytics.users.fictional.length; j++) {
+                var twylls = [];
+                var twyllsCount = 0;
+                var answersCount = 0;
+
+
+                if ($scope.analytics.users[i].nickname == $scope.analytics.users.fictional[j].nickname){
+                    for (var k = 0; k < $scope.analytics.twylls.length; k++) {
+                        if ($scope.analytics.twylls[k].user.nickname == $scope.analytics.users.fictional[j].nickname){
+                            twylls.push($scope.analytics.twylls[k]);
+                            twyllsCount++;
+                            answersCount = answersCount + $scope.analytics.twylls[k].answersCount;
+                        }
+                    }
+                    $scope.analytics.users.fictional[j].twylls = twylls;
+                    $scope.analytics.users.fictional[j].twyllsCount = twyllsCount;
+                    $scope.analytics.users.fictional[j].answersCount = answersCount;
+                }
+            }
+        }
     };
 
 
