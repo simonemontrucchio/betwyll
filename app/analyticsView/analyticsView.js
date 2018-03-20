@@ -61,12 +61,6 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             // scorro ogni riga del file dei twyll
             for (var i = 0; i < $rootScope.json.length; i++) {
 
-                // se è undefined, sto cambiando capitolo
-                if($rootScope.json[i].comments == undefined){
-                    $scope.analytics.capitoli++;
-                    // console.log("Capitolo: " + $rootScope.json[i].content);
-                }
-
                 // se non è undefined entro nel capitolo
                 if($rootScope.json[i].comments != undefined){
 
@@ -177,8 +171,31 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         $scope.analytics.twylls.last = $scope.analytics.twylls[0];
         $scope.analytics.twylls.last.date = new Date($scope.analytics.twylls[0].timestamp);
 
+
+        // initialize length vars
+        var comments_len = 0;
+        var answers_len = 0;
+        var twylls_len = 0;
+        $scope.analytics.comments_avgLen = 0;
+        $scope.analytics.answers_avgLen = 0;
+        $scope.analytics.twylls_avgLen = 0;
+
         for (var i = 0; i < $scope.analytics.twylls.length; i++) {
 
+            // set length vars
+            // TODO parse html string
+            var StrippedString = $scope.analytics.twylls[i].content.replace(/(<([^>]+)>)/ig,"");
+            console.log("twyll: " + StrippedString);
+            console.log("twyll text: " + $scope.analytics.twylls[i].content.text());
+            //console.log("twyll: " + $scope.analytics.twylls[i].content);
+            //console.log("len: " + $scope.analytics.twylls[i].content.length);
+            twylls_len = twylls_len + StrippedString.length;
+            if ($scope.analytics.twylls[i].answerToId != undefined){
+                answers_len = answers_len + StrippedString.length;
+            }
+            else {
+                comments_len = comments_len + StrippedString.length;
+            }
 
             // find hashtags
             var text = $scope.analytics.twylls[i].content.split(/[ /&]+/);
@@ -212,6 +229,13 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                 $scope.analytics.twylls.last.date = new Date($scope.analytics.twylls[i].timestamp);
             }
         }
+
+        $scope.analytics.comments_avgLen = comments_len / $scope.analytics.comments;
+        $scope.analytics.answers_avgLen = answers_len / $scope.analytics.answers;
+        $scope.analytics.twylls_avgLen = twylls_len / $scope.analytics.twylls.length;
+        console.log("comments_avgLen: " + $scope.analytics.comments_avgLen);
+        console.log("answers_avgLen: " + $scope.analytics.answers_avgLen);
+        console.log("twylls_avgLen: " + $scope.analytics.twylls_avgLen);
 
         $scope.analytics.duration = $scope.timeDifference($scope.analytics.twylls.first.timestamp, $scope.analytics.twylls.last.timestamp);
     };
