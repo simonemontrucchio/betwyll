@@ -1,5 +1,49 @@
 <div ng-controller="AnalyticsViewCtrl as $ctrl">
 
+
+    <form class="form-horizontal" role="form" id="settingsForm" ng-submit="mergeFiles()">
+        <div id="mergefiles">
+            <input type="hidden" id="NumberOfRows" value="2">
+            <div class="form-group row">
+                <div class="col-sm-3">
+                    <label>Select all the files *.json you want to merge</label>
+                    <div class="settingsGroup">
+                        <input type="file" files-input ng-model="files" ng-change="readfiles(this.files)" multiple /> {{count}}
+                        <!-- <input type="file" ng-change="readUploaded(this.files[0],1)" ng-model="file1"> -->
+                    </div>
+                </div>
+                <textarea class="col-sm-9" rows="5" id="datafile1"></textarea>
+            </div>
+            <!--
+            <div class="form-group row">
+                <div class="col-sm-3">
+                    <label>2) Upload Data.json</label>
+                    <div class="settingsGroup">
+                        <input type="file" on-change="readfile(this.files[0],2)">
+                    </div>
+                </div>
+                <textarea class="col-sm-9" rows="5" id="datafile2"></textarea>
+            </div>
+            -->
+        </div>
+
+        <div class="row">
+            <!--
+            <div class="col-sm-3">
+                <button class="btn btn-default" name="addRow" ng-click="addRows()">+ Add Another File</button>
+            </div>
+            -->
+            <button type="submit" class="btn btn-success col-sm-9" >Merge Files</button>
+        </div>
+    </form>
+
+
+
+
+
+
+    <hr><hr>
+
     <div id="parser" style="display:none"></div>
 
     <h2 ng-if="analytics.analyzed == true"><em>{{info.name}}</em> generated on {{info.date | date:'dd/MM/yyyy'}} at {{info.date | date:'HH:mm:ss'}}</h2>

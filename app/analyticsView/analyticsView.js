@@ -2,6 +2,18 @@
 
 angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'myApp.analytics'])
 
+.directive("filesInput", function() {
+    return {
+        require: "ngModel",
+        link: function postLink(scope,elem,attrs,ngModel) {
+            elem.on("change", function(e) {
+                var files = elem[0].files;
+                ngModel.$setViewValue(files);
+            })
+        }
+    }
+})
+
 .config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/analyticsView', {
     templateUrl: 'analyticsView/analyticsView.html',
@@ -12,8 +24,8 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 .controller('AnalyticsViewCtrl', ['$scope', '$rootScope', '$http', 'Analytics',function($scope, $rootScope, $http, Analytics) {
 
     $scope.analytics={};
-    $scope.analytics.analyzed=false;
-    $scope.analytics.advanced = false
+    $scope.analytics.analyzed = false;
+    $scope.analytics.advanced = false;
     $scope.analytics.users = {};
     $scope.analytics.users.fiction_tip = "";
     $scope.analytics.users.fictional = [];
@@ -238,7 +250,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 
 
     $scope.htmlParser = function(html) {
-        //var div = document.getElementById("parser");
+        var div = document.getElementById("parser");
         div.innerHTML = html;
         return div.textContent || div.innerText || "";
     }
@@ -375,12 +387,96 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             return true;
         }
         else return false;
+    };
+
+
+
+    // TODO upload and merge
+    /*
+    UPLOAD AND JSON MERGE
+    Credits: https://labs.data.gov/dashboard/merge
+     */
+    var filesUploaded = [];
+    $scope.readfiles = function(files) {
+        console.log("entro nel file read");
+
+        var reader = new FileReader();
+        function readFile(index) {
+            if( index >= files.length ){
+                //go to merge
+                $scope.mergeFiles();
+                return
+            };
+            var file = files[index];
+            reader.onload = function(e) {
+                // get file content
+                var text = e.target.result;
+                //console.log(text)
+                filesUploaded.push(text)
+                // do sth with bin
+                readFile(index+1)
+            }
+            reader.readAsText(file);
+        }
+        readFile(0);
+    }
+
+
+    $scope.mergeFiles = function() {
+
+        var allData = [];
+        var open = '[';
+        var close = ']';
+        var separator = ',';
+        allData = allData + open;
+
+        for (var i = 0; i < filesUploaded.length; i++) {
+
+            var text = filesUploaded[i];
+            console.log(text);
+            var start = 0;
+            var end = text.length-1;
+            var partial = text.slice(1, -1);
+            console.log("partial n " + i + ": " + partial);
+
+            if(i != 0){
+                allData = allData + separator + partial;
+            }
+            else {
+                allData = allData + partial;
+            }
+
+        }
+        allData = allData + close;
+        console.log(allData);
+
+
+
+        $scope.download(allData, 'merged.json', 'application/json;charset=utf-8');
+/*
+
+        var mergedJSON = JSON.stringify(mergedArray);
+
+        var blob = new Blob([mergedJSON], {type: "application/json;charset=utf-8"});
+        saveAs(blob, "twylls.json");
+*/
+
+    }
+
+    $scope.download = function (content, fileName, contentType) {
+        var a = document.createElement("a");
+        var file = new Blob([content], {type: contentType});
+        a.href = URL.createObjectURL(file);
+        a.download = fileName;
+        a.click();
     }
 
 
 
 
 }])
+
+
 
 
 .filter('trusted', function ($sce) {
