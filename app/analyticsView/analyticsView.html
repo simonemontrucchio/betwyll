@@ -1,5 +1,7 @@
 <div ng-controller="AnalyticsViewCtrl as $ctrl">
 
+    <div id="parser" style="display:none"></div>
+
     <h2 ng-if="analytics.analyzed == true"><em>{{info.name}}</em> generated on {{info.date | date:'dd/MM/yyyy'}} at {{info.date | date:'HH:mm:ss'}}</h2>
 
     <form id="frmAddJson" role="form" ng-submit="addJson()" enctype="multipart/form-data">
@@ -24,7 +26,10 @@
             Ci sono {{analytics.comments}} twyll originali, che sono il {{100* analytics.comments / (analytics.comments + analytics.answers) | number : 0 }}% del totale.
         </div>
         <div class="col-xs-12">
-            Ci sono {{analytics.answers}} twyll di risposta, che sono il {{100* analytics.answers / (analytics.comments + analytics.answers) | number : 0 }}% del totale, cioè una risposta ogni {{analytics.comments / analytics.answers | number : 0}} twyll originali.
+            Ci sono {{analytics.answers}} twyll di risposta, che sono il {{100* analytics.answers / (analytics.comments + analytics.answers) | number : 0 }}% del totale.
+        </div>
+        <div class="col-xs-12">
+            Conversion: {{analytics.answers *100 / analytics.comments | number : 0 }}% (cioè 1 risposta ogni {{analytics.comments / analytics.answers | number : 0}} twyll originali circa).
         </div>
 
     </div>
@@ -62,7 +67,7 @@
             L'ultimo twyll è del: <em>{{analytics.twylls.last.date | date:'dd/MM/yyyy'}}</em>
         </div>
         <div class="col-xs-12" >
-            L'ultimo twyll è: <em>{{analytics.twylls.last.content}}</em>
+            L'ultimo twyll è: <em><span ng-bind-html="analytics.twylls.last.content | trusted"></span></em>
         </div>
 
 
@@ -103,7 +108,8 @@
     </form>
 
     <div ng-if="analytics.users.fictional.length != 0" layout="row" layout-wrap ng-repeat="user in analytics.users.fictional  | orderBy:'twyllsCount':true">
-        <div layout="row">Nickname: {{user.nickname}} | Twylls: {{user.twyllsCount}} | Answers: {{user.answersCount}} | Conversion: {{user.answersCount * 100 / user.twyllsCount | number : 0}}%</div>
+        <div layout="row">Nickname: {{user.nickname}} | Twylls: {{user.twyllsCount}} | Answers: {{user.answersCount}} |
+            Conversion: {{user.answersCount * 100 / user.twyllsCount | number : 0}}% (<span ng-if="(user.answersCount * 100 / user.twyllsCount) - (analytics.answers *100 / analytics.comments) >= 0">+</span>{{(user.answersCount * 100 / user.twyllsCount) - (analytics.answers *100 / analytics.comments) | number : 0 }}% rispetto alla media)</div>
         <br><br>
         <!--
         <div ng-if="user.twylls.length != 0" layout="row" layout-wrap ng-repeat="twyll in user.twylls | limitTo:3">

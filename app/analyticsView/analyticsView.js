@@ -183,18 +183,14 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         for (var i = 0; i < $scope.analytics.twylls.length; i++) {
 
             // set length vars
-            // TODO parse html string
-            var StrippedString = $scope.analytics.twylls[i].content.replace(/(<([^>]+)>)/ig,"");
-            console.log("twyll: " + StrippedString);
-            console.log("twyll text: " + $scope.analytics.twylls[i].content.text());
-            //console.log("twyll: " + $scope.analytics.twylls[i].content);
-            //console.log("len: " + $scope.analytics.twylls[i].content.length);
-            twylls_len = twylls_len + StrippedString.length;
+            var text = $scope.htmlParser($scope.analytics.twylls[i].content);
+            //console.log("twyll inner: " + text);
+            twylls_len = twylls_len + text.length;
             if ($scope.analytics.twylls[i].answerToId != undefined){
-                answers_len = answers_len + StrippedString.length;
+                answers_len = answers_len + text.length;
             }
             else {
-                comments_len = comments_len + StrippedString.length;
+                comments_len = comments_len + text.length;
             }
 
             // find hashtags
@@ -239,6 +235,13 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 
         $scope.analytics.duration = $scope.timeDifference($scope.analytics.twylls.first.timestamp, $scope.analytics.twylls.last.timestamp);
     };
+
+
+    $scope.htmlParser = function(html) {
+        //var div = document.getElementById("parser");
+        div.innerHTML = html;
+        return div.textContent || div.innerText || "";
+    }
 
 
     $scope.timeDifference = function(date1, date2 ) {
@@ -373,6 +376,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         }
         else return false;
     }
+
 
 
 
