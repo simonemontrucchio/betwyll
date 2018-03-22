@@ -20,6 +20,7 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
     $scope.hashtag = "";
     $scope.titolo = "";
     $scope.sottotitolo = "";
+    $scope.numero = 1;
     $scope.corpo = "";
 
     $scope.intestazione_html = "";
@@ -94,16 +95,20 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
 
             $scope.corpo_html =  '<p>' + $scope.corpo_html + '</p>';
 
-            /*
+            console.log($scope.corpo_html);
 
 
-            var re3 = /\s+/g;
-            $scope.corpo_html = $scope.corpo_html.replace(re3," ");
+            var search = '<p>';
+            var id = $scope.numero;
+
+            $scope.corpo_html = $scope.corpo_html.replace(new RegExp(search, 'g'), function () {
+                return '<p id="'+ id++ + '">';
+            });
+
+            console.log($scope.corpo_html);
 
 
-            */
         }
-
 
 
 
@@ -115,16 +120,6 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
     $scope.copy = function () {
         $scope.copied = "Copiato!";
     };
-
-    /*
-    $scope.convert = function () {
-        $scope.conversione =    $scope.intestazione_html +
-                                $scope.titolo_html +
-                                $scope.sottotitolo_html +
-                                $scope.corpo_html;
-    }
-    */
-
 
 
 
