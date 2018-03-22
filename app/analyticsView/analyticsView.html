@@ -12,7 +12,6 @@
                         <!-- <input type="file" ng-change="readUploaded(this.files[0],1)" ng-model="file1"> -->
                     </div>
                 </div>
-                <textarea class="col-sm-9" rows="5" id="datafile1"></textarea>
             </div>
             <!--
             <div class="form-group row">
@@ -26,15 +25,6 @@
             </div>
             -->
         </div>
-
-        <div class="row">
-            <!--
-            <div class="col-sm-3">
-                <button class="btn btn-default" name="addRow" ng-click="addRows()">+ Add Another File</button>
-            </div>
-            -->
-            <button type="submit" class="btn btn-success col-sm-9" >Merge Files</button>
-        </div>
     </form>
 
 
@@ -44,11 +34,16 @@
 
     <hr><hr>
 
+    <!-- serve per fare in parsing senza mostrarlo-->
     <div id="parser" style="display:none"></div>
 
     <h2 ng-if="analytics.analyzed == true"><em>{{info.name}}</em> generated on {{info.date | date:'dd/MM/yyyy'}} at {{info.date | date:'HH:mm:ss'}}</h2>
 
+
+    <!--
     <form id="frmAddJson" role="form" ng-submit="addJson()" enctype="multipart/form-data">
+
+
         <h3>Add a new *.json file</h3>
         <div class="form-group">
             <input type="file" name="json_file" id="json_file"  on-change="$ctrl.onChange" />
@@ -57,12 +52,14 @@
         <button type="submit" class="btn btn-success center-block">Analyze</button>
     </form>
 
+    -->
+
+    <button class="btn btn-success center-block" ng-click="addJson()">Analyze</button>
 
 
 
 
-
-    <div class="row" ng-if="analytics.analyzed == true">
+    <div class="row" ng-show="analytics.analyzed == true">
         <div class="col-xs-12">
             Ci sono {{analytics.comments + analytics.answers}} twyll.
         </div>

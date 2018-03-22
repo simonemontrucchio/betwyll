@@ -65,6 +65,8 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
     // analyze json file
     $scope.addJson = function() {
 
+        console.log("Entro in addJson");
+
         if ($rootScope.json.uploaded == true){
 
             $scope.analytics.comments = 0;
@@ -93,7 +95,8 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                     }
                 }
             }
-            $scope.analytics.analyzed=true;
+            $scope.analytics.analyzed = true;
+            console.log("analized vale: " + $scope.analytics.analyzed);
         }
     };
 
@@ -398,11 +401,15 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
      */
     var filesUploaded = [];
     $scope.readfiles = function(files) {
-        console.log("entro nel file read");
+        //console.log("entro nel file read");
 
         var reader = new FileReader();
         function readFile(index) {
             if( index >= files.length ){
+
+                $rootScope.info.date = new Date(files[files.length-1].lastModifiedDate);
+                $rootScope.info.name = files[files.length-1].name;
+
                 //go to merge
                 $scope.mergeFiles();
                 return
@@ -433,11 +440,11 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         for (var i = 0; i < filesUploaded.length; i++) {
 
             var text = filesUploaded[i];
-            console.log(text);
+            //console.log(text);
             var start = 0;
             var end = text.length-1;
             var partial = text.slice(1, -1);
-            console.log("partial n " + i + ": " + partial);
+            //console.log("partial n " + i + ": " + partial);
 
             if(i != 0){
                 allData = allData + separator + partial;
@@ -448,20 +455,22 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 
         }
         allData = allData + close;
-        console.log(allData);
+        //console.log(allData);
 
 
 
-        $scope.download(allData, 'merged.json', 'application/json;charset=utf-8');
-/*
 
-        var mergedJSON = JSON.stringify(mergedArray);
+        $rootScope.json = JSON.parse(allData);
+        $rootScope.json.uploaded = true;
+        $scope.analytics.analyzed = false;
 
-        var blob = new Blob([mergedJSON], {type: "application/json;charset=utf-8"});
-        saveAs(blob, "twylls.json");
-*/
+        // chiama la funzione di download
+        //$scope.download(allData, 'merged.json', 'application/json;charset=utf-8');
 
-    }
+
+        $scope.addJson();
+
+    };
 
     $scope.download = function (content, fileName, contentType) {
         var a = document.createElement("a");
