@@ -13,7 +13,7 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
 }])
 
 
-.controller('textViewCtrl', ['$scope', '$routeParams', function($scope, $rootScope) {
+.controller('textViewCtrl', ['$scope', '$routeParams', '$timeout', function($scope, $rootScope, $timeout) {
 
     $scope.dataInizio = "";
     $scope.dataFine = "";
@@ -118,7 +118,21 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
     };
 
     $scope.copy = function () {
+        /* Get the text field */
+        var copyText = document.getElementById("converted");
+
+        /* Select the text field */
+        copyText.select();
+
+        /* Copy the text inside the text field */
+        document.execCommand("Copy");
+
+        /* Alert the copied text */
+        //alert("Copied the text: " + copyText.value);
+
         $scope.copied = "Copiato!";
+        $timeout(function(){$scope.copied = ""}, 2000);
+
     };
 
 
