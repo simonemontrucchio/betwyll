@@ -85,18 +85,15 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
             $scope.corpo_html =  $scope.corpo_html.replace(re1a,"<1br /><2br />");
             $scope.corpo_html =  $scope.corpo_html.replace(re1,"<2br />");
 
-
             var re2 = /\<1br \/>/gi;
             $scope.corpo_html = $scope.corpo_html.replace(re2, "<br>\n");
 
             var re4 = /<2br \/>/gi;
             $scope.corpo_html = $scope.corpo_html.replace(re4,"<br></p>\n\n<p>");
 
-
             $scope.corpo_html =  '<p>' + $scope.corpo_html + '</p>';
 
             console.log($scope.corpo_html);
-
 
             var search = '<p>';
             var id = $scope.numero;
@@ -104,15 +101,7 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
             $scope.corpo_html = $scope.corpo_html.replace(new RegExp(search, 'g'), function () {
                 return '<p id="'+ id++ + '">';
             });
-
-            console.log($scope.corpo_html);
-
-
         }
-
-
-
-
 
 
     };
