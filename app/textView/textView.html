@@ -1,0 +1,50 @@
+<div ng-controller="textViewCtrl">
+    <div>
+        Data di inizio
+        <input input-text type="text" ng-model="dataInizio" ng-change="setHeader()"  placeholder="Lunedì 14"/>
+    </div>
+    <div>
+        Data di fine
+        <input  input-text type="text" ng-model="dataFine" ng-change="setHeader()"  placeholder="Domenica 21 gennaio"/>
+    </div>
+    <div>
+        Hashtag
+        <input  input-text type="text" ng-model="hashtag" ng-change="setHeader()"  placeholder="#TwInferno"/>
+    </div>
+
+    <hr>
+
+    <div>
+        Titolo
+        <input  input-text type="text" ng-model="titolo" ng-change="setTitle()"  placeholder="Canto XXVI"/>
+    </div>
+    <div>
+        Sottotitolo
+        <input  input-text type="text" ng-model="sottotitolo" ng-change="setSubitle()"  placeholder="Ulisse"/>
+    </div>
+
+    <hr>
+
+    <div>
+        Corpo del testo
+        <input  input-text type="number" ng-model="numero" value="1" placeholder="1" />
+        <br>
+        <textarea ng-model="corpo" ng-change="setBody()"  placeholder="vrhah"></textarea>
+    </div>
+
+    <hr>
+
+    <div>
+        Conversione
+        <textarea >
+{{intestazione_html}}
+{{titolo_html}}
+{{sottotitolo_html}}
+{{corpo_html}}
+        </textarea>
+    </div>
+
+    <br>
+    <button class="btn btn-success col-sm-9" ng-click="copy()">Copy to clipboard</button>
+    {{copied}}
+</div>

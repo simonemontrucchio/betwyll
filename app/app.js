@@ -7,9 +7,9 @@ angular.module('myApp', [
     'ngMaterial',
   'ngRoute',
   'ngSanitize',
-  'myApp.analyticsView',
+    'myApp.analyticsView',
     'myApp.analytics',
-    'myApp.detailsView'
+    'myApp.textView'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
