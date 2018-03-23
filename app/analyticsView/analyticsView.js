@@ -42,23 +42,6 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
     $rootScope.info = {};
 
 
-    // save json file in global variable
-    $('#json_file').change(function(e) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            // console.log(e.target.result);
-
-            //if you want in JSON use
-            $rootScope.json = JSON.parse(e.target.result);
-            $rootScope.json.uploaded = true;
-            $scope.analytics.analyzed = false;
-            //console.log("rootscope json vale: " + $rootScope.json);
-        }
-        reader.readAsText(this.files[0]);
-        $rootScope.info.date = new Date(this.files[0].lastModifiedDate);
-        $rootScope.info.name = this.files[0].name;
-
-    });
 
 
 
@@ -195,11 +178,17 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         $scope.analytics.answers_avgLen = 0;
         $scope.analytics.twylls_avgLen = 0;
 
+        var contents = "";
+
         for (var i = 0; i < $scope.analytics.twylls.length; i++) {
 
-            // set length vars
+            //per ogni twyll faccio il parsing html del contenuto
             var text = $scope.htmlParser($scope.analytics.twylls[i].content);
-            //console.log("twyll inner: " + text);
+
+            // aggiungo ogni twyll a un unico testo
+            contents = contents.concat(text);
+
+
             twylls_len = twylls_len + text.length;
             if ($scope.analytics.twylls[i].answerToId != undefined){
                 answers_len = answers_len + text.length;
@@ -249,6 +238,20 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         console.log("twylls_avgLen: " + $scope.analytics.twylls_avgLen);
 
         $scope.analytics.duration = $scope.timeDifference($scope.analytics.twylls.first.timestamp, $scope.analytics.twylls.last.timestamp);
+
+
+        // remove any short word except whitespace
+        var regex = /\b(\S){1,3}\b/g;
+        var acc = /\s[à-ý]|[À-Ý]/g;
+        var pun = /(~|`|’|!|$|%|^|&|\(|\)|{|}|\[|\]|;|:|\"|'|<|,|\.|>|\?|\/|\\|\||-|_|=)/g;
+        var spaces = /\s\s+/g ;
+        var contents_filtered = contents.replace(regex, " ");
+        var contents_filtered_acc = contents_filtered.replace(acc, " ");
+        var contents_filtered_pun = contents_filtered_acc.replace(pun, " ");
+        var contents_filtered_def = contents_filtered_pun.replace(spaces, ' ');
+
+        // download del file con il testo di tutti i twyll
+        $scope.download(contents_filtered_def, 'twylls.txt', 'text/txt;charset=utf-8');
     };
 
 
@@ -478,7 +481,9 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         a.href = URL.createObjectURL(file);
         a.download = fileName;
         a.click();
-    }
+    };
+
+
 
 
 
@@ -493,3 +498,29 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         return $sce.trustAsHtml(val);
     };
 })
+
+
+
+
+/*
+ADD SINGLE JSON, ABANDONED
+ */
+/*
+// save json file in global variable
+$('#json_file').change(function(e) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        // console.log(e.target.result);
+
+        //if you want in JSON use
+        $rootScope.json = JSON.parse(e.target.result);
+        $rootScope.json.uploaded = true;
+        $scope.analytics.analyzed = false;
+        //console.log("rootscope json vale: " + $rootScope.json);
+    }
+    reader.readAsText(this.files[0]);
+    $rootScope.info.date = new Date(this.files[0].lastModifiedDate);
+    $rootScope.info.name = this.files[0].name;
+
+});
+*/
