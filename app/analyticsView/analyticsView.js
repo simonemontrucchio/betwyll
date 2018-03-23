@@ -481,33 +481,45 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
     $scope.exportTwylls = function (contents){
 
         var contents = $rootScope.contents;
-        var num = $scope.numero;
-
-        var exclude = $scope.string_to_array(document.getElementById('exclusion').value);
+        var num = document.getElementById('number').value;
         var word_exclude = "";
 
-        //TODO exclude nicknames and tag
+        console.log("num: " + num);
+
+        var exclude = $scope.string_to_array(document.getElementById('exclusion').value);
+
+                // exclude nicknames and tag
         var tag = /\B\@\w+/g;
-        var contents = contents.replace(tag, " ");
+        var contents_noTag = contents.replace(tag, " ");
+        var contents_noWords = contents_noTag;
 
-        //TODO exclude specific words
-        for (var i = 0; i < exclude.length; i++) {
-            word_exclude = word_exclude.concat(exclude[i] + "|");
+        // exclude input words
+        if (exclude != ""){
+            for (var i = 0; i < exclude.length; i++) {
+                word_exclude = word_exclude.concat('\\s' + exclude[i] + '\\s' + "|");
+            }
+            var word_exclude = word_exclude.substring(0, word_exclude.length-1);
+            var ex = new RegExp("(" + word_exclude + ")", "gi");
+            var contents_noWords = contents_noTag.replace(ex, " ");
         }
-        var word_exclude = word_exclude.substring(0, word_exclude.length-1);
-        var ex = new RegExp("/" + word_exclude + "/gi");
-        var contents = contents.replace(ex, " ");
-
 
         // remove any short word except whitespace
-        var regex = new RegExp("/\\b(\\S){1," + num + "}\\b/g");
+        var regString = "\\b(\\S){1," + num + "}\\b";
+        var short_words = new RegExp(regString, "g");
+        var contents_filtered = contents_noWords.replace(short_words, " ");
+
+        // remove accented chars
         var acc = /\s[à-ý]|[À-Ý]/g;
-        var pun = /(~|`|’|!|$|%|^|&|\(|\)|{|}|\[|\]|;|:|\"|'|<|,|\.|>|\?|\\|\||-|_|=|“|”)/g;
-        var spaces = /\s\s+/g ;
-        var contents_filtered = contents.replace(regex, " ");
         var contents_filtered_acc = contents_filtered.replace(acc, " ");
+
+        // remove punctuation
+        var pun = /(~|`|’|!|$|%|^|&|\(|\)|{|}|\[|\]|;|:|\"|'|<|,|\.|>|\?|\\|\||-|_|=|“|”)/g;
         var contents_filtered_pun = contents_filtered_acc.replace(pun, " ");
+
+        // remove double spaces
+        var spaces = /\s\s+/g ;
         var contents_filtered_def = contents_filtered_pun.replace(spaces, ' ');
+
 
         // download del file con il testo di tutti i twyll
         $scope.download(contents_filtered_def, 'twylls.txt', 'text/txt;charset=utf-8');
