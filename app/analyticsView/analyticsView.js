@@ -41,6 +41,9 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 
     $rootScope.info = {};
 
+    $rootScope.contents = "";
+    $scope.numero = 4;
+    $scope.esclusione = "";
 
 
 
@@ -186,7 +189,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             var text = $scope.htmlParser($scope.analytics.twylls[i].content);
 
             // aggiungo ogni twyll a un unico testo
-            contents = contents.concat(text);
+            contents = contents.concat(" - " + text);
 
 
             twylls_len = twylls_len + text.length;
@@ -240,18 +243,9 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         $scope.analytics.duration = $scope.timeDifference($scope.analytics.twylls.first.timestamp, $scope.analytics.twylls.last.timestamp);
 
 
-        // remove any short word except whitespace
-        var regex = /\b(\S){1,3}\b/g;
-        var acc = /\s[à-ý]|[À-Ý]/g;
-        var pun = /(~|`|’|!|$|%|^|&|\(|\)|{|}|\[|\]|;|:|\"|'|<|,|\.|>|\?|\/|\\|\||-|_|=)/g;
-        var spaces = /\s\s+/g ;
-        var contents_filtered = contents.replace(regex, " ");
-        var contents_filtered_acc = contents_filtered.replace(acc, " ");
-        var contents_filtered_pun = contents_filtered_acc.replace(pun, " ");
-        var contents_filtered_def = contents_filtered_pun.replace(spaces, ' ');
+        $rootScope.contents = contents;
 
-        // download del file con il testo di tutti i twyll
-        $scope.download(contents_filtered_def, 'twylls.txt', 'text/txt;charset=utf-8');
+
     };
 
 
@@ -289,7 +283,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
      */
     $scope.fiction = function() {
 
-        var fictionals = $scope.fiction_array(document.getElementById('fiction').value);
+        var fictionals = $scope.string_to_array(document.getElementById('fiction').value);
         //console.log("Fictional array splitted 0: " + fictionals[0]);
 
         $scope.fictional_users(fictionals);
@@ -299,7 +293,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
     };
 
     // input string separated by comma to array
-    $scope.fiction_array = function(search) {
+    $scope.string_to_array = function(search) {
         //remove spaces and set it to lowercase
         search = search.replace(/@|\s/g, '').toLowerCase();
         return search.split(",");
@@ -397,7 +391,6 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 
 
 
-    // TODO upload and merge
     /*
     UPLOAD AND JSON MERGE
     Credits: https://labs.data.gov/dashboard/merge
@@ -482,6 +475,45 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         a.download = fileName;
         a.click();
     };
+
+
+
+    $scope.exportTwylls = function (contents){
+
+        var contents = $rootScope.contents;
+        var num = $scope.numero;
+
+        var exclude = $scope.string_to_array(document.getElementById('exclusion').value);
+        var word_exclude = "";
+
+        //TODO exclude nicknames and tag
+        var tag = /\B\@\w+/g;
+        var contents = contents.replace(tag, " ");
+
+        //TODO exclude specific words
+        for (var i = 0; i < exclude.length; i++) {
+            word_exclude = word_exclude.concat(exclude[i] + "|");
+        }
+        var word_exclude = word_exclude.substring(0, word_exclude.length-1);
+        var ex = new RegExp("/" + word_exclude + "/gi");
+        var contents = contents.replace(ex, " ");
+
+
+        // remove any short word except whitespace
+        var regex = new RegExp("/\\b(\\S){1," + num + "}\\b/g");
+        var acc = /\s[à-ý]|[À-Ý]/g;
+        var pun = /(~|`|’|!|$|%|^|&|\(|\)|{|}|\[|\]|;|:|\"|'|<|,|\.|>|\?|\\|\||-|_|=|“|”)/g;
+        var spaces = /\s\s+/g ;
+        var contents_filtered = contents.replace(regex, " ");
+        var contents_filtered_acc = contents_filtered.replace(acc, " ");
+        var contents_filtered_pun = contents_filtered_acc.replace(pun, " ");
+        var contents_filtered_def = contents_filtered_pun.replace(spaces, ' ');
+
+        // download del file con il testo di tutti i twyll
+        $scope.download(contents_filtered_def, 'twylls.txt', 'text/txt;charset=utf-8');
+    }
+
+
 
 
 

@@ -203,4 +203,20 @@
     </div>
 
         <br>
+
+    <hr>
+
+    <div ng-if="analytics.advanced == true">
+        Words to exclude
+        <input  input-text type="text" ng-model="esclusione" id="exclusion" placeholder="Ventotene, Alice"/>
+        <br>
+
+        Words min length
+        <input  input-text type="number" ng-model="numero" id="number" value="4" placeholder="4" />
+
+        <br>
+
+        <button class="btn btn-success center-block" ng-click="exportTwylls()">DOWNLOAD TXT</button>
+
+    </div>
 </div>
