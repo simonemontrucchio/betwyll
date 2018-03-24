@@ -208,14 +208,35 @@
 
     <div ng-if="analytics.advanced == true">
         <h3>Download all twyll's content</h3>
-        Words to exclude
-        <input  input-text type="text" ng-model="esclusione" id="exclusion" placeholder="Ventotene, Alice"/>
-        <br>
 
         Words min length
         <input  input-text type="number" ng-model="numero" id="number" value="4" placeholder="4" />
+        <br><br>
 
+        Words to exclude
+        <input  input-text type="text" ng-model="esclusione" id="exclusion" placeholder="Ventotene, Alice"/>
+        <br><br>
+
+        Escludi preposizioni e/o congiunzioni:
+        Preposizioni articolate:
         <br>
+        <input  input-text type="text" id="preposizioni_art" size="250" value="di, a, da, in, su, il, del, al, dal, nel, sul, lo, dello, allo, dallo, nello, sullo, la, della, alla, dalla, nella, sulla, l, dell, all, dall, nell, sull, i, dei, ai, dai, nei, sui, gli, degli, agli, dagli, negli, sugli, le, delle, alle, dalle, nelle, sulle"/>
+        <br><br>
+
+        Preposizioni improprie:
+        <br>
+        <input  input-text type="text" id="preposizioni_impr" size="250" value="sopra, sotto, dentro, fuori, vicino, lontano, davanti,dietro, presso, verso, oltre, attraverso, lungo, prima, dopo, durante, entro, avanti, oltre, senza, eccetto, tranne, fuorché, salvo, contro, incontro, insieme, malgrado, nonostante, secondo, circa"/>
+        <br><br>
+
+        Congiunzioni coordinanti:
+        <br>
+        <input  input-text type="text" id="congiunzioni_coord" size="250" value="pure, inoltre, ancora, altresì, oltre a ciò, oltre che, ma, però, pure, mentre, anzi, invece, tuttavia, non di meno, pur tuttavia, ciò nonostante, non pertanto, del resto, per altro, dunque, però, quindi, onde, perciò, pertanto, ebbene, laonde, per il che, per la qual cosa, e, pure, né, inoltre, ancora, neppure, neanche, nemmeno, infatti, difatti, cioè, invero, ossia, vale a dire, voglio dire, cioè a dire, o, ossia, ovvero, oppure"/>
+        <br><br>
+
+        Congiunzioni subordinanti:
+        <br>
+        <input  input-text type="text" id="congiunzioni_sub" size="250" value="ché, perché, giacché, poiché, siccome, perocché, per il fatto che, dato che, visto che, dal momento che, che, così come, più che, meno che, altrettanto che, benché, sebbene, quantunque, per quanto, anche se, malgrado che, se, ove, quando, purché, qualora, seppure, in caso che, a meno che, a condizione che, che, cosicché, sicché, talché, così che, tale che, tanto che, di modo che, che, come, se, che, fuorché, senonché, nonché, tranne, eccetto che, salvo che, senza che, solo che, onde, perché, affinché, acciocché, se, come, perché, se non, come, quale, così, siccome, comunque, secondo che, altrimenti che, senza che, mentre, che, come, quando, allorché, finché, dacché, appena, allorquando, appena che, tosto che, prima che, dopo che, fino a che, subito che"/>
+        <br><br>
 
         <button class="btn btn-success center-block" ng-click="exportTwylls()">DOWNLOAD TXT</button>
 

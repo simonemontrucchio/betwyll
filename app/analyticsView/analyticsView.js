@@ -520,13 +520,83 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         var spaces = /\s\s+/g ;
         var contents_filtered_def = contents_filtered_pun.replace(spaces, ' ');
 
+        var contents_filtered_def = $scope.grammatica(contents_filtered_def);
+
 
         // download del file con il testo di tutti i twyll
         $scope.download(contents_filtered_def, 'twylls.txt', 'text/txt;charset=utf-8');
-    }
+    };
 
 
 
+
+    $scope.grammatica = function(testo) {
+
+        var preposizioni_art = document.getElementById('preposizioni_art').value;
+        var preposizioni_impr = document.getElementById('preposizioni_impr').value;
+        var congiunzioni_coord = document.getElementById('congiunzioni_coord').value;
+        var congiunzioni_sub = document.getElementById('congiunzioni_sub').value;
+
+
+        if (preposizioni_art != ""){
+            var preposizioni_art = $scope.string_to_array_multi(preposizioni_art);
+
+            // exclude input words
+            var word_exclude = "";
+            for (var i = 0; i < preposizioni_art.length; i++) {
+                word_exclude = word_exclude.concat('\\s' + preposizioni_art[i] + '\\s' + "|");
+            }
+            var word_exclude = word_exclude.substring(0, word_exclude.length-1);
+            var ex = new RegExp("(" + word_exclude + ")", "gi");
+            testo = testo.replace(ex, " ");
+        }
+
+        if (preposizioni_impr != ""){
+            var preposizioni_impr = $scope.string_to_array_multi(preposizioni_impr);
+
+            // exclude input words
+            var word_exclude = "";
+            for (var i = 0; i < preposizioni_impr.length; i++) {
+                word_exclude = word_exclude.concat('\\s' + preposizioni_impr[i] + '\\s' + "|");
+            }
+            var word_exclude = word_exclude.substring(0, word_exclude.length-1);
+            var ex = new RegExp("(" + word_exclude + ")", "gi");
+            testo = testo.replace(ex, " ");
+        }
+
+        if (congiunzioni_coord != ""){
+            var congiunzioni_coord = $scope.string_to_array_multi(congiunzioni_coord);
+
+            // exclude input words
+            var word_exclude = "";
+            for (var i = 0; i < congiunzioni_coord.length; i++) {
+                word_exclude = word_exclude.concat('\\s' + congiunzioni_coord[i] + '\\s' + "|");
+            }
+            var word_exclude = word_exclude.substring(0, word_exclude.length-1);
+            var ex = new RegExp("(" + word_exclude + ")", "gi");
+            testo = testo.replace(ex, " ");
+        }
+
+        if (congiunzioni_sub != ""){
+            var congiunzioni_sub = $scope.string_to_array_multi(congiunzioni_sub);
+
+            // exclude input words
+            var word_exclude = "";
+            for (var i = 0; i < congiunzioni_sub.length; i++) {
+                word_exclude = word_exclude.concat('\\s' + congiunzioni_sub[i] + '\\s' + "|");
+            }
+            var word_exclude = word_exclude.substring(0, word_exclude.length-1);
+            var ex = new RegExp("(" + word_exclude + ")", "gi");
+            testo = testo.replace(ex, " ");
+        }
+
+        return testo;
+    };
+
+    $scope.string_to_array_multi = function(search) {
+        search = search.toLowerCase();
+        return search.split(", ");
+    };
 
 
 
