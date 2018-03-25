@@ -483,52 +483,70 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         var contents = $rootScope.contents;
         var num = document.getElementById('number').value;
         var word_exclude = "";
-
-        console.log("num: " + num);
-
         var exclude = $scope.string_to_array(document.getElementById('exclusion').value);
 
-                // exclude nicknames and tag
-        var tag = /\B\@\w+/g;
-        var contents_noTag = contents.replace(tag, " ");
-        var contents_noWords = contents_noTag;
+        // exclude nicknames and tag
+        var contents = $scope.noTags(contents);
 
-        // exclude input words
+        // exclude words
         if (exclude != ""){
             for (var i = 0; i < exclude.length; i++) {
                 word_exclude = word_exclude.concat('\\s' + exclude[i] + '\\s' + "|");
             }
             var word_exclude = word_exclude.substring(0, word_exclude.length-1);
-            var ex = new RegExp("(" + word_exclude + ")", "gi");
-            var contents_noWords = contents_noTag.replace(ex, " ");
+            contents = $scope.noWords(contents, word_exclude);
         }
 
-        // remove any short word except whitespace
-        var regString = "\\b(\\S){1," + num + "}\\b";
-        var short_words = new RegExp(regString, "g");
-        var contents_filtered = contents_noWords.replace(short_words, " ");
+        // remove short words
+        contents = $scope.noShorts(contents, num);
 
         // remove accented chars
-        var acc = /\s[à-ý]|[À-Ý]/g;
-        var contents_filtered_acc = contents_filtered.replace(acc, " ");
+        contents = $scope.noAcc(contents);
 
         // remove punctuation
-        var pun = /(~|`|’|!|$|%|^|&|\(|\)|{|}|\[|\]|;|:|\"|'|<|,|\.|>|\?|\\|\||-|_|=|“|”)/g;
-        var contents_filtered_pun = contents_filtered_acc.replace(pun, " ");
+        contents = $scope.noPunct(contents);
 
         // remove double spaces
-        var spaces = /\s\s+/g ;
-        var contents_filtered_def = contents_filtered_pun.replace(spaces, ' ');
+        contents = $scope.noDoubleSpaces(contents);
 
-        var contents_filtered_def = $scope.grammatica(contents_filtered_def);
-
+        // remove preposizioni, congiunzioni ecc.
+        contents = $scope.grammatica(contents);
 
         // download del file con il testo di tutti i twyll
-        $scope.download(contents_filtered_def, 'twylls.txt', 'text/txt;charset=utf-8');
+        $scope.download(contents, 'twylls.txt', 'text/txt;charset=utf-8');
     };
 
 
+    $scope.noTags = function (text) {
+        var tag = /\B\@\w+/g;
+        return text.replace(tag, " ");
+    };
 
+    $scope.noWords = function (text, words) {
+        var ex = new RegExp("(" + words + ")", "gi");
+        return text.replace(ex, " ");
+    };
+
+    $scope.noShorts = function (text, num) {
+        var regString = "\\b(\\S){1," + num + "}\\b";
+        var short_words = new RegExp(regString, "g");
+        return text.replace(short_words, " ");
+    };
+
+    $scope.noAcc = function (text) {
+        var acc = /\s[à-ý]|[À-Ý]/g;
+        return text.replace(acc, " ");
+    };
+
+    $scope.noPunct = function (text) {
+        var pun = /(~|`|’|!|$|%|^|&|\(|\)|{|}|\[|\]|;|:|\"|'|<|,|\.|>|\?|\\|\||-|_|=|“|”)/g;
+        return text.replace(pun, " ");
+    };
+
+    $scope.noDoubleSpaces = function (text) {
+        var spaces = /\s\s+/g ;
+        return text.replace(spaces, ' ');
+    };
 
     $scope.grammatica = function(testo) {
 
