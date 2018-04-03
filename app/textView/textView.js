@@ -65,7 +65,7 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
     $scope.setSubitle = function () {
         $scope.sottotitolo_html = "";
         if ($scope.sottotitolo != ""){
-            $scope.sottotitolo_html = '<i>' + $scope.sottotitolo + '<br><br></i>';
+            $scope.sottotitolo_html = '<i id="par-1">' + $scope.sottotitolo + '<br><br></i>';
         }
 
     };
@@ -97,9 +97,10 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
 
             var search = '<p>';
             var id = $scope.numero;
+            id++;
 
             $scope.corpo_html = $scope.corpo_html.replace(new RegExp(search, 'g'), function () {
-                return '<p id="'+ id++ + '">';
+                return '<p id="par-'+ id++ + '">';
             });
         }
 

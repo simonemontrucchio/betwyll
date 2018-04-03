@@ -189,7 +189,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             var text = $scope.htmlParser($scope.analytics.twylls[i].content);
 
             // aggiungo ogni twyll a un unico testo
-            contents = contents.concat(" - " + text);
+            contents = contents.concat(" | " + text);
 
 
             twylls_len = twylls_len + text.length;
@@ -477,8 +477,13 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
     };
 
 
+    $scope.exportTwylls = function (){
+        var contents = $rootScope.contents;
+        $scope.download(contents, 'twylls.txt', 'text/txt;charset=utf-8');
+    };
 
-    $scope.exportTwylls = function (contents){
+
+    $scope.filterTwylls = function (){
 
         var contents = $rootScope.contents;
         var num = document.getElementById('number').value;
@@ -513,7 +518,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         contents = $scope.grammatica(contents);
 
         // download del file con il testo di tutti i twyll
-        $scope.download(contents, 'twylls.txt', 'text/txt;charset=utf-8');
+        $scope.download(contents, 'twylls_filtered.txt', 'text/txt;charset=utf-8');
     };
 
 
