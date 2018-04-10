@@ -65,7 +65,7 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
     $scope.setSubitle = function () {
         $scope.sottotitolo_html = "";
         if ($scope.sottotitolo != ""){
-            $scope.sottotitolo_html = '<i id="par-1">' + $scope.sottotitolo + '<br><br></i>';
+            $scope.sottotitolo_html = '<p id="par-1"><em>' + $scope.sottotitolo + '</em><br><br></p>';
         }
 
     };

@@ -51,7 +51,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
     // analyze json file
     $scope.addJson = function() {
 
-        console.log("Entro in addJson");
+        //console.log("Entro in addJson");
 
         if ($rootScope.json.uploaded == true){
 
@@ -67,14 +67,16 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                     // conto i twyll originali per ogni paragrafo
                     if ($rootScope.json[i].comments.length != 0){
                         $scope.analytics.comments += $rootScope.json[i].comments.length;
-                        // console.log("Numero comments: " + $rootScope.json[i].comments.length);
+                        console.log("Numero comments: " + $rootScope.json[i].content);
+                        console.log("Numero comments: " + $rootScope.json[i].comments.length);
+
 
                         for   (var j = 0; j < $rootScope.json[i].comments.length; j++) {
-
 
                             // se ci sono, conto i twyll di risposta
                             if ($rootScope.json[i].comments[j].answers != undefined) {
                                 $scope.analytics.answers += $rootScope.json[i].comments[j].answers.length;
+                                // console.log("Answers: " + $rootScope.json[i].comments[j]._id);
                                 // console.log("Answers: " + $rootScope.json[i].comments[j].answers.length);
                             }
                         }
@@ -82,7 +84,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                 }
             }
             $scope.analytics.analyzed = true;
-            console.log("analized vale: " + $scope.analytics.analyzed);
+            //console.log("analized vale: " + $scope.analytics.analyzed);
         }
     };
 
@@ -236,9 +238,6 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         $scope.analytics.comments_avgLen = comments_len / $scope.analytics.comments;
         $scope.analytics.answers_avgLen = answers_len / $scope.analytics.answers;
         $scope.analytics.twylls_avgLen = twylls_len / $scope.analytics.twylls.length;
-        console.log("comments_avgLen: " + $scope.analytics.comments_avgLen);
-        console.log("answers_avgLen: " + $scope.analytics.answers_avgLen);
-        console.log("twylls_avgLen: " + $scope.analytics.twylls_avgLen);
 
         $scope.analytics.duration = $scope.timeDifference($scope.analytics.twylls.first.timestamp, $scope.analytics.twylls.last.timestamp);
 
