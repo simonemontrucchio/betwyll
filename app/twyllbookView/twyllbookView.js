@@ -24,6 +24,8 @@ angular.module('myApp.twyllbookView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
     .controller('TwyllbookViewCtrl', ['$scope', '$rootScope', '$http', 'Analytics',function($scope, $rootScope, $http, Analytics) {
         $rootScope.dati.currentView = 'twyllbook';
 
+        $rootScope.info = {};
+
         /*
         UPLOAD AND JSON MERGE
         Credits: https://labs.data.gov/dashboard/merge
@@ -119,6 +121,40 @@ angular.module('myApp.twyllbookView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 
 
 
+        $scope.doc_classes_colors = [
+            "#ededed",  //grigino
+
+            "#ECDB54",  //Meadowlark
+            "#EADEDB",  //Almost Mauve
+            "#F0EDE5",  //Coconut Milk
+            "#ededed",  //grigino
+
+
+            "#FFF5EE",  //seashell
+            "#FFFAF0",  //floralwhite
+            "#F0FFFF",  //azure
+            "#FFF8DC",  //cornsilk
+            "#FAFAD2",  //lightgoldenrodyellow
+            "#F0F8FF",  //aliceblue
+            "#DCDCDC",  //gainsboro
+            "#FFE4E1",  //mistyrose
+            "#FAEBD7",  //antiquewhite
+            "#F5FFFA",  //mintcream
+            "#FDF5E6",  //oldlace
+            "#F8F8FF",  //ghostwhite
+            "#FFFFF0",  //ivory
+            "#F5F5DC",  //beige
+            "#F5F5F5",  //whitesmoke
+            "#E0FFFF",  //lightcyan
+            "#F0FFF0",  //honeydew
+
+
+
+            "#fff"      //white
+
+
+
+        ];
 
 
     }])

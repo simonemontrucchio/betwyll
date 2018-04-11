@@ -12,10 +12,15 @@
   margin: 0;
 }
 
+html {
+  background-color: #fff;
+}
+
 /* Main content */
 body {
   padding-top: 70px;
   padding-bottom: 70px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .media-object {
@@ -50,4 +55,110 @@ body {
   padding-bottom: 15px;
   padding-top: 15px;
   font-size: 20px;
+}
+
+
+
+
+/*********
+TWYLLS
+ */
+ul.twylls-list {
+  list-style: none;
+  padding: 0 20px 0 0;
+}
+
+li.twyll {
+  border: 0 solid #000;
+  border-radius: 20px;
+  padding: 16px;
+  margin: 30px 10px;
+
+  position: relative;
+  page-break-inside: avoid;
+
+
+
+
+  outline: none;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .6) !important;
+  max-width: 15cm;
+
+  min-height: 100px;
+}
+
+li.twyll:after {
+  content: "";
+  position: absolute;
+  box-shadow: rgba(0, 0, 0, 0.3) 2px 2px 2px !important;
+  -moz-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+  bottom: -10px;
+  left: 50%;
+  border-width: 10px;
+  border-style: solid;
+  border-color: #ededed !important;
+}
+
+li.twyll.response {
+  margin-left: 1cm;
+}
+
+div.twyll-header {
+  margin: 10px 0;
+}
+
+div.twyll-header img {
+  height: 50px;
+  width: 50px;
+  margin: 0 10px;
+  display: inline-block;
+}
+
+.img-circle {
+  border-radius: 50%;
+}
+
+div.twyll-header div {
+  display: inline-block ;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+img {
+  vertical-align: middle;
+}
+
+
+
+
+/************
+PRINT
+ */
+@media print {
+  .no-print, .no-print * {
+    display: none!important;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact ;
+    font-family: 'Roboto', sans-serif;
+  }
+
+  .col-print-1 {width:8%;  float:left;}
+  .col-print-2 {width:16%; float:left;}
+  .col-print-3 {width:25%; float:left;}
+  .col-print-4 {width:33%; float:left;}
+  .col-print-5 {width:42%; float:left;}
+  .col-print-6 {width:50%; float:left;}
+  .col-print-7 {width:58%; float:left;}
+  .col-print-8 {width:66%; float:left;}
+  .col-print-9 {width:75%; float:left;}
+  .col-print-10{width:83%; float:left;}
+  .col-print-11{width:92%; float:left;}
+  .col-print-12{width:100%; float:left;}
+}
+
+.container-fluid {
+  max-width: 17cm;
 }
