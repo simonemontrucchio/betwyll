@@ -59,16 +59,19 @@
   <script src="components/analytics/analytics-service.js"></script>
   <script src="components/analytics/single-pizza-service.js"></script>
   <script src="textView/textView.js"></script>
+  <script src="twyllbookView/twyllbookView.js"></script>
 
 
 </head>
 
-<body ng-app="myApp">
-<header class="navbar navbar-default ">
+<body ng-app="myApp"  ng-controller="MainCtrl">
+<header class="navbar navbar-default navbar-static-top">
   <div class="container-fluid">
-    <div class="navbar-header">
-      <h1 class="navbar-brand">Betwyll Analytics</h1>
-    </div>
+      <ul class="nav navbar-nav navbar-center">
+          <li ng-class="{'active' : dati.currentView === 'analytics'}"><a href="#!/analyticsView" ><span class="glyphicon glyphicon-equalizer"></span></a></li>
+          <li ng-class="{'active' : dati.currentView === 'text'}" ><a href="#!/textView"><span class="glyphicon glyphicon-open-file"></span></a></li>
+          <li ng-class="{'active' : dati.currentView === 'twyllbook'}" ><a href="#!/twyllbookView"><span class="glyphicon glyphicon-book"></span></a></li>
+      </ul>
   </div>
 </header>
 

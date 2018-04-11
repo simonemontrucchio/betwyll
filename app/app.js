@@ -9,9 +9,19 @@ angular.module('myApp', [
   'ngSanitize',
     'myApp.analyticsView',
     'myApp.analytics',
-    'myApp.textView'
-]).
-config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+    'myApp.textView',
+    'myApp.twyllbookView'
+])
+
+.config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
   $routeProvider.otherwise({redirectTo: '/analyticsView'});
+}])
+
+
+.controller('MainCtrl', ['$scope', '$rootScope', function($scope, $rootScope) {
+    $rootScope.dati = {};
+    $rootScope.dati.currentView = 'analytics';
+
 }]);
+

@@ -13,7 +13,9 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
 }])
 
 
-.controller('textViewCtrl', ['$scope', '$routeParams', '$timeout', function($scope, $rootScope, $timeout) {
+.controller('textViewCtrl', ['$scope', '$rootScope', '$timeout', function($scope, $rootScope, $timeout) {
+
+    $rootScope.dati.currentView = 'text';
 
     $scope.dataInizio = "";
     $scope.dataFine = "";
@@ -128,3 +130,5 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
 
 
 }]);
+
+

@@ -31,15 +31,15 @@ body {
   width: 100%;
 }
 .navbar-center > li {
-  display: table-cell;
-  float: none;
+  display: table-cell !important;
+  float: none !important;
   text-align: center;
 }
 
 .navbar-default .navbar-center > .active > a,
 .navbar-default .navbar-center > .active > a:hover {
-  color: #428bca;
-  background-color: transparent;
+  color: #428bca !important;
+  background-color: transparent !important;
 }
 
 .navbar-default .navbar-center > li > a:hover {
