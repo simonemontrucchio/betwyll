@@ -130,3 +130,16 @@ div.twyll-header div {
 img {
   vertical-align: middle;
 }
+
+.numero {
+  width: 40px;
+}
+
+.anteprima-titolo {
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+

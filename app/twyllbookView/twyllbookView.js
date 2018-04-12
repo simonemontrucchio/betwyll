@@ -175,38 +175,47 @@ angular.module('myApp.twyllbookView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         }
         //console.log($rootScope.printSheet);
 
-        $scope.larghezza = "9cm";
+
+        // MARGINI
+        $scope.margineSuperiore = 2;
+        $scope.margineInferiore = 2;
+        $scope.margineSinistro = 2;
+        $scope.margineDestro = 2;
 
 
 
-        $scope.impostazioni = function(value) {
-            console.log(value);
-            var selector = ".container-fluid";
-            var rules = 'max-width: ' + $scope.larghezza + ';';
+        $scope.impostazioni = function(selettore) {
+            console.log("selettore" + selettore)
+            var selector = "." + selettore;
+            var rules = "";
 
+            if (selettore == "vivo"){
+                rules = 'padding-top: ' + $scope.margineSuperiore * 10 + 'px !important;' +
+                            'padding-bottom: ' + $scope.margineInferiore * 10 + 'px !important;' +
+                            'padding-left: ' + $scope.margineSinistro * 10 + 'px !important;' +
+                            'padding-right: ' + $scope.margineDestro * 10 + 'px !important;';
+            }
 
+            console.log(selector)
+            console.log(rules)
 
-            $scope.addCSSRule($rootScope.printSheet, selector, rules);
+            if (rules != ""){
+                $scope.addCSSRule($rootScope.printSheet, selector, rules);
+            }
 
         };
 
 
         $scope.addCSSRule = function(sheet, selector, rules, index) {
-
-            console.log()
             var regole = $rootScope.printSheet.cssRules || $rootScope.printSheet.rules;
-            var i = 0;
+            var i = -1;
             for (var j = 0; j < regole.length; j++) {
                 var name = regole[j].selectorText;
-                console.log(name);
-                console.log(selector)
                 if (selector == name){
                     i = j;
                 }
             }
-
             var index = i;
-
             if("insertRule" in sheet) {
                 sheet.insertRule(selector + "{" + rules + "}", index);
             }
@@ -214,9 +223,6 @@ angular.module('myApp.twyllbookView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                 sheet.addRule(selector, rules, index);
             }
         };
-
-
-
     }])
 
 

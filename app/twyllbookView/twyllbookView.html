@@ -43,11 +43,59 @@
         <!--------------
             IMPOSTAZIONI
         -------------->
-        <hr>
-        <div>
-            Larghezza pagina
-            <input  input-text type="text" ng-model="larghezza" ng-change="impostazioni(larghezza)"  />
-        </div>
+
+
+
+        <table class="tabella-pagina">
+            <tr>
+                <td class=""></td>
+                <td class="">
+                    <div>
+                        Margine superiore (in cm)
+                        <input  input-text type="number" ng-model="margineSuperiore" ng-change="impostazioni('vivo')"  class="numero"/>
+                    </div>
+                </td>
+                <td class=""></td>
+            </tr>
+            <tr>
+                <td class="">
+                    <div>
+                        Margine sinistro (in cm)
+                        <input  input-text type="number" ng-model="margineSinistro" ng-change="impostazioni('vivo')"   class="numero" />
+                    </div>
+                </td>
+                <td class="">
+                    <div class="pagina">
+                        <div class="vivo">
+                            <div class="anteprima-titolo">
+                                "Alice nel paese delle meraviglie"
+                                <br><br>
+                                il twyllbook
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td class="">
+                    <div>
+                        Margine destro (in cm)
+                        <input  input-text type="number" ng-model="margineDestro" ng-change="impostazioni('vivo')"  class="numero"  />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td class=""></td>
+                <td class="">
+                    <div>
+                        Margine Inferiore (in cm)
+                        <input  input-text type="number" ng-model="margineInferiore" ng-change="impostazioni('vivo')"   class="numero" />
+                    </div>
+                </td>
+                <td class=""></td>
+            </tr>
+        </table>
+
+
+
 
         <hr>
 

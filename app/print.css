@@ -32,3 +32,26 @@ PRINT
   */
 
 }
+
+
+
+.pagina{
+  background-color: whitesmoke;
+  width: 210px;
+  height: 297px;
+  margin: auto;
+  overflow: hidden;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .6) !important;
+}
+
+.vivo{
+  background-color: white;
+  width: 210px;
+  height: 297px;
+  background-clip: content-box;
+  padding: 20px;
+}
+
+.tabella-pagina {
+  margin: auto;
+}
