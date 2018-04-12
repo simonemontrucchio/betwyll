@@ -35,7 +35,33 @@
 
         <hr>
 
+
+
+
+
+
+        <!--------------
+            IMPOSTAZIONI
+        -------------->
+        <hr>
+        <div>
+            Larghezza pagina
+            <input  input-text type="text" ng-model="larghezza" ng-change="impostazioni(larghezza)"  />
+        </div>
+
+        <hr>
+
+
+
     </div>
+
+
+
+
+
+
+
+
 
     <!--------------
         PARTE DA STAMPARE
@@ -52,6 +78,7 @@
                 <div  ng-repeat="comment in element.comments | limitTo:225">
 
                     <li class="twyll" ng-style="{background: doc_classes_colors[$index % doc_classes_colors.length]}">
+                        <br>
                         <div class="row">
                             <div class="col-sm-2 col-print-2">
                                 <img src="{{comment.user.avatar}}" class="img-circle">
@@ -65,14 +92,13 @@
 
                         </div>
                         <span ng-bind-html="comment.content | trusted"></span>
-                        <br>
+
                     </li>
 
-
                     <div ng-repeat="answer in comment.answers | limitTo:225">
+                        <br>
                         <li class="twyll response" ng-style="{background: doc_classes_colors[$index % doc_classes_colors.length]}">
                             <span ng-bind-html="answer.content | trusted"></span>
-                            <br>
                         </li>
                     </div>
 

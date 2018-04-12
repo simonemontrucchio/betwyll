@@ -78,7 +78,9 @@ li.twyll {
   page-break-inside: avoid;
 
 
-
+  -webkit-box-decoration-break: clone;
+  -o-box-decoration-break: clone;
+  box-decoration-break: clone;
 
   outline: none;
   box-shadow: 0 1px 4px rgba(0, 0, 0, .6) !important;
@@ -127,38 +129,4 @@ div.twyll-header div {
 
 img {
   vertical-align: middle;
-}
-
-
-
-
-/************
-PRINT
- */
-@media print {
-  .no-print, .no-print * {
-    display: none!important;
-  }
-
-  body {
-    -webkit-print-color-adjust: exact ;
-    font-family: 'Roboto', sans-serif;
-  }
-
-  .col-print-1 {width:8%;  float:left;}
-  .col-print-2 {width:16%; float:left;}
-  .col-print-3 {width:25%; float:left;}
-  .col-print-4 {width:33%; float:left;}
-  .col-print-5 {width:42%; float:left;}
-  .col-print-6 {width:50%; float:left;}
-  .col-print-7 {width:58%; float:left;}
-  .col-print-8 {width:66%; float:left;}
-  .col-print-9 {width:75%; float:left;}
-  .col-print-10{width:83%; float:left;}
-  .col-print-11{width:92%; float:left;}
-  .col-print-12{width:100%; float:left;}
-}
-
-.container-fluid {
-  max-width: 17cm;
 }

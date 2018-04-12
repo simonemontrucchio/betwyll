@@ -157,6 +157,66 @@ angular.module('myApp.twyllbookView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         ];
 
 
+
+        /***************
+         * DYNAMICA CSS RULES
+         *
+         */
+        var printSheet = "print.css";
+        $rootScope.printSheet = {};
+        var sheets = document.styleSheets; // returns an Array-like StyleSheetList
+        for (var i = 0; i < sheets.length; i++) {
+            var sheet = document.styleSheets[i];
+            var href = document.styleSheets[i].href;
+            if(href != null && href.includes(printSheet)) {
+                $rootScope.printSheet = sheet;
+                break
+            }
+        }
+        //console.log($rootScope.printSheet);
+
+        $scope.larghezza = "9cm";
+
+
+
+        $scope.impostazioni = function(value) {
+            console.log(value);
+            var selector = ".container-fluid";
+            var rules = 'max-width: ' + $scope.larghezza + ';';
+
+
+
+            $scope.addCSSRule($rootScope.printSheet, selector, rules);
+
+        };
+
+
+        $scope.addCSSRule = function(sheet, selector, rules, index) {
+
+            console.log()
+            var regole = $rootScope.printSheet.cssRules || $rootScope.printSheet.rules;
+            var i = 0;
+            for (var j = 0; j < regole.length; j++) {
+                var name = regole[j].selectorText;
+                console.log(name);
+                console.log(selector)
+                if (selector == name){
+                    i = j;
+                }
+            }
+
+            var index = i;
+
+            if("insertRule" in sheet) {
+                sheet.insertRule(selector + "{" + rules + "}", index);
+            }
+            else if("addRule" in sheet) {
+                sheet.addRule(selector, rules, index);
+            }
+        };
+
+
+
     }])
 
 

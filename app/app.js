@@ -23,5 +23,8 @@ angular.module('myApp', [
     $rootScope.dati = {};
     $rootScope.dati.currentView = 'analytics';
 
+
+
+
 }]);
 
