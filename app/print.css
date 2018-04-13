@@ -55,3 +55,19 @@ PRINT
 .tabella-pagina {
   margin: auto;
 }
+
+
+
+.copertina {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: auto;
+  background-image: url(../images/maschera-esterna.png), url(../images/colore.png), url(../images/sfondo.png) ;
+  background-size: contain, contain, contain;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-position: center, center, center;
+
+  width: 170px;
+  height: 170px;
+}

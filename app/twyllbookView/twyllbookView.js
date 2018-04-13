@@ -185,7 +185,6 @@ angular.module('myApp.twyllbookView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 
 
         $scope.impostazioni = function(selettore) {
-            console.log("selettore" + selettore)
             var selector = "." + selettore;
             var rules = "";
 
@@ -195,14 +194,21 @@ angular.module('myApp.twyllbookView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                             'padding-left: ' + $scope.margineSinistro * 10 + 'px !important;' +
                             'padding-right: ' + $scope.margineDestro * 10 + 'px !important;';
             }
-
-            console.log(selector)
-            console.log(rules)
-
             if (rules != ""){
                 $scope.addCSSRule($rootScope.printSheet, selector, rules);
             }
 
+            var x = (210 - ($scope.margineSinistro * 10) - ($scope.margineDestro * 10));
+            var y = (297 - ($scope.margineSuperiore * 10) - ($scope.margineInferiore * 10));
+            var dim = Math.min(x, y);
+            console.log(dim)
+            rules = 'width: ' + dim + 'px !important;' +
+                    'heigth: ' + dim + 'px !important;';
+            selector = ".copertina";
+
+            console.log(rules);
+            console.log(selector);
+            $scope.addCSSRule($rootScope.printSheet, selector, rules);
         };
 
 
