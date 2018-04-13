@@ -4,12 +4,22 @@ PRINT
  */
 @media print {
   .no-print, .no-print * {
-    display: none!important;
+    display: none !important;
+
+  }
+}
+
+  @page {
+    size: A4;
+    /*
+    margin: 1cm 5cm 3cm 10cm;
+    */
   }
 
   body {
     -webkit-print-color-adjust: exact ;
     font-family: 'Roboto', sans-serif;
+    font-size: 12pt;
   }
 
   .col-print-1 {width:8%;  float:left;}
@@ -24,13 +34,10 @@ PRINT
   .col-print-10{width:83%; float:left;}
   .col-print-11{width:92%; float:left;}
   .col-print-12{width:100%; float:left;}
-}
+
 
 .container-fluid {
-  /*
   max-width: 17cm;
-  */
-
 }
 
 
@@ -63,7 +70,7 @@ PRINT
   top: 50%;
   transform: translateY(-50%);
   margin: auto;
-  background-image: url(../images/maschera-esterna.png), url(../images/colore.png), url(../images/sfondo.png) ;
+  background-image: url(../images/maschera-copertina.png), url(../images/logo-copertina.png), url(../images/sfondo.jpg) ;
   background-size: contain, contain, contain;
   background-repeat: no-repeat, no-repeat, no-repeat;
   background-position: center, center, center;

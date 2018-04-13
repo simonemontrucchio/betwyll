@@ -201,23 +201,41 @@ angular.module('myApp.twyllbookView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             var x = (210 - ($scope.margineSinistro * 10) - ($scope.margineDestro * 10));
             var y = (297 - ($scope.margineSuperiore * 10) - ($scope.margineInferiore * 10));
             var dim = Math.min(x, y);
-            console.log(dim)
             rules = 'width: ' + dim + 'px !important;' +
                     'heigth: ' + dim + 'px !important;';
             selector = ".copertina";
 
-            console.log(rules);
-            console.log(selector);
+
             $scope.addCSSRule($rootScope.printSheet, selector, rules);
         };
 
 
-        $scope.addCSSRule = function(sheet, selector, rules, index) {
+        $scope.stampa = function(){
+            var selector = "@page";
+            var rules = "";
+
+            rules = 'size: A4 !important;' +
+                'margin: ' + $scope.margineSuperiore + 'cm ' + $scope.margineDestro + 'cm ' + $scope.margineInferiore + 'cm ' +  $scope.margineSinistro+ 'cm;';
+
+            $scope.addCSSRule($rootScope.printSheet, selector, rules);
+
+
+            window.print();
+        };
+
+
+        $scope.addCSSRule = function(sheet, selector, rules) {
             var regole = $rootScope.printSheet.cssRules || $rootScope.printSheet.rules;
             var i = -1;
             for (var j = 0; j < regole.length; j++) {
                 var name = regole[j].selectorText;
+                var text = regole[j].cssText;
                 if (selector == name){
+                    console.log("selettore trovato")
+                    i = j;
+                }
+                else if (text.includes(selector)){
+                   console.log("testo trovato")
                     i = j;
                 }
             }
