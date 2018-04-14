@@ -120,6 +120,15 @@
     <!--------------
         PARTE DA STAMPARE
     -------------->
+    <div class="copertina-stampa">
+        <img src="../images/maschera-copertina.png" class="mask">
+        <img src="../images/logo-copertina.png" class="logo-colore">
+        <img src="../images/sfondo.jpg" class="sfondo">
+    </div>
+
+
+
+
     <div class="container" ng-show="json.uploaded == true">
 
         <div layout-wrap ng-repeat="element in json | limitTo:225">
@@ -130,30 +139,32 @@
             <br>
             <ul class="twylls-list" >
                 <div  ng-repeat="comment in element.comments | limitTo:225">
+                    <div class="spazio-twyll">
+                        <li class="twyll" ng-style="{background: doc_classes_colors[$index % doc_classes_colors.length] !important}">
+                            <br>
+                            <div class="row">
+                                <div class="col-print-2">
+                                    <img src="{{comment.user.avatar}}" class="img-circle">
+                                </div>
+                                <div class="col-print-5">
+                                    <h4 ng-bind-html="comment.user.nickname | trusted"></h4>
+                                </div>
+                                <div class="col-print-5">
+                                    {{comment.timestamp}}
+                                </div>
 
-                    <li class="twyll" ng-style="{background: doc_classes_colors[$index % doc_classes_colors.length]}">
-                        <br>
-                        <div class="row">
-                            <div class="col-sm-2 col-print-2">
-                                <img src="{{comment.user.avatar}}" class="img-circle">
                             </div>
-                            <div class="col-sm-5 col-print-5">
-                                <h4 ng-bind-html="comment.user.nickname | trusted"></h4>
-                            </div>
-                            <div class="col-sm-5 col-print-5">
-                                {{comment.timestamp}}
-                            </div>
+                            <span ng-bind-html="comment.content | trusted"></span>
 
-                        </div>
-                        <span ng-bind-html="comment.content | trusted"></span>
-
-                    </li>
-
+                        </li>
+                    </div>
                     <div ng-repeat="answer in comment.answers | limitTo:225">
                         <br>
-                        <li class="twyll response" ng-style="{background: doc_classes_colors[$index % doc_classes_colors.length]}">
-                            <span ng-bind-html="answer.content | trusted"></span>
-                        </li>
+                        <div class="spazio-twyll">
+                            <li class="twyll response" ng-style="{background: doc_classes_colors[$index % doc_classes_colors.length]  !important}">
+                                <span ng-bind-html="answer.content | trusted"></span>
+                            </li>
+                        </div>
                     </div>
 
                 </div>
