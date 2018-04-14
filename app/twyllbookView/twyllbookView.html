@@ -30,10 +30,26 @@
         <h2 ng-if="json.uploaded == true"><em>{{info.name}}</em> generated on {{info.date | date:'dd/MM/yyyy'}} at {{info.date | date:'HH:mm:ss'}}</h2>
 
 
+        <table>
+            <tr>
+                <td>
+                    <button class="btn btn-success center-block" ng-click="addJson()">MOSTRA</button>
+                </td>
+                <td>
+                    <button class="btn btn-success center-block" ng-click="stampa()">ESPORTA PDF</button>
+                </td>
+            </tr>
+        </table>
 
-        <button class="btn btn-success center-block" ng-click="addJson()">MOSTRA</button>
+        <hr>
+        <p> <a href="javascript:/*THE.PRINTLIMINATOR*/(function(){function%20loadScript(a,b){var%20c=document.createElement('script'),d=document.getElementsByTagName('head')[0],e=!1;c.type='text/javascript',c.src=a,c.onload=c.onreadystatechange=function(){e||this.readyState&amp;&amp;'loaded'!=this.readyState&amp;&amp;'complete'!=this.readyState||(e=!0,b())},d.appendChild(c)}loadScript('//css-tricks.github.io/The-Printliminator/printliminator.min.js',function(){thePrintliminator.init()});})();" id="bookmarklet" class="bookmarklet">The Printliminator</a>
+            <span class="drag-arrow"><strong>←</strong> drag to your bookmarks bar</span>
+            By <a href="http://chriscoyier.net">Chris Coyier</a> and <a href="http://devongovett.wordpress.com/">Devon Govett</a>.
+            Updates &amp; extensions by <a href="http://wowmotty.blogspot.com/">Rob Garrison</a>.
+            Print stylesheet based on <a href="http://code.google.com/p/hartija/">Hartija</a>.
+        </p>
 
-        <button class="btn btn-success center-block" ng-click="stampa()">ESPORTA</button>
+
 
         <hr>
 
@@ -45,60 +61,72 @@
         <!--------------
             IMPOSTAZIONI
         -------------->
-
-
-
-        <table class="tabella-pagina">
-            <tr>
-                <td class=""></td>
-                <td class="">
-                    <div>
-                        Margine superiore (in cm)
-                        <input  input-text type="number" ng-model="margineSuperiore" ng-change="impostazioni('vivo')"  class="numero"/>
-                    </div>
-                </td>
-                <td class=""></td>
-            </tr>
-            <tr>
-                <td class="">
-                    <div>
-                        Margine sinistro (in cm)
-                        <input  input-text type="number" ng-model="margineSinistro" ng-change="impostazioni('vivo')"   class="numero" />
-                    </div>
-                </td>
-                <td class="">
-                    <div class="pagina">
-                        <div class="vivo">
-                            <div class="copertina">
-                                <div class="anteprima-titolo">
-                                    "Alice nel paese delle meraviglie"
-                                    <br><br>
-                                    il twyllbook
+        <div class="impostazioni">
+             <table class="tabella-pagina">
+                <tr>
+                    <td class=""></td>
+                    <td class="">
+                        <div>
+                            <input  input-text type="text" ng-model="titolo" />
+                            <br><br>
+                        </div>
+                    </td>
+                    <td class=""></td>
+                </tr>
+                <tr>
+                    <td class=""></td>
+                    <td class="">
+                        <div>
+                            Margine superiore (in cm)
+                            <br>
+                            <input  input-text type="number" ng-model="margineSuperiore" ng-change="impostazioni('vivo')"  class="numero"/>
+                        </div>
+                    </td>
+                    <td class=""></td>
+                </tr>
+                <tr>
+                    <td class="">
+                        <div>
+                            Margine sinistro (in cm)
+                            <br>
+                            <input  input-text type="number" ng-model="margineSinistro" ng-change="impostazioni('vivo')"   class="numero" />
+                        </div>
+                    </td>
+                    <td class="">
+                        <div class="pagina">
+                            <div class="vivo">
+                                <div class="copertina">
+                                    <div class="anteprima-titolo">
+                                        {{titolo}}
+                                        <br><br>
+                                        <em>twyllbook</em>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </td>
-                <td class="">
-                    <div>
-                        Margine destro (in cm)
-                        <input  input-text type="number" ng-model="margineDestro" ng-change="impostazioni('vivo')"  class="numero"  />
-                    </div>
-                </td>
-            </tr>
-            <tr>
-                <td class=""></td>
-                <td class="">
-                    <div>
-                        Margine Inferiore (in cm)
-                        <input  input-text type="number" ng-model="margineInferiore" ng-change="impostazioni('vivo')"   class="numero" />
-                    </div>
-                </td>
-                <td class=""></td>
-            </tr>
-        </table>
+                    </td>
+                    <td class="">
+                        <div>
+                            Margine destro (in cm)
+                            <br>
+                            <input  input-text type="number" ng-model="margineDestro" ng-change="impostazioni('vivo')"  class="numero"  />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class=""></td>
+                    <td class="">
+                        <div>
+                            Margine Inferiore (in cm)
+                            <br>
+                            <input  input-text type="number" ng-model="margineInferiore" ng-change="impostazioni('vivo')"   class="numero" />
+                        </div>
+                    </td>
+                    <td class=""></td>
+                </tr>
+            </table>
 
-
+        </div>
 
 
         <hr>
@@ -140,7 +168,7 @@
             <ul class="twylls-list" >
                 <div  ng-repeat="comment in element.comments | limitTo:225">
                     <div class="spazio-twyll">
-                        <li class="twyll" ng-style="{background: doc_classes_colors[$index % doc_classes_colors.length] !important}">
+                        <li class="twyll" ng-style="{background: doc_classes_colors[$index % doc_classes_colors.length]}">
                             <br>
                             <div class="row">
                                 <div class="col-print-2">
@@ -159,9 +187,8 @@
                         </li>
                     </div>
                     <div ng-repeat="answer in comment.answers | limitTo:225">
-                        <br>
                         <div class="spazio-twyll">
-                            <li class="twyll response" ng-style="{background: doc_classes_colors[$index % doc_classes_colors.length]  !important}">
+                            <li class="twyll response" ng-style="{background: doc_classes_colors[$index % doc_classes_colors.length]}">
                                 <span ng-bind-html="answer.content | trusted"></span>
                             </li>
                         </div>

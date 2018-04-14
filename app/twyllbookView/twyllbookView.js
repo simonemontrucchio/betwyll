@@ -176,6 +176,9 @@ angular.module('myApp.twyllbookView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         //console.log($rootScope.printSheet);
 
 
+        // TESTI
+        $scope.titolo = "Titolo di esempio";
+
         // MARGINI
         $scope.margineSuperiore = 2;
         $scope.margineInferiore = 2;
@@ -214,10 +217,26 @@ angular.module('myApp.twyllbookView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             var selector = "@page";
             var rules = "";
 
+
+            // imposta margini della pagina
             rules = 'size: A4 !important;' +
                 'margin: ' + $scope.margineSuperiore + 'cm ' + $scope.margineDestro + 'cm ' + $scope.margineInferiore + 'cm ' +  $scope.margineSinistro+ 'cm;';
 
             $scope.addCSSRule($rootScope.printSheet, selector, rules);
+
+
+
+            rules = 'size: A4 !important;' +
+                'margin: ' + $scope.margineSuperiore + 'cm ' + $scope.margineDestro + 'cm ' + $scope.margineInferiore + 'cm ' +  $scope.margineSinistro+ 'cm;';
+
+            $scope.addCSSRule($rootScope.printSheet, selector, rules);
+
+
+
+
+
+
+
 
 
             window.print();

@@ -3,108 +3,118 @@
 PRINT
  */
 @media print {
-  .no-print, .no-print * {
-    display: none !important;
-  }
+    .no-print, .no-print * {
+        display: none !important;
+    }
 
-  * {
-    -webkit-print-color-adjust: exact !important;
-  }
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
 }
 
-  @page {
+@page {
     size: A4;
     /*
     margin: 1cm 5cm 3cm 10cm;
     */
-  }
 
-  body {
+    @top-center {
+        content: "Page " counter(page);
+    }
+}
+
+
+
+
+body {
     -webkit-print-color-adjust: exact ;
     font-family: 'Roboto', sans-serif;
     font-size: 12pt;
-  }
+}
 
-  .col-print-1 {width:8%;  float:left;}
-  .col-print-2 {width:16%; float:left;}
-  .col-print-3 {width:25%; float:left;}
-  .col-print-4 {width:33%; float:left;}
-  .col-print-5 {width:42%; float:left;}
-  .col-print-6 {width:50%; float:left;}
-  .col-print-7 {width:58%; float:left;}
-  .col-print-8 {width:66%; float:left;}
-  .col-print-9 {width:75%; float:left;}
-  .col-print-10{width:83%; float:left;}
-  .col-print-11{width:92%; float:left;}
-  .col-print-12{width:100%; float:left;}
+.col-print-1 {width:8%;  float:left;}
+.col-print-2 {width:16%; float:left;}
+.col-print-3 {width:25%; float:left;}
+.col-print-4 {width:33%; float:left;}
+.col-print-5 {width:42%; float:left;}
+.col-print-6 {width:50%; float:left;}
+.col-print-7 {width:58%; float:left;}
+.col-print-8 {width:66%; float:left;}
+.col-print-9 {width:75%; float:left;}
+.col-print-10{width:83%; float:left;}
+.col-print-11{width:92%; float:left;}
+.col-print-12{width:100%; float:left;}
 
 
 .container-fluid {
-  max-width: 21cm;
+    max-width: 21cm;
 }
 
 
 
 .pagina{
-  background-color: whitesmoke;
-  width: 210px;
-  height: 297px;
-  margin: auto;
-  overflow: hidden;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .6) !important;
+    background-color: whitesmoke;
+    width: 210px;
+    height: 297px;
+    margin: auto;
+    overflow: hidden;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .6) !important;
 }
 
 .vivo{
-  background-color: white;
-  width: 210px;
-  height: 297px;
-  background-clip: content-box;
-  padding: 20px;
+    background-color: white;
+    width: 210px;
+    height: 297px;
+    background-clip: content-box;
+    padding: 20px;
 }
 
 .tabella-pagina {
-  margin: auto;
+    margin: auto;
 }
 
 
 
 .copertina {
-   position: relative;
-   top: 50%;
-   transform: translateY(-50%);
-   margin: auto;
-   background-image: url(../images/maschera-copertina.png), url(../images/logo-copertina.png), url(../images/sfondo.jpg) ;
-   background-size: contain, contain, contain;
-   background-repeat: no-repeat, no-repeat, no-repeat;
-   background-position: center, center, center;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: auto;
+    background-image: url(../images/maschera-copertina.png), url(../images/logo-copertina.png), url(../images/sfondo.jpg) ;
+    background-size: contain, contain, contain;
+    background-repeat: no-repeat, no-repeat, no-repeat;
+    background-position: center, center, center;
 
-   width: 170px;
-   height: 170px;
- }
+    width: 170px;
+    height: 170px;
+}
 
 .copertina-stampa {
-   width: 21cm;
-  position: relative;
+    width: 21cm;
+    position: relative;
+    height: 29.7cm;
+    page-break-after: always;
 
- }
+}
 
 .copertina-stampa img{
-  position: absolute;
-  object-fit: contain;
-  width: 21cm;
+    position: absolute;
+    object-fit: contain;
+    width: 21cm;
 
 }
 
 .copertina-stampa .mask{
-  z-index: 5;
+    z-index: 5;
 }
 
 .copertina-stampa .logo-colore{
-  z-index: 4;
+    z-index: 4;
 }
 
 .copertina-stampa .sfondo{
-  z-index: 3;
+    z-index: 3;
 }
 
 
@@ -205,3 +215,4 @@ img {
     page-break-inside: avoid !important;
     padding: 1px 0;
 }
+

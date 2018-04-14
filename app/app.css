@@ -58,3 +58,26 @@ body {
 }
 
 
+.impostazioni * {
+  text-align: center;
+}
+
+td, th {
+  padding: 4px;
+}
+
+table {
+  margin: auto;
+}
+
+
+.bookmarklet {
+  text-decoration: none;
+  background: black;
+  color: white;
+  padding: 8px 20px;
+  /* margin-top: 4px; */
+  border-radius: 10px;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+}
