@@ -22,7 +22,15 @@ PRINT
     @top-center {
         content: "Page " counter(page);
     }
+
+    counter-increment: page;
+    counter-reset: page 1;
+    @top-right {
+        content: "Page " counter(page) " of " counter(pages);
+    }
 }
+
+
 
 
 
@@ -110,11 +118,15 @@ body {
 }
 
 .copertina-stampa .logo-colore{
-    z-index: 4;
+    z-index: 1;
 }
 
 .copertina-stampa .sfondo{
-    z-index: 3;
+    z-index: 4;
+    mix-blend-mode: soft-light;
+    opacity: 0.5;
+    filter: grayscale(50%) blur(1px);
+    clip: rect(0 21cm 21cm 0);
 }
 
 

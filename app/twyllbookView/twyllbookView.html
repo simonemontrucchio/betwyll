@@ -44,6 +44,7 @@
         <hr>
         <p> <a href="javascript:/*THE.PRINTLIMINATOR*/(function(){function%20loadScript(a,b){var%20c=document.createElement('script'),d=document.getElementsByTagName('head')[0],e=!1;c.type='text/javascript',c.src=a,c.onload=c.onreadystatechange=function(){e||this.readyState&amp;&amp;'loaded'!=this.readyState&amp;&amp;'complete'!=this.readyState||(e=!0,b())},d.appendChild(c)}loadScript('//css-tricks.github.io/The-Printliminator/printliminator.min.js',function(){thePrintliminator.init()});})();" id="bookmarklet" class="bookmarklet">The Printliminator</a>
             <span class="drag-arrow"><strong>←</strong> drag to your bookmarks bar</span>
+            <br>
             By <a href="http://chriscoyier.net">Chris Coyier</a> and <a href="http://devongovett.wordpress.com/">Devon Govett</a>.
             Updates &amp; extensions by <a href="http://wowmotty.blogspot.com/">Rob Garrison</a>.
             Print stylesheet based on <a href="http://code.google.com/p/hartija/">Hartija</a>.
@@ -149,9 +150,9 @@
         PARTE DA STAMPARE
     -------------->
     <div class="copertina-stampa">
-        <img src="../images/maschera-copertina.png" class="mask">
-        <img src="../images/logo-copertina.png" class="logo-colore">
         <img src="../images/sfondo.jpg" class="sfondo">
+        <img src="../images/maschera-copertina.png" class="mask">
+        <img src="../images/logo-copertina-100.png" class="logo-colore">
     </div>
 
 
@@ -159,14 +160,14 @@
 
     <div class="container" ng-show="json.uploaded == true">
 
-        <div layout-wrap ng-repeat="element in json | limitTo:225">
+        <div layout-wrap ng-repeat="text in json | limitTo:225">
 
             <div>
-                <span ng-bind-html="element.content | trusted"></span>
+                <span ng-bind-html="text.content | trusted"></span>
             </div>
             <br>
             <ul class="twylls-list" >
-                <div  ng-repeat="comment in element.comments | limitTo:225">
+                <div  ng-repeat="comment in text.comments | limitTo:225">
                     <div class="spazio-twyll">
                         <li class="twyll" ng-style="{background: doc_classes_colors[$index % doc_classes_colors.length]}">
                             <br>
