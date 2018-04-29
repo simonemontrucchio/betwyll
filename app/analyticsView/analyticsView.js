@@ -69,8 +69,6 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                         // conto i twyll originali per ogni paragrafo
                         if ($rootScope.json[i].comments.length != 0){
                             $scope.analytics.comments += $rootScope.json[i].comments.length;
-                            console.log("Numero comments: " + $rootScope.json[i].content);
-                            console.log("Numero comments: " + $rootScope.json[i].comments.length);
 
 
                             for   (var j = 0; j < $rootScope.json[i].comments.length; j++) {
@@ -404,7 +402,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             function readFile(index) {
                 if( index >= files.length ){
 
-                    $rootScope.info.date = new Date(files[files.length-1].lastModifiedDate);
+                    $rootScope.info.date = new Date(files[files.length-1].lastModified);
                     $rootScope.info.name = files[files.length-1].name;
 
                     //go to merge
@@ -452,22 +450,74 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 
             }
             allData = allData + close;
-            //console.log(allData);
-
-
-
-
             $rootScope.json = JSON.parse(allData);
-            $rootScope.json.uploaded = true;
+
+            /* TODO RIMUOVERE DUPLICATI */
+            $scope.debugDuplicati($rootScope.json);
+
+
             $scope.analytics.analyzed = false;
-
-            // chiama la funzione di download
-            //$scope.download(allData, 'merged.json', 'application/json;charset=utf-8');
-
 
             $scope.addJson();
 
         };
+
+
+        $scope.debugDuplicati = function (dataset) {
+            var debugged = {};
+            debugged = dataset;
+            var duplicati = [];
+
+            // scorro ogni riga del file dei twyll
+            for (var i = 0; i < $rootScope.json.length; i++) {
+                if (dataset[i].comments != undefined && dataset[i].comments.length != 0) {
+
+                    for (var j = 0; j < dataset[i].comments.length; j++) {
+                        var id = dataset[i].comments[j]._id;
+                        var unique = true;
+                        unique = $scope.ricercaDuplicati(dataset, i, j, id)
+                        if (unique == false) {
+                            duplicati.push([i,j]);
+                        }
+                    }
+                }
+            }
+            for (var i = 0; i < duplicati.length; i++) {
+                var par = duplicati[i][0];
+                var com = duplicati[i][1];
+                debugged[par].comments.splice(com, 1);
+            }
+            $rootScope.json = debugged;
+
+            $scope.download( $rootScope.json, 'debugged.json', 'application/json;charset=utf-8');
+
+            $rootScope.json.uploaded = true;
+        };
+
+
+        $scope.ricercaDuplicati = function (dataset, i, j, id) {
+            for (var step = i; step < $rootScope.json.length; step++) {
+                if (dataset[step].comments != undefined) {
+                    for (var k = j+1; k < dataset[step].comments.length; k++) {
+                        if (dataset[step].comments[k]._id == id) {
+                            return false;
+                        }
+                        if (dataset[step].comments[k].answers != undefined) {
+                            for (var w = 0; w < dataset[step].comments[k].answers.length; w++) {
+                                if (dataset[step].comments[k].answers[w]._id == id) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        };
+
+
+
+
 
         $scope.download = function (content, fileName, contentType) {
             var a = document.createElement("a");
