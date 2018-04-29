@@ -489,7 +489,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             }
             $rootScope.json = debugged;
 
-            $scope.download( $rootScope.json, 'debugged.json', 'application/json;charset=utf-8');
+            $scope.download( JSON.stringify($rootScope.json), 'debugged.json', 'application/json;charset=utf-8');
 
             $rootScope.json.uploaded = true;
         };
