@@ -475,21 +475,38 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                     for (var j = 0; j < dataset[i].comments.length; j++) {
                         var id = dataset[i].comments[j]._id;
                         var unique = true;
-                        unique = $scope.ricercaDuplicati(dataset, i, j, id)
+                        unique = $scope.ricercaDuplicati(dataset, i, j, id);
                         if (unique == false) {
                             duplicati.push([i,j]);
                         }
                     }
                 }
             }
-            for (var i = 0; i < duplicati.length; i++) {
-                var par = duplicati[i][0];
-                var com = duplicati[i][1];
+
+            console.log("DUPLICATI TROVATI: " + duplicati.length);
+
+            /*
+            for (var k = 0  ; k > duplicati.length; k++) {
+                var par = duplicati[k][0];
+                var com = duplicati[k][1];
+                console.log(par);
+                console.log(com);
                 debugged[par].comments.splice(com, 1);
             }
+            */
+
+            for (var k = duplicati.length - 1 ; k = 0; k--) {
+                var par = duplicati[k][0];
+                var com = duplicati[k][1];
+                console.log(par);
+                console.log(com);
+                debugged[par].comments.splice(com, 1);
+            }
+
+
             $rootScope.json = debugged;
 
-            $scope.download( JSON.stringify($rootScope.json), 'debugged.json', 'application/json;charset=utf-8');
+            $scope.download( JSON.stringify($rootScope.json), $rootScope.info.name.toString().replace(".json", "") + '-DEBUGGED.json', 'application/json;charset=utf-8');
 
             $rootScope.json.uploaded = true;
         };
