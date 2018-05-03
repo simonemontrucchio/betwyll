@@ -496,15 +496,20 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 
 
         $scope.ricercaDuplicati = function (dataset, i, j, id) {
+            console.log("id ricerca: " + id);
             for (var step = i; step < $rootScope.json.length; step++) {
                 if (dataset[step].comments != undefined) {
                     for (var k = j+1; k < dataset[step].comments.length; k++) {
                         if (dataset[step].comments[k]._id == id) {
+                            console.log("id trovato: " + dataset[step].comments[k]._id);
+                            console.log("content trovato: " + dataset[step].comments[k].content);
                             return false;
                         }
                         if (dataset[step].comments[k].answers != undefined) {
                             for (var w = 0; w < dataset[step].comments[k].answers.length; w++) {
                                 if (dataset[step].comments[k].answers[w]._id == id) {
+                                    console.log("id trovato: " + dataset[step].comments[k].answers[w]._id);
+                                    console.log("content trovato: " + dataset[step].comments[k].answers[w].content);
                                     return false;
                                 }
                             }
