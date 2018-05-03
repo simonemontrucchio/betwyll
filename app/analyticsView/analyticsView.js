@@ -192,18 +192,24 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 
                 // aggiungo ogni twyll a un unico testo
                 contents = contents.concat(" | " + text);
+                console.log(text)
+
 
 
                 twylls_len = twylls_len + text.length;
                 if ($scope.analytics.twylls[i].answerToId != undefined){
                     answers_len = answers_len + text.length;
+                    console.log("risposta")
                 }
                 else {
                     comments_len = comments_len + text.length;
+                    console.log("COMMENTO")
+
                 }
+                console.log(text.length)
 
                 // find hashtags
-                var text = $scope.analytics.twylls[i].content.split(/[ /&]+/);
+                text = $scope.analytics.twylls[i].content.split(/[ /&]+/);
                 for (var j = 0; j < text.length; j++) {
                     if (text[j].includes("#")){
                         var n = text[j].indexOf("#");
@@ -483,7 +489,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                 }
             }
 
-            console.log("DUPLICATI TROVATI: " + duplicati.length);
+
 
             /*
             for (var k = 0  ; k > duplicati.length; k++) {
@@ -495,11 +501,13 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             }
             */
 
-            for (var k = duplicati.length - 1 ; k = 0; k--) {
+            var k = duplicati.length ;
+            console.log("DUPLICATI TROVATI: " + k);
+            k--;
+
+            for (k; k >= 0; k--) {
                 var par = duplicati[k][0];
                 var com = duplicati[k][1];
-                console.log(par);
-                console.log(com);
                 debugged[par].comments.splice(com, 1);
             }
 
@@ -513,20 +521,20 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 
 
         $scope.ricercaDuplicati = function (dataset, i, j, id) {
-            console.log("id ricerca: " + id);
+            // console.log("id ricerca: " + id);
             for (var step = i; step < $rootScope.json.length; step++) {
                 if (dataset[step].comments != undefined) {
                     for (var k = j+1; k < dataset[step].comments.length; k++) {
                         if (dataset[step].comments[k]._id == id) {
-                            console.log("id trovato: " + dataset[step].comments[k]._id);
-                            console.log("content trovato: " + dataset[step].comments[k].content);
+                            // console.log("id trovato: " + dataset[step].comments[k]._id);
+                            // console.log("content trovato: " + dataset[step].comments[k].content);
                             return false;
                         }
                         if (dataset[step].comments[k].answers != undefined) {
                             for (var w = 0; w < dataset[step].comments[k].answers.length; w++) {
                                 if (dataset[step].comments[k].answers[w]._id == id) {
-                                    console.log("id trovato: " + dataset[step].comments[k].answers[w]._id);
-                                    console.log("content trovato: " + dataset[step].comments[k].answers[w].content);
+                                    // console.log("id trovato: " + dataset[step].comments[k].answers[w]._id);
+                                    // console.log("content trovato: " + dataset[step].comments[k].answers[w].content);
                                     return false;
                                 }
                             }
@@ -552,7 +560,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
 
         $scope.exportTwylls = function (){
             var contents = $rootScope.contents;
-            $scope.download(contents, 'twylls.txt', 'text/txt;charset=utf-8');
+            $scope.download(contents, $rootScope.info.name.toString().replace(".json", "") + '-TWYLLS.txt', 'text/txt;charset=utf-8');
         };
 
 
@@ -591,7 +599,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             contents = $scope.grammatica(contents);
 
             // download del file con il testo di tutti i twyll
-            $scope.download(contents, 'twylls_filtered.txt', 'text/txt;charset=utf-8');
+            $scope.download(contents, $rootScope.info.name.toString().replace(".json", "") + '-TWYLLS-FILTERED.txt', 'text/txt;charset=utf-8');
         };
 
 
