@@ -116,6 +116,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         $scope.usersCount = function () {
             var users = [];
             var twylls = [];
+
             // scorro ogni riga del file dei twyll
             for (var i = 0; i < $rootScope.json.length; i++) {
                 // se non è undefined entro nel capitolo
@@ -688,6 +689,199 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         };
 
 
+        $scope.dandelion = function() {
+
+            var entita = {
+                "lang": "en",
+                "timestamp": "2018-05-12T12:02:17.352",
+                "langConfidence": 1.0,
+                "topEntities": [
+                    {
+                        "score": 0.17829457,
+                        "id": 22605,
+                        "uri": "http://en.wikipedia.org/wiki/Oil_painti..."
+                    },
+                    {
+                        "score": 0.16666667,
+                        "id": 17546,
+                        "uri": "http://en.wikipedia.org/wiki/Louvre"
+                    },
+                    {
+                        "score": 0.16666667,
+                        "id": 22989,
+                        "uri": "http://en.wikipedia.org/wiki/Paris"
+                    },
+                    {
+                        "score": 0.15503876,
+                        "id": 18079,
+                        "uri": "http://en.wikipedia.org/wiki/Leonardo_d..."
+                    },
+                    {
+                        "score": 0.15503876,
+                        "id": 70889,
+                        "uri": "http://en.wikipedia.org/wiki/Mona_Lisa"
+                    }
+                ],
+                "time": 4,
+                "annotations": [
+                    {
+                        "confidence": 0.8905,
+                        "end": 13,
+                        "lod": {
+                            "dbpedia": "http://dbpedia.org/resource/Mona_Lisa",
+                            "wikipedia": "http://en.wikipedia.org/wiki/Mona_Lisa"
+                        },
+                        "title": "Mona Lisa",
+                        "abstract": "The Mona Lisa (or La Gioconda) is a hal...",
+                        "spot": "Mona Lisa",
+                        "uri": "http://en.wikipedia.org/wiki/Mona_Lisa",
+                        "label": "Mona Lisa",
+                        "start": 4,
+                        "categories": [
+                            "Paintings by Leonardo da Vinc...",
+                            "Mona Lisa",
+                            "16th-century portraits",
+                            "Italian paintings",
+                            "1500s paintings",
+                            "Paintings of the Louvre"
+                        ],
+                        "id": 70889,
+                        "image": {
+                            "full": "https://en.wikipedia.org/wiki/Special:F...",
+                            "thumbnail": "https://en.wikipedia.org/wiki/Special:F..."
+                        },
+                        "types": [
+                            "http://dbpedia.org/ontology/A...",
+                            "http://dbpedia.org/ontology/W..."
+                        ]
+                    },
+                    {
+                        "confidence": 0.8167,
+                        "end": 44,
+                        "lod": {
+                            "dbpedia": "http://dbpedia.org/resource/Oil_paintin...",
+                            "wikipedia": "http://en.wikipedia.org/wiki/Oil_painti..."
+                        },
+                        "title": "Oil painting",
+                        "abstract": "Oil painting is the process of painting...",
+                        "spot": "oil painting",
+                        "uri": "http://en.wikipedia.org/wiki/Oil_painti...",
+                        "label": "Oil painting",
+                        "start": 32,
+                        "categories": [
+                            "Art media",
+                            "Painting"
+                        ],
+                        "id": 22605,
+                        "image": {
+                            "full": "https://en.wikipedia.org/wiki/Special:F...",
+                            "thumbnail": "https://en.wikipedia.org/wiki/Special:F..."
+                        },
+                        "types": []
+                    },
+                    {
+                        "...": "..."
+                    }
+                ]
+            };
+            var text = '';
+
+            // scorro ogni riga del file dei twyll
+            for (var i = 0; i < $rootScope.json.length; i++) {
+
+                // se non è undefined entro nel capitolo
+                if ($rootScope.json[i].comments != undefined) {
+
+                    // conto i twyll originali per ogni paragrafo
+                    if ($rootScope.json[i].comments.length != 0) {
+
+                        for (var j = 0; j < $rootScope.json[i].comments.length; j++) {
+                            text = $scope.htmlParser($rootScope.json[i].comments[j].content);
+
+                            $scope.entityExtraction(text, i, j, -1);
+                            $scope.sentimentAnalysis(text, i, j, -1);
+
+                            // se ci sono, conto i twyll di risposta
+                            if ($rootScope.json[i].comments[j].answers != undefined) {
+
+                                for (var k = 0; k < $rootScope.json[i].comments[j].answers.length; k++) {
+                                    text = $scope.htmlParser($rootScope.json[i].comments[j].answers[k].content);
+
+                                    $scope.entityExtraction(text, i, j, k);
+                                    $scope.sentimentAnalysis(text, i, j, k);
+
+
+                                }
+                            }
+                        }
+                    }
+                }
+
+            }
+
+
+
+
+
+
+            $scope.download( JSON.stringify($rootScope.json), $rootScope.info.name.toString().replace(".json", "") + '-DANDELION.json', 'application/json;charset=utf-8');
+
+        };
+
+
+        $scope.entityExtraction = function(content, i, j, k) {
+            var lang = '';
+            lang = 'lang=' + 'it' + '%20&';
+            var text = encodeURI(content) + '&';
+            var token = '0f3ed3f05bc44027bb28c2765a2b8442';
+            var url = "https://api.dandelion.eu/datatxt/nex/v1/?" + lang + "text=" + text + "include=types%2Cabstract%2Ccategories%2Clod&" + "token=" + token;
+
+            var settings = {
+                "async": false,
+                "crossDomain": true,
+                "url": url,
+                "method": "GET",
+                "headers": {}
+            };
+
+            $.ajax(settings).done(function (response) {
+                if (k == -1){
+                    $rootScope.json[i].comments[j].entityExtraction = response;
+                    //console.log($rootScope.json[i].comments[j]);
+                }
+                else {
+                    $rootScope.json[i].comments[j].answers[k].entityExtraction = response;
+                    //console.log($rootScope.json[i].comments[j].answers[k]);
+                }
+            });
+        };
+
+        $scope.sentimentAnalysis = function(content, i, j, k) {
+            var lang = '';
+            lang = 'lang=' + 'it' + '%20&';
+            var text = encodeURI(content) + '&';
+            var token = '0f3ed3f05bc44027bb28c2765a2b8442';
+            var url = "https://api.dandelion.eu/datatxt/sent/v1/?" + lang + "text=" + text + "token=" + token;
+
+            var settings = {
+                "async": false,
+                "crossDomain": true,
+                "url": url,
+                "method": "GET",
+                "headers": {}
+            };
+
+            $.ajax(settings).done(function (response) {
+                if (k == -1){
+                    $rootScope.json[i].comments[j].sentimentAnalysis = response;
+                    //console.log($rootScope.json[i].comments[j]);
+                }
+                else {
+                    $rootScope.json[i].comments[j].answers[k].sentimentAnalysis = response;
+                    //console.log($rootScope.json[i].comments[j].answers[k]);
+                }
+            });
+        };
 
 
 
