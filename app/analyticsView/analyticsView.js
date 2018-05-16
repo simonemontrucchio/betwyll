@@ -763,15 +763,11 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         $scope.entityExtraction = function(content, i, j, k) {
             var lang = '';
             lang = 'lang=' + 'it' + '%20&';
-            var specials = /(#)/g;
-            content.replace(specials, "");
-            var text = encodeURI(content) + '&';
+            //var specials = /(#)/g;
+            //content.replace(specials, "");
+            var text = encodeURIComponent(content) + '&';
             var token = '0f3ed3f05bc44027bb28c2765a2b8442';
             var url = "https://api.dandelion.eu/datatxt/nex/v1/?" + lang + "text=" + text + "include=types%2Cabstract%2Ccategories%2Clod&" + "token=" + token;
-
-
-            //TODO
-
 
             var settings = {
                 "async": true,
