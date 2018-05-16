@@ -227,5 +227,19 @@
 
         <button class="btn btn-success center-block" ng-click="dandelion()">DANDELION</button>
 
+        <div>
+            {{analytics.comments}} <br>
+            {{analytics.answers}} <br>
+        </div>
+
+        <div>
+            {{ 100/ (analytics.comments + analytics.answers) * dandelioneu.total}}%
+        </div>
+
+
+
+        <button class="btn btn-success center-block" ng-click="downloadDandelionEU()">DOWNLOAD</button>
+
+
     </div>
 </div>
