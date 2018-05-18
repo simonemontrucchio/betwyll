@@ -713,10 +713,8 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                             text = $scope.htmlParser($rootScope.json[i].comments[j].content);
 
                             $scope.entityExtraction(text, i, j, -1);
-
-
-                            //$scope.sentimentAnalysis(text, i, j, -1);
-                            // $scope.textClassification(text, i, j, -1);
+                            $scope.sentimentAnalysis(text, i, j, -1);
+                            //$scope.textClassification(text, i, j, -1);
 
                             // se ci sono, conto i twyll di risposta
                             if ($rootScope.json[i].comments[j].answers != undefined) {
@@ -725,9 +723,8 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                                     text = $scope.htmlParser($rootScope.json[i].comments[j].answers[k].content);
 
                                     $scope.entityExtraction(text, i, j, k);
-
-                                    //$scope.sentimentAnalysis(text, i, j, k);
-                                    // $scope.textClassification(text, i, j, k);
+                                    $scope.sentimentAnalysis(text, i, j, k);
+                                    //$scope.textClassification(text, i, j, k);
 
                                 }
                             }
@@ -747,7 +744,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         };
 
         $scope.downloadDandelion = function(){
-            if(($scope.dandelioneu.total) == $scope.analytics.comments + $scope.analytics.answers) {
+            if(($scope.dandelioneu.total / 2) == $scope.analytics.comments + $scope.analytics.answers) {
                 $scope.download(JSON.stringify($rootScope.json), $rootScope.info.name.toString().replace(".json", "") + '-DANDELION.json', 'application/json;charset=utf-8');
             }
         };
@@ -765,15 +762,17 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             lang = 'lang=' + 'it' + '%20&';
             //var specials = /(#)/g;
             //content.replace(specials, "");
-            var text = encodeURIComponent(content) + '&';
-            var token = '0f3ed3f05bc44027bb28c2765a2b8442';
-            var url = "https://api.dandelion.eu/datatxt/nex/v1/?" + lang + "text=" + text + "include=types%2Cabstract%2Ccategories%2Clod&" + "token=" + token;
+            var text = "text=" + encodeURIComponent(content) + '&';
+            var social = "&social.hashtag=True" + "&";
+            var include = "include=" + "types%2Ccategories%2Cabstract%2Cimage%2Clod%2Calternate_labels" + "&";
+            var token = "token=" + '0f3ed3f05bc44027bb28c2765a2b8442';
+            var url = "https://api.dandelion.eu/datatxt/nex/v1/?" + lang + text + social + include + token;
 
             var settings = {
                 "async": true,
                 "crossDomain": true,
                 "url": url,
-                "method": "POST",
+                "method": "GET",
                 "dataType": "jsonp",
                 "data": {
                     "parameter": token
@@ -783,7 +782,6 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                 },
                 success: function(response) {
                     console.log(response)
-
 
                     $scope.$apply(function() {
                         $scope.dandelioneu.entity++;
@@ -814,57 +812,95 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         $scope.sentimentAnalysis = function(content, i, j, k) {
             var lang = '';
             lang = 'lang=' + 'it' + '%20&';
-            var text = encodeURI(content) + '&';
+            var text = encodeURIComponent(content) + '&';
             var token = '0f3ed3f05bc44027bb28c2765a2b8442';
             var url = "https://api.dandelion.eu/datatxt/sent/v1/?" + lang + "text=" + text + "token=" + token;
 
             var settings = {
-                "async": false,
+                "async": true,
                 "crossDomain": true,
                 "url": url,
                 "method": "GET",
-                "headers": {}
+                "dataType": "jsonp",
+                "data": {
+                    "parameter": token
+                },
+                "headers": {
+                    "Access-Control-Allow-Origin": "*"
+                },
+                success: function(response) {
+                    console.log(response)
+
+                    $scope.$apply(function() {
+                        $scope.dandelioneu.sentiment++;
+                        $scope.dandelioneu.total = $scope.dandelioneu.entity + $scope.dandelioneu.sentiment + $scope.dandelioneu.classification;
+                    });
+
+                    if (k == -1){
+                        $rootScope.json[i].comments[j].sentimentAnalysis = response;
+                        $scope.downloadDandelion();
+                    }
+                    else {
+                        $rootScope.json[i].comments[j].answers[k].sentimentAnalysis = response;
+                        $scope.downloadDandelion();
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
             };
 
+
             $.ajax(settings).done(function (response) {
-                if (k == -1){
-                    $rootScope.json[i].comments[j].sentimentAnalysis = response;
-                    //console.log($rootScope.json[i].comments[j]);
-                }
-                else {
-                    $rootScope.json[i].comments[j].answers[k].sentimentAnalysis = response;
-                    //console.log($rootScope.json[i].comments[j].answers[k]);
-                }
             });
+
         };
 
         $scope.textClassification = function(content, i, j, k) {
             var lang = '';
-            // lang = 'lang=' + 'it' + '%20&';
-            var text = encodeURI(content) + '&';
+            lang = 'lang=' + 'it' + '%20&';
+            var text = encodeURIComponent(content) + '&';
             var model = "news_eng";
             var token = '0f3ed3f05bc44027bb28c2765a2b8442';
             var url = "https://api.dandelion.eu/datatxt/cl/v1/?" + lang + "text=" + text + "&model="+ model + "&min_score=0.2&include=score_details&" + "token=" + token;
 
+
             var settings = {
-                "async": false,
+                "async": true,
                 "crossDomain": true,
                 "url": url,
                 "method": "GET",
-                "headers": {}
+                "dataType": "jsonp",
+                "data": {
+                    "parameter": token
+                },
+                "headers": {
+                    "Access-Control-Allow-Origin": "*"
+                },
+                success: function(response) {
+                    console.log(response)
+
+                    $scope.$apply(function() {
+                        $scope.dandelioneu.classification++;
+                        $scope.dandelioneu.total = $scope.dandelioneu.entity + $scope.dandelioneu.sentiment + $scope.dandelioneu.classification;
+                    });
+
+                    if (k == -1){
+                        $rootScope.json[i].comments[j].textClassification = response;
+                        $scope.downloadDandelion();
+                    }
+                    else {
+                        $rootScope.json[i].comments[j].answers[k].textClassification = response;
+                        $scope.downloadDandelion();
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    console.log(errorThrown);
+                }
             };
 
+
             $.ajax(settings).done(function (response) {
-                if (k == -1){
-                    $rootScope.json[i].comments[j].textClassification = response;
-                    //console.log($rootScope.json[i].comments[j]);
-                }
-                else {
-                    $rootScope.json[i].comments[j].answers[k].textClassification = response;
-                    //console.log($rootScope.json[i].comments[j].answers[k]);
-                }
-
-
             });
         };
 
