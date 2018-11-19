@@ -81,3 +81,60 @@ table {
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
 }
+
+
+.output {
+    height: 250px;
+
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: inset 0px 1px 8px rgba(0, 0, 0, 0.2);
+}
+
+.input {
+    height: 150px;
+
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;%);
+    box-shadow: inset 0px 1px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.input-info {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: inset 0px 1px 8px rgba(0, 0, 0, 0.2);
+}
+
+.input-info:hover, .input:hover {
+    box-shadow: inset 1px 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+.input-info:focus, .input:focus {
+    color: #4b515d;
+    border: 1px solid #B8B6B6;
+    box-shadow: inset 1px 2px 4px rgba(0, 0, 0, 0.01), 0px 0px 8px rgba(0, 0, 0, 0.2);
+}
+
+.col-lg-6 {
+    margin-bottom: 10px;
+}
+
+.copiato {
+    text-align: center;
+}

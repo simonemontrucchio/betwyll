@@ -764,7 +764,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
             //content.replace(specials, "");
             var text = "text=" + encodeURIComponent(content) + '&';
             var social = "&social.hashtag=True" + "&";
-            var include = "include=" + "types%2Ccategories%2Cabstract%2Cimage%2Clod%2Calternate_labels" + "&";
+            var include = "include=" + "image%2Cabstract%2Ctypes%2Ccategories%2Clod%2Calternate_labels" + "&";
             var token = "token=" + '0f3ed3f05bc44027bb28c2765a2b8442';
             var url = "https://api.dandelion.eu/datatxt/nex/v1/?" + lang + text + social + include + token;
 

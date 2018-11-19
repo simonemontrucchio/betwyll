@@ -46,13 +46,13 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
         }
 
         if ($scope.dataInizio != "" && $scope.dataFine == "" && $scope.hashtag != ""){
-            $scope.intestazione_html = '<h3><em>' + "[" + $scope.dataInizio + " | " + '<a>' + $scope.hashtag + '</a>'  + "]" + '</em></h3>';
+            $scope.intestazione_html = '<h3><em>' + "[" + $scope.dataInizio + " | " + $scope.hashtag + "]" + '</em></h3>';
         }
         if ($scope.dataInizio != "" && $scope.dataFine != "" && $scope.hashtag != ""){
-            $scope.intestazione_html = '<h3><em>' + "[" + $scope.dataInizio + " - " + $scope.dataFine + " | " + '<a>' + $scope.hashtag + '</a>'  + "]" + '</em></h3>';
+            $scope.intestazione_html = '<h3><em>' + "[" + $scope.dataInizio + " - " + $scope.dataFine + " | " + $scope.hashtag + "]" + '</em></h3>';
         }
         if ($scope.dataInizio == "" && $scope.dataFine == "" && $scope.hashtag != ""){
-            $scope.intestazione_html = '<h3><em>' + "[" + '<a>' + $scope.hashtag + '</a>'  + "]" + '</em></h3>';
+            $scope.intestazione_html = '<h3><em>' + "[" + $scope.hashtag  + "]" + '</em></h3>';
         }
 
     };
@@ -60,17 +60,20 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
     $scope.setTitle = function () {
         $scope.titolo_html = "";
         if ($scope.titolo != ""){
-            $scope.titolo_html = '<h3><strong>' + $scope.titolo + '</strong></h3>';
+            $scope.titolo_html = '<p id="par-0" style="font-size:1.5em;"><strong>' + $scope.titolo + '</strong></p>';
         }
     };
 
-    $scope.setSubitle = function () {
+
+
+    $scope.setSubTitle = function () {
         $scope.sottotitolo_html = "";
         if ($scope.sottotitolo != ""){
             $scope.sottotitolo_html = '<p id="par-1"><em>' + $scope.sottotitolo + '</em><br><br></p>';
         }
 
     };
+
 
     $scope.setBody = function () {
         $scope.corpo_html = "";

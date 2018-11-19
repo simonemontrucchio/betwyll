@@ -1,43 +1,50 @@
 <div ng-controller="textViewCtrl">
-    <div>
-        Data di inizio
-        <input input-text type="text" ng-model="dataInizio" ng-change="setHeader()"  placeholder="Lunedì 14"/>
+    <div class="col-lg-6">
+        <b>Data di inizio</b>
+        <input input-text type="text" ng-model="dataInizio" ng-change="setHeader()"  placeholder="Lunedì 14" class="input-info"/>
     </div>
-    <div>
-        Data di fine
-        <input  input-text type="text" ng-model="dataFine" ng-change="setHeader()"  placeholder="Domenica 21 gennaio"/>
+    <div class="col-lg-6">
+        <b>Data di fine</b>
+        <input  input-text type="text" ng-model="dataFine" ng-change="setHeader()"  placeholder="Domenica 21 gennaio" class="input-info"/>
     </div>
-    <div>
-        Hashtag
-        <input  input-text type="text" ng-model="hashtag" ng-change="setHeader()"  placeholder="#TwInferno"/>
+
+
+
+    <div class="col-lg-6">
+        <b>Hashtag</b>
+        <input  input-text type="text" ng-model="hashtag" ng-change="setHeader()"  placeholder="#TwInferno" class="input-info"/>
+    </div >
+
+
+    <div class="col-lg-6">
+        <b>Corpo del testo</b>
+        <input  input-text type="number" ng-model="numero" value="1" placeholder="1"  class="input-info"/>
+    </div>
+
+
+
+    <div class="col-lg-6">
+        <b>Titolo</b>
+        <input  input-text type="text" ng-model="titolo" ng-change="setTitle()"  placeholder="Canto XXVI" class="input-info"/>
+    </div>
+
+    <div class="col-lg-6">
+        <b>Sottotitolo</b>
+        <input  input-text type="text" ng-model="sottotitolo" ng-change="setSubTitle()"  placeholder="Ulisse" class="input-info"/>
+    </div>
+
+
+
+
+
+    <div  class="col-lg-12">
+        <textarea ng-model="corpo" ng-change="setBody()"  placeholder="Testo diviso in paragrafi (saltando una riga)" class="input"></textarea>
     </div>
 
     <hr>
 
-    <div>
-        Titolo
-        <input  input-text type="text" ng-model="titolo" ng-change="setTitle()"  placeholder="Canto XXVI"/>
-    </div>
-    <div>
-        Sottotitolo
-        <input  input-text type="text" ng-model="sottotitolo" ng-change="setSubitle()"  placeholder="Ulisse"/>
-    </div>
-
-    <hr>
-
-    <div>
-        Corpo del testo
-        <input  input-text type="number" ng-model="numero" value="1" placeholder="1" />
-        <br>
-        <textarea ng-model="corpo" ng-change="setBody()"  placeholder="vrhah"></textarea>
-    </div>
-
-    <hr>
-
-    <div>
-        Conversione
-        <textarea id="converted">
-{{intestazione_html}}
+    <div  class="col-lg-12">
+        <textarea id="converted" class="output">{{intestazione_html}}
 
 {{titolo_html}}
 
@@ -48,6 +55,14 @@
     </div>
 
     <br>
-    <button class="btn btn-success col-sm-9" ng-click="copy()">Copy to clipboard</button>
-    {{copied}}
+
+    <div class="col-lg-12">
+        <button class="btn btn-success col-lg-12" ng-click="copy()">Copy to clipboard</button>
+    </div>
+
+
+    <div class="col-lg-12 copiato">
+        {{copied}}
+    </div>
+
 </div>
