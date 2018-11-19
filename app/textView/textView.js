@@ -60,7 +60,7 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
     $scope.setTitle = function () {
         $scope.titolo_html = "";
         if ($scope.titolo != ""){
-            $scope.titolo_html = '<p id="par-0" style="font-size:1.5em;"><strong>' + $scope.titolo + '</strong></p>';
+            $scope.titolo_html = '<p id="par-0" style="font-size:1.3em;"><strong>' + $scope.titolo + '</strong></p>';
         }
     };
 
