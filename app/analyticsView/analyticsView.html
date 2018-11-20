@@ -5,7 +5,7 @@
         <div id="mergefiles">
             <input type="hidden" id="NumberOfRows" value="2">
             <div class="form-group row">
-                <div class="col-sm-3">
+                <div class="col-lg-12">
                     <label>Select all the files *.json you want to merge</label>
                     <div class="settingsGroup">
                         <input type="file" files-input ng-model="files" ng-change="readfiles(this.files)" multiple /> {{count}}
@@ -22,30 +22,38 @@
 
 
 
-    <hr><hr>
+    <hr>
+
 
     <!-- serve per fare in parsing senza mostrarlo-->
     <div id="parser" style="display:none"></div>
 
+
+
+
+    <button class="btn btn-success center-block col-lg-12" ng-click="addJson()">Analyze</button>
+
+    <br><br>
+
+
     <h2 ng-if="analytics.analyzed == true"><em>{{info.name}}</em> generated on {{info.date | date:'dd/MM/yyyy'}} at {{info.date | date:'HH:mm:ss'}}</h2>
 
 
-    <button class="btn btn-success center-block" ng-click="addJson()">Analyze</button>
 
 
 
 
     <div class="row" ng-show="analytics.analyzed == true">
-        <div class="col-xs-12">
+        <div class="col-lg-12">
             Ci sono {{analytics.comments + analytics.answers}} twyll.
         </div>
-        <div class="col-xs-12">
+        <div class="col-lg-12">
             Ci sono {{analytics.comments}} twyll originali, che sono il {{100* analytics.comments / (analytics.comments + analytics.answers) | number : 0 }}% del totale.
         </div>
-        <div class="col-xs-12">
+        <div class="col-lg-12">
             Ci sono {{analytics.answers}} twyll di risposta, che sono il {{100* analytics.answers / (analytics.comments + analytics.answers) | number : 0 }}% del totale.
         </div>
-        <div class="col-xs-12">
+        <div class="col-lg-12">
             Conversion: {{analytics.answers *100 / analytics.comments | number : 0 }}% (cioè 1 risposta ogni {{analytics.comments / analytics.answers | number : 0}} twyll originali circa).
         </div>
 
@@ -54,56 +62,63 @@
     <hr>
 
     <form id="frmAdvanced" role="form" ng-submit="advanced()" enctype="multipart/form-data" ng-if="analytics.analyzed == true">
-        <h3>Advanced analytics</h3>
+
         <div class="form-group">
         </div>
 
-        <button type="submit" class="btn btn-success center-block">Advanced</button>
+        <button type="submit" class="btn btn-success center-block col-lg-12">Advanced</button>
     </form>
 
 
     <div class="row" ng-if="analytics.advanced == true">
-        <div class="col-xs-12">
+        <div class="col-lg-12">
+            <h3>Advanced analytics</h3>
+        </div>
+        <div class="col-lg-12">
             Ci sono {{analytics.users.length}} utenti unici attivi.
         </div>
-        <div class="col-xs-12" >
+        <div class="col-lg-12" >
             Ci sono circa {{analytics.twyll_per_user | number : 0}} twyll medi per utente.
         </div>
 
     </div>
 
+    <br>
+
     <div class="row" ng-if="analytics.advanced == true">
-        <div class="col-xs-12">
+        <div class="col-lg-12">
             Il primo twyll è del: <em>{{analytics.twylls.first.date | date:'dd/MM/yyyy'}}</em>
         </div>
-        <div class="col-xs-12">
+        <div class="col-lg-12">
             Il primo twyll è: <em><span ng-bind-html="analytics.twylls.first.content | trusted"></span></em>
         </div>
 
-        <div class="col-xs-12" >
+        <div class="col-lg-12" >
             L'ultimo twyll è del: <em>{{analytics.twylls.last.date | date:'dd/MM/yyyy'}}</em>
         </div>
-        <div class="col-xs-12" >
+        <div class="col-lg-12" >
             L'ultimo twyll è: <em><span ng-bind-html="analytics.twylls.last.content | trusted"></span></em>
         </div>
 
 
 
 
-        <div class="col-xs-12" >
+        <div class="col-lg-12" >
             Sono stati scritti twyll per {{analytics.duration | number : 0}} giorni.
         </div>
-        <div class="col-xs-12" >
+        <div class="col-lg-12" >
             Sono stati scritti  {{analytics.twyll_per_day | number : 0}} twyll per giorno.
         </div>
 
-        <div class="col-xs-12" >
+        <br><br>
+
+        <div class="col-lg-12" >
             La lunghezza media di un twyll è:  {{analytics.twylls_avgLen | number : 0}} caratteri.
         </div>
-        <div class="col-xs-12" >
+        <div class="col-lg-12" >
             La lunghezza media di un twyll originale è:  {{analytics.comments_avgLen | number : 0}} caratteri.
         </div>
-        <div class="col-xs-12" >
+        <div class="col-lg-12" >
             La lunghezza media di una risposta è:  {{analytics.answers_avgLen | number : 0}} caratteri.
         </div>
 
@@ -115,17 +130,19 @@
     <form id="frmFiction" role="form" ng-submit="fiction()" enctype="multipart/form-data" ng-if="analytics.advanced == true">
         <h3>Fictional</h3>
         <div class="form-group">
-            <input type="text" id="fiction" placeholder="@don_rodrigo, @renzo, {{analytics.users.fiction_tip}}" size="50">
+            <input type="text" id="fiction" placeholder="@don_rodrigo, @renzo, {{analytics.users.fiction_tip}}" size="50"  class="input-info">
             <div>Type the nicknames of the fictional (or teachers, or influencers) account, separated by comma.</div>
         </div>
-        <div class="col-xs-12" ng-if="analytics.users.fiction_tip != empty">
+        <div class="col-lg-12" ng-if="analytics.users.fiction_tip != empty">
             Gli account finzionali potrebbero essere: {{analytics.users.fiction_tip}}
         </div>
-        <button type="submit" class="btn btn-success center-block">Fiction</button>
+        <button type="submit" class="btn btn-success center-block col-lg-12">Fiction</button>
     </form>
 
-    <div ng-if="analytics.users.fictional.length != 0" layout="row" layout-wrap ng-repeat="user in analytics.users.fictional  | orderBy:'twyllsCount':true">
-        <div layout="row">Nickname: {{user.nickname}} | Twylls: {{user.twyllsCount}} | Answers: {{user.answersCount}} |
+    <br><br><br>
+
+    <div ng-if="analytics.users.fictional.length != 0" layout="row" layout-wrap ng-repeat="user in analytics.users.fictional  | orderBy:'twyllsCount':true" class="col-lg-12">
+        <div layout="row" class="col-lg-12">Nickname: {{user.nickname}} | Twylls: {{user.twyllsCount}} | Answers: {{user.answersCount}} |
             Conversion: {{user.answersCount * 100 / user.twyllsCount | number : 0}}% (<span ng-if="(user.answersCount * 100 / user.twyllsCount) - (analytics.answers *100 / analytics.comments) >= 0">+</span>{{(user.answersCount * 100 / user.twyllsCount) - (analytics.answers *100 / analytics.comments) | number : 0 }}% rispetto alla media)</div>
         <br><br>
         <!--
@@ -135,6 +152,8 @@
         </div>
         -->
     </div>
+
+    <br>
 
     <hr>
 
@@ -156,16 +175,16 @@
     <form id="frmHashtag" role="form" ng-submit="hashtag()" enctype="multipart/form-data" ng-if="analytics.advanced == true">
         <h3>Hashtag</h3>
         <div class="form-group">
-            <input type="text" id="hashtag" placeholder="#TwContare,{{analytics.users.fiction_tip}}" size="50">
+            <input type="text" id="hashtag" placeholder="#TwContare,{{analytics.users.fiction_tip}}" size="50"   class="input-info">
             <div>Type the hashtags of the project, separated by comma.</div>
         </div>
-        <div class="col-xs-12">
+        <div class=" col-lg-12">
             Gli hashtag protrebbero essere: {{analytics.hashtag_tip}}
         </div>
-        <div class="col-xs-12" ng-if="analytics.hashtag != undefined">
+        <div class=" col-lg-12" ng-if="analytics.hashtag != undefined">
             Ci sono {{analytics.hashtag}} twyll che contengono almeno un hashtag cercato.
         </div>
-        <button type="submit" class="btn btn-success center-block">Hashtag</button>
+        <button type="submit" class="btn btn-success center-block col-lg-12">Hashtag</button>
     </form>
 
 
@@ -186,37 +205,38 @@
         <h3>Download all twyll's content</h3>
 
         Words min length
-        <input  input-text type="number" ng-model="numero" id="number" value="4" placeholder="4" />
+        <input  input-text type="number" ng-model="numero" id="number" value="4" placeholder="4"   class="input-info"/>
         <br><br>
 
         Words to exclude
-        <input  input-text type="text" ng-model="esclusione" id="exclusion" placeholder="Ventotene, Alice"/>
+        <input  input-text type="text" ng-model="esclusione" id="exclusion" placeholder="Ventotene, Alice"  class="input-info"/>
         <br><br>
 
         Escludi preposizioni e/o congiunzioni:
         Preposizioni articolate:
         <br>
-        <input  input-text type="text" id="preposizioni_art" size="250" value="di, a, da, in, su, il, del, al, dal, nel, sul, lo, dello, allo, dallo, nello, sullo, la, della, alla, dalla, nella, sulla, l, dell, all, dall, nell, sull, i, dei, ai, dai, nei, sui, gli, degli, agli, dagli, negli, sugli, le, delle, alle, dalle, nelle, sulle"/>
+        <input   class="input-info" input-text type="text" id="preposizioni_art" size="250" value="di, a, da, in, su, il, del, al, dal, nel, sul, lo, dello, allo, dallo, nello, sullo, la, della, alla, dalla, nella, sulla, l, dell, all, dall, nell, sull, i, dei, ai, dai, nei, sui, gli, degli, agli, dagli, negli, sugli, le, delle, alle, dalle, nelle, sulle"/>
         <br><br>
 
         Preposizioni improprie:
         <br>
-        <input  input-text type="text" id="preposizioni_impr" size="250" value="sopra, sotto, dentro, fuori, vicino, lontano, davanti,dietro, presso, verso, oltre, attraverso, lungo, prima, dopo, durante, entro, avanti, oltre, senza, eccetto, tranne, fuorché, salvo, contro, incontro, insieme, malgrado, nonostante, secondo, circa"/>
+        <input   class="input-info" input-text type="text" id="preposizioni_impr" size="250" value="sopra, sotto, dentro, fuori, vicino, lontano, davanti,dietro, presso, verso, oltre, attraverso, lungo, prima, dopo, durante, entro, avanti, oltre, senza, eccetto, tranne, fuorché, salvo, contro, incontro, insieme, malgrado, nonostante, secondo, circa"/>
         <br><br>
 
         Congiunzioni coordinanti:
         <br>
-        <input  input-text type="text" id="congiunzioni_coord" size="250" value="pure, inoltre, ancora, altresì, oltre a ciò, oltre che, ma, però, pure, mentre, anzi, invece, tuttavia, non di meno, pur tuttavia, ciò nonostante, non pertanto, del resto, per altro, dunque, però, quindi, onde, perciò, pertanto, ebbene, laonde, per il che, per la qual cosa, e, pure, né, inoltre, ancora, neppure, neanche, nemmeno, infatti, difatti, cioè, invero, ossia, vale a dire, voglio dire, cioè a dire, o, ossia, ovvero, oppure"/>
+        <input   class="input-info" input-text type="text" id="congiunzioni_coord" size="250" value="pure, inoltre, ancora, altresì, oltre a ciò, oltre che, ma, però, pure, mentre, anzi, invece, tuttavia, non di meno, pur tuttavia, ciò nonostante, non pertanto, del resto, per altro, dunque, però, quindi, onde, perciò, pertanto, ebbene, laonde, per il che, per la qual cosa, e, pure, né, inoltre, ancora, neppure, neanche, nemmeno, infatti, difatti, cioè, invero, ossia, vale a dire, voglio dire, cioè a dire, o, ossia, ovvero, oppure"/>
         <br><br>
 
         Congiunzioni subordinanti:
         <br>
-        <input  input-text type="text" id="congiunzioni_sub" size="250" value="ché, perché, giacché, poiché, siccome, perocché, per il fatto che, dato che, visto che, dal momento che, che, così come, più che, meno che, altrettanto che, benché, sebbene, quantunque, per quanto, anche se, malgrado che, se, ove, quando, purché, qualora, seppure, in caso che, a meno che, a condizione che, che, cosicché, sicché, talché, così che, tale che, tanto che, di modo che, che, come, se, che, fuorché, senonché, nonché, tranne, eccetto che, salvo che, senza che, solo che, onde, perché, affinché, acciocché, se, come, perché, se non, come, quale, così, siccome, comunque, secondo che, altrimenti che, senza che, mentre, che, come, quando, allorché, finché, dacché, appena, allorquando, appena che, tosto che, prima che, dopo che, fino a che, subito che"/>
+        <input   class="input-info" input-text type="text" id="congiunzioni_sub" size="250" value="ché, perché, giacché, poiché, siccome, perocché, per il fatto che, dato che, visto che, dal momento che, che, così come, più che, meno che, altrettanto che, benché, sebbene, quantunque, per quanto, anche se, malgrado che, se, ove, quando, purché, qualora, seppure, in caso che, a meno che, a condizione che, che, cosicché, sicché, talché, così che, tale che, tanto che, di modo che, che, come, se, che, fuorché, senonché, nonché, tranne, eccetto che, salvo che, senza che, solo che, onde, perché, affinché, acciocché, se, come, perché, se non, come, quale, così, siccome, comunque, secondo che, altrimenti che, senza che, mentre, che, come, quando, allorché, finché, dacché, appena, allorquando, appena che, tosto che, prima che, dopo che, fino a che, subito che"/>
         <br><br>
 
-        <button class="btn btn-success center-block" ng-click="exportTwylls()">ORIGINAL TWYLLS</button>
-        <br>
-        <button class="btn btn-success center-block" ng-click="filterTwylls()">TWYLLS FILTERED</button>
+        <button class="btn btn-success center-block col-lg-12" ng-click="exportTwylls()">ORIGINAL TWYLLS</button>
+        <br> <br>
+        <button class="btn btn-success center-block col-lg-12" ng-click="filterTwylls()">TWYLLS FILTERED</button>
+        <br> <br><br>
 
 
     </div>
@@ -225,7 +245,7 @@
 
     <div ng-if="analytics.advanced == true">
 
-        <button class="btn btn-success center-block" ng-click="dandelion()">DANDELION</button>
+        <button class="btn btn-success center-block col-lg-12" ng-click="dandelion()">DANDELION</button>
 
         <div>
             {{analytics.comments}} <br>
@@ -237,8 +257,8 @@
         </div>
 
 
-
-        <button class="btn btn-success center-block" ng-click="downloadDandelionEU()">DOWNLOAD</button>
+        <br>
+        <button class="btn btn-success center-block col-lg-12" ng-click="downloadDandelionEU()">DOWNLOAD</button>
 
 
     </div>
