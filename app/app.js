@@ -10,7 +10,8 @@ angular.module('myApp', [
     'myApp.analyticsView',
     'myApp.analytics',
     'myApp.textView',
-    'myApp.twyllbookView'
+    'myApp.twyllbookView',
+    'myApp.jsonView'
 ])
 
 .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {

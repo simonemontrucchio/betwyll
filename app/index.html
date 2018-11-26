@@ -60,6 +60,7 @@
     <script src="components/analytics/single-pizza-service.js"></script>
     <script src="textView/textView.js"></script>
     <script src="twyllbookView/twyllbookView.js"></script>
+    <script src="jsonView/jsonView.js"></script>
 
 
 </head>
@@ -68,8 +69,9 @@
 <header class="navbar navbar-default navbar-static-top">
     <div class="container-fluid">
         <ul class="nav navbar-nav navbar-center">
-            <li ng-class="{'active' : dati.currentView === 'text'}" ><a href="#!/textView"><span class="glyphicon glyphicon-open-file"></span></a></li>
             <li ng-class="{'active' : dati.currentView === 'analytics'}"><a href="#!/analyticsView" ><span class="glyphicon glyphicon-equalizer"></span></a></li>
+            <li ng-class="{'active' : dati.currentView === 'text'}" ><a href="#!/textView"><span class="glyphicon glyphicon-open-file"></span></a></li>
+            <li ng-class="{'active' : dati.currentView === 'json'}"><a href="#!/jsonView" ><span class="glyphicon glyphicon-refresh"></span></a></li>
             <!--
             <li ng-class="{'active' : dati.currentView === 'twyllbook'}" ><a href="#!/twyllbookView"><span class="glyphicon glyphicon-book"></span></a></li>
             -->
