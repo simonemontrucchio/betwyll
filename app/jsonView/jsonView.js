@@ -41,6 +41,7 @@ angular.module('myApp.jsonView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'myApp.
         $rootScope.json = {};
         $scope.json_new = {};
         $scope.answers = {};
+        $scope.content = "";
         $rootScope.json.uploaded = false;
 
         $rootScope.info = {};
@@ -53,87 +54,29 @@ angular.module('myApp.jsonView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'myApp.
 
             $scope.json_new = $rootScope.json;
 
-            var answers = [];
+
 
             //console.log("Entro in addJson");
 
             if ($rootScope.json.uploaded == true){
 
-                $scope.analytics.comments = 0;
-                $scope.analytics.answers = 0;
-
-                // scorro ogni riga del file dei twyll
-                for (var i = 0; i < $scope.json_new.length; i++) {
-
-                    // se non è undefined entro nel capitolo
-                    if($scope.json_new[i].comments != undefined){
-
-                        if ($scope.json_new[i].comments.length != 0){
-                            //console.log("NEW: " + JSON.stringify($scope.json_new[i].comments));
-                            //$scope.analytics.comments += $rootScope.json[i].comments.length;
 
 
-                            var j = $scope.json_new[i].comments.length -1;
-                            for   (j; j >= 0 ; j--) {
 
-                                //TODO aggiungere per ogni commento che si tratta di un commento
+            $scope.answers2comments();
+
+
+            $scope.fixing();
 
 
 
 
 
-                                if ($scope.json_new[i].comments[j].answers != undefined) {
-
-                                    //copio le risposte
-                                    $scope.answers = $scope.json_new[i].comments[j].answers;
+            $scope.analytics.reformat = true;
+            //console.log("analized vale: " + $scope.analytics.analyzed);
 
 
-
-                                    //TODO togliere risposte da dentro commento
-
-
-
-
-                                    //TODO mettere le risposte dopo il commento
-                                    // 0 vuol dire che non rimuove ma aggiunge
-                                    var k = $scope.answers.length -1;
-                                    for   (k; k >= 0 ; k--) {
-
-
-                                        console.log("aggiungo: " +$scope.json_new[i].comments[j].content + "---" + $scope.answers[k].content)
-                                        $scope.json_new[i].comments.splice(j+1,0,$scope.answers[k]);
-
-                                    }
-
-
-
-
-
-
-
-
-
-                                    //TODO aggiungere per ogni risposta  che si tratta di una risposta o omettere?
-
-
-
-                                    //TODO parse html del content
-
-
-                                }
-                            }
-                        }
-                    }
-                }
-
-
-
-
-                $scope.analytics.reformat = true;
-                //console.log("analized vale: " + $scope.analytics.analyzed);
-
-
-                $scope.download( JSON.stringify($scope.json_new), $rootScope.info.name.toString().replace(".json", "") + '-REFORMAT.json', 'application/json;charset=utf-8');
+            $scope.download( JSON.stringify($scope.json_new), $rootScope.info.name.toString().replace(".json", "") + '-REFORMAT.json', 'application/json;charset=utf-8');
 
             }
         };
@@ -144,6 +87,40 @@ angular.module('myApp.jsonView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'myApp.
 
 
 
+        $scope.answers2comments = function (){
+
+            // scorro ogni riga del file dei twyll
+            for (var i = 0; i < $scope.json_new.length; i++) {
+
+                // se non è undefined entro nel capitolo
+                if($scope.json_new[i].comments != undefined){
+
+                    if ($scope.json_new[i].comments.length != 0){
+
+                        var j = $scope.json_new[i].comments.length -1;
+                        for   (j; j >= 0 ; j--) {
+
+                            if ($scope.json_new[i].comments[j].answers != undefined) {
+                                //copio le risposte
+                                $scope.answers = $scope.json_new[i].comments[j].answers;
+
+                                var k = $scope.answers.length -1;
+                                for   (k; k >= 0 ; k--) {
+                                    // 0 vuol dire che non rimuove ma aggiunge
+                                    $scope.json_new[i].comments.splice(j+1,0,$scope.answers[k]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+
+
+
+
+        $scope.fixing = function (){
 
 
 
@@ -151,6 +128,53 @@ angular.module('myApp.jsonView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'myApp.
 
 
 
+
+
+
+
+
+
+
+
+
+
+            // scorro ogni riga del file dei twyll
+            for (var i = 0; i < $scope.json_new.length; i++) {
+
+                // se non è undefined entro nel capitolo
+                if($scope.json_new[i].comments != undefined){
+
+                    if ($scope.json_new[i].comments.length != 0){
+
+                        var j = $scope.json_new[i].comments.length -1;
+                        for   (j; j >= 0 ; j--) {
+
+
+
+                            if ($scope.json_new[i].comments[j].answerToId != undefined) {
+                                //è una risposta
+                                $scope.json_new[i].comments[j]["type"] = "answer";
+
+                            }
+                            else {
+                                //è un commento
+                                $scope.json_new[i].comments[j]["type"] = "comment";
+
+
+                                //togliere risposte da dentro commento
+                                delete  $scope.json_new[i].comments[j]["answers"];
+
+
+                            }
+
+                            //parse html del content
+                            $scope.content = $scope.htmlParser($scope.json_new[i].comments[j].content);
+                            $scope.json_new[i].comments[j].content = $scope.content;
+                        }
+                    }
+                }
+            }
+        };
 
 
 
@@ -309,11 +333,13 @@ angular.module('myApp.jsonView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'myApp.
             a.click();
         };
 
+        $scope.htmlParser = function(html) {
+            var div = document.getElementById("parser");
+            div.innerHTML = html;
+            return div.textContent || div.innerText || "";
+        }
 
-        $scope.exportTwylls = function (){
-            var contents = $rootScope.contents;
-            $scope.download(contents, $rootScope.info.name.toString().replace(".json", "") + '-TWYLLS.txt', 'text/txt;charset=utf-8');
-        };
+
 
 
     }])
