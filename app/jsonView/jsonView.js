@@ -40,6 +40,7 @@ angular.module('myApp.jsonView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'myApp.
 
         $rootScope.json = {};
         $scope.json_new = {};
+        $scope.answers = {};
         $rootScope.json.uploaded = false;
 
         $rootScope.info = {};
@@ -71,16 +72,20 @@ angular.module('myApp.jsonView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'myApp.
                             //console.log("NEW: " + JSON.stringify($scope.json_new[i].comments));
                             //$scope.analytics.comments += $rootScope.json[i].comments.length;
 
-                            for   (var j = 0; j < $scope.json_new[i].comments.length; j++) {
+
+                            var j = $scope.json_new[i].comments.length -1;
+                            for   (j; j >= 0 ; j--) {
 
                                 //TODO aggiungere per ogni commento che si tratta di un commento
 
-                                // se ci sono, conto i twyll di risposta
+
+
+
+
                                 if ($scope.json_new[i].comments[j].answers != undefined) {
 
                                     //copio le risposte
-                                    answers = $scope.json_new[i].comments[j].answers;
-                                    console.log(answers);
+                                    $scope.answers = $scope.json_new[i].comments[j].answers;
 
 
 
@@ -91,7 +96,16 @@ angular.module('myApp.jsonView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'myApp.
 
                                     //TODO mettere le risposte dopo il commento
                                     // 0 vuol dire che non rimuove ma aggiunge
-                                    $scope.json_new[i].comments.splice(j+1,0,answers);
+                                    var k = $scope.answers.length -1;
+                                    for   (k; k >= 0 ; k--) {
+
+
+                                        console.log("aggiungo: " +$scope.json_new[i].comments[j].content + "---" + $scope.answers[k].content)
+                                        $scope.json_new[i].comments.splice(j+1,0,$scope.answers[k]);
+
+                                    }
+
+
 
 
 
@@ -100,6 +114,10 @@ angular.module('myApp.jsonView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'myApp.
 
 
                                     //TODO aggiungere per ogni risposta  che si tratta di una risposta o omettere?
+
+
+
+                                    //TODO parse html del content
 
 
                                 }
