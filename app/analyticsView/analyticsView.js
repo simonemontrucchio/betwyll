@@ -878,7 +878,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
                     "Access-Control-Allow-Origin": "*"
                 },
                 success: function(response) {
-                    console.log(response)
+                    console.log(response);
 
                     $scope.$apply(function() {
                         $scope.dandelioneu.classification++;
@@ -915,7 +915,7 @@ angular.module('myApp.analyticsView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'm
         return function(val) {
             return $sce.trustAsHtml(val);
         };
-    })
+    });
 
 
 
