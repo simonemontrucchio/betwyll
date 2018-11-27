@@ -149,27 +149,24 @@ angular.module('myApp.jsonView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'myApp.
                         var j = $scope.json_new[i].comments.length -1;
                         for   (j; j >= 0 ; j--) {
 
-
-
                             if ($scope.json_new[i].comments[j].answerToId != undefined) {
                                 //è una risposta
                                 $scope.json_new[i].comments[j]["type"] = "answer";
-
                             }
                             else {
                                 //è un commento
                                 $scope.json_new[i].comments[j]["type"] = "comment";
 
-
                                 //togliere risposte da dentro commento
                                 delete  $scope.json_new[i].comments[j]["answers"];
-
-
                             }
 
                             //parse html del content
                             $scope.content = $scope.htmlParser($scope.json_new[i].comments[j].content);
                             $scope.json_new[i].comments[j].content = $scope.content;
+
+                            //timestamp conversion
+                            $scope.json_new[i].comments[j]["date"] = new Date($scope.json_new[i].comments[j].timestamp);
                         }
                     }
                 }
