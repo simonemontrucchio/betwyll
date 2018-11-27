@@ -122,24 +122,11 @@ angular.module('myApp.jsonView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'myApp.
 
         $scope.fixing = function (){
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             // scorro ogni riga del file dei twyll
             for (var i = 0; i < $scope.json_new.length; i++) {
+
+                $scope.content = $scope.htmlParser($scope.json_new[i].content);
+                $scope.json_new[i].content = $scope.content;
 
                 // se non è undefined entro nel capitolo
                 if($scope.json_new[i].comments != undefined){
@@ -199,14 +186,14 @@ angular.module('myApp.jsonView', ['ngMaterial', 'ngRoute', 'ngSanitize', 'myApp.
                     // get file content
                     var text = e.target.result;
                     //console.log(text)
-                    filesUploaded.push(text)
+                    filesUploaded.push(text);
                     // do sth with bin
-                    readFile(index+1)
-                }
+                    readFile(index+1);
+                };
                 reader.readAsText(file);
             }
             readFile(0);
-        }
+        };
 
 
         $scope.mergeFiles = function() {
