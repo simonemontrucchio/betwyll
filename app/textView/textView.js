@@ -38,21 +38,21 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
         $scope.intestazione_html = "";
 
         if ($scope.dataInizio != "" && $scope.dataFine == "" && $scope.hashtag == ""){
-            $scope.intestazione_html = '<h3><em>' + "[" + $scope.dataInizio + "]" + '</em></h3>';
+            $scope.intestazione_html = '<h4><em>' + "[" + $scope.dataInizio + "]" + '</em></h4>';
         }
 
         if ($scope.dataInizio != "" && $scope.dataFine != "" && $scope.hashtag == ""){
-            $scope.intestazione_html = '<h3><em>' + "[" + $scope.dataInizio + " - " + $scope.dataFine + "]" + '</em></h3>';
+            $scope.intestazione_html = '<h4><em>' + "[" + $scope.dataInizio + " - " + $scope.dataFine + "]" + '</em></h4>';
         }
 
         if ($scope.dataInizio != "" && $scope.dataFine == "" && $scope.hashtag != ""){
-            $scope.intestazione_html = '<h3><em>' + "[" + $scope.dataInizio + " | " + $scope.hashtag + "]" + '</em></h3>';
+            $scope.intestazione_html = '<h4><em>' + "[" + $scope.dataInizio + " | " + $scope.hashtag + "]" + '</em></h4>';
         }
         if ($scope.dataInizio != "" && $scope.dataFine != "" && $scope.hashtag != ""){
-            $scope.intestazione_html = '<h3><em>' + "[" + $scope.dataInizio + " - " + $scope.dataFine + " | " + $scope.hashtag + "]" + '</em></h3>';
+            $scope.intestazione_html = '<h4><em>' + "[" + $scope.dataInizio + " - " + $scope.dataFine + " | " + $scope.hashtag + "]" + '</em></h4>';
         }
         if ($scope.dataInizio == "" && $scope.dataFine == "" && $scope.hashtag != ""){
-            $scope.intestazione_html = '<h3><em>' + "[" + $scope.hashtag  + "]" + '</em></h3>';
+            $scope.intestazione_html = '<h4><em>' + "[" + $scope.hashtag  + "]" + '</em></h4>';
         }
 
     };
