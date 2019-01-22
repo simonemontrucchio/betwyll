@@ -112,7 +112,7 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
 
             $scope.corpo_html =  '<p>' + $scope.corpo_html + '</p>';
 
-            //console.log($scope.corpo_html);
+
 
             var search = '<p>';
             var id = $scope.numero + 1;
