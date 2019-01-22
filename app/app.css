@@ -139,6 +139,11 @@ table {
     text-align: center;
 }
 
+.checkbox{
+    position: relative;
+    top: 10px;
+}
+
 /*
 
  */

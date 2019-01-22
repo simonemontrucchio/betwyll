@@ -59,8 +59,9 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
 
     $scope.setTitle = function () {
         $scope.titolo_html = "";
+        var id = $scope.numero;
         if ($scope.titolo != ""){
-            $scope.titolo_html = '<p id="par-0" style="font-size:1.3em;"><strong>' + $scope.titolo + '</strong></p>';
+            $scope.titolo_html = '<p id="par-' + id + '" style="font-size:1.3em;"><strong>' + $scope.titolo + '</strong></p>';
         }
     };
 
@@ -68,8 +69,9 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
 
     $scope.setSubTitle = function () {
         $scope.sottotitolo_html = "";
+        var id = $scope.numero + 1 ;
         if ($scope.sottotitolo != ""){
-            $scope.sottotitolo_html = '<p id="par-1"><em>' + $scope.sottotitolo + '</em><br><br></p>';
+            $scope.sottotitolo_html = '<p id="par-' + id + '"><em>' + $scope.sottotitolo + '</em><br><br></p>';
         }
 
     };
@@ -98,14 +100,15 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
 
             $scope.corpo_html =  '<p>' + $scope.corpo_html + '</p>';
 
-            console.log($scope.corpo_html);
+            //console.log($scope.corpo_html);
 
             var search = '<p>';
-            var id = $scope.numero;
+            var id = $scope.numero + 1;
             id++;
 
+
             $scope.corpo_html = $scope.corpo_html.replace(new RegExp(search, 'g'), function () {
-                return '<p id="par-'+ id++ + '">';
+                return '<p id="par-'+ id + '">';
             });
         }
 
