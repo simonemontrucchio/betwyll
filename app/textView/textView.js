@@ -23,15 +23,19 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
     $scope.titolo = "";
     $scope.sottotitolo = "";
     $scope.numero = 1;
+    $scope.interruzione = false;
     $scope.corpo = "";
 
     $scope.intestazione_html = "";
     $scope.titolo_html = "";
     $scope.sottotitolo_html = "";
     $scope.corpo_html = "";
+    $scope.interruzione_html = "";
 
     $scope.conversione = "";
     $scope.copied = "";
+
+
 
 
     $scope.setHeader = function () {
@@ -53,6 +57,14 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
         }
         if ($scope.dataInizio == "" && $scope.dataFine == "" && $scope.hashtag != ""){
             $scope.intestazione_html = '<h4><em>' + "[" + $scope.hashtag  + "]" + '</em></h4>';
+        }
+
+        if ($scope.dataInizio == "" && $scope.dataFine != "" && $scope.hashtag != ""){
+            $scope.intestazione_html = '<h4><em>' + "[" + $scope.dataFine + " | " + $scope.hashtag  + "]" + '</em></h4>';
+        }
+
+        if ($scope.dataInizio == "" && $scope.dataFine != "" && $scope.hashtag == ""){
+            $scope.intestazione_html = '<h4><em>' + "[" + $scope.dataFine + "]" + '</em></h4>';
         }
 
     };
@@ -110,10 +122,32 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
             $scope.corpo_html = $scope.corpo_html.replace(new RegExp(search, 'g'), function () {
                 return '<p id="par-'+ id + '">';
             });
+
+
+
         }
 
 
     };
+
+    $scope.setInterruption = function () {
+        if ($scope.interruzione) {
+            $scope.interruzione_html = '<hr data-betwyll="on-new-page"/>';
+        }
+        else {
+            $scope.interruzione_html = '';
+        }
+    };
+
+    $scope.setNumber = function () {
+        $scope.setHeader();
+        $scope.setTitle();
+        $scope.setSubTitle();
+        $scope.setBody();
+        $scope.setInterruption();
+    };
+
+
 
     $scope.copy = function () {
         /* Get the text field */

@@ -18,13 +18,13 @@
 
     <div class="col-lg-3">
         <b>Corpo del testo</b>
-        <input  input-text type="number" ng-model="numero" value="1" placeholder="1"  class="input-info"/>
+        <input  input-text type="number" ng-model="numero" ng-change="setNumber()"  value="1" placeholder="1"  class="input-info"/>
     </div>
 
     <div class="col-lg-3">
         <b>Interruzione pagina</b>
         <div class="checkbox">
-            <label><input type="checkbox" value="">Inserisci</label>
+            <label><input type="checkbox" ng-model="interruzione" ng-change="setInterruption()" value="">Inserisci</label>
         </div>
     </div>
 
@@ -60,6 +60,8 @@
 {{sottotitolo_html}}
 
 {{corpo_html}}
+
+{{interruzione_html}}
         </textarea>
     </div>
 
