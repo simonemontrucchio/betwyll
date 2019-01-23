@@ -94,6 +94,9 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
 
         var re1 = /<1br \/><1br \/>/gi;             //trova i singoli a capo
         var re1a = /<1br \/><1br \/><1br \/>/gi;    // trova i nuovi paragrafi
+        var re2 = /\<1br \/>/gi;
+        var re4 = /<2br \/>/gi;
+        var cifre = /[0-9]/gi;
 
 
         if ($scope.corpo != ""){
@@ -104,11 +107,16 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
             $scope.corpo_html =  $scope.corpo_html.replace(re1a,"<1br /><2br />");
             $scope.corpo_html =  $scope.corpo_html.replace(re1,"<2br />");
 
-            var re2 = /\<1br \/>/gi;
+
             $scope.corpo_html = $scope.corpo_html.replace(re2, "<br>\n");
 
-            var re4 = /<2br \/>/gi;
+
             $scope.corpo_html = $scope.corpo_html.replace(re4,"<br></p>\n\n<p>");
+
+            // rimuovi cifre
+            $scope.corpo_html = $scope.corpo_html.replace(cifre,"");
+
+
 
             $scope.corpo_html =  '<p>' + $scope.corpo_html + '</p>';
 
