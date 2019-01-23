@@ -24,6 +24,7 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
     $scope.sottotitolo = "";
     $scope.numero = 1;
     $scope.interruzione = false;
+    $scope.cifre = true;
     $scope.corpo = "";
 
     $scope.intestazione_html = "";
@@ -113,8 +114,12 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
 
             $scope.corpo_html = $scope.corpo_html.replace(re4,"<br></p>\n\n<p>");
 
+
             // rimuovi cifre
-            $scope.corpo_html = $scope.corpo_html.replace(cifre,"");
+            if ($scope.cifre == true) {
+                $scope.corpo_html = $scope.corpo_html.replace(cifre,"");
+            }
+
 
 
 
@@ -147,10 +152,15 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
         }
     };
 
+    $scope.setDigits = function () {
+        $scope.setBody();
+    };
+
     $scope.setNumber = function () {
         $scope.setHeader();
         $scope.setTitle();
         $scope.setSubTitle();
+        $scope.setDigits();
         $scope.setBody();
         $scope.setInterruption();
     };

@@ -16,15 +16,22 @@
     </div >
 
 
-    <div class="col-lg-3">
-        <b>Corpo del testo</b>
+    <div class="col-lg-2">
+        <b>ID titolo</b>
         <input  input-text type="number" ng-model="numero" ng-change="setNumber()"  value="1" placeholder="1"  class="input-info"/>
     </div>
 
-    <div class="col-lg-3">
-        <b>Interruzione pagina</b>
+    <div class="col-lg-2">
+        <b>Interruzione</b>
         <div class="checkbox">
-            <label><input type="checkbox" ng-model="interruzione" ng-change="setInterruption()" value="">Inserisci</label>
+            <label><input type="checkbox" ng-model="interruzione" ng-change="setInterruption()" value="">Pagina</label>
+        </div>
+    </div>
+
+    <div class="col-lg-2">
+        <b>Cifre</b>
+        <div class="checkbox">
+            <label><input type="checkbox" ng-model="cifre" ng-change="setDigits()" value="">Rimuovi</label>
         </div>
     </div>
 
