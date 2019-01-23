@@ -120,7 +120,7 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
 
 
             $scope.corpo_html = $scope.corpo_html.replace(new RegExp(search, 'g'), function () {
-                return '<p id="par-'+ id + '">';
+                return '<p id="par-'+ id++ + '">';
             });
 
 
