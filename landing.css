@@ -5,6 +5,7 @@ html {
     height: 100%;
     overflow: hidden;
     padding: 5%;
+    /*
     background: #4caf4f;
     background: -moz-linear-gradient(45deg, #b2ff59 0%, #4caf4f 75%);
     background: -webkit-linear-gradient(45deg, #b2ff59 0%, #4caf4f 75%);
@@ -12,6 +13,8 @@ html {
     background: -ms-linear-gradient(45deg, #b2ff59 0%, #4caf4f 75%);
     background: linear-gradient(45deg, #b2ff59 0%, #4caf4f 75%);
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#b2ff59', endColorstr='#4caf4f', GradientType=1);
+    */
+    background-image: linear-gradient(180deg, #751048 0%, #232333 100%);
 }
 
 @media screen and (min-width: 700px) {
@@ -45,11 +48,13 @@ html {
 .logo {
     text-align: center;
     position: relative;
-    top: 1.5em;
+    top: 10em;
 }
 
 .logo-img {
+    /*
     width: 50%;
+     */
 }
 
 .titolo {
@@ -91,14 +96,22 @@ html {
     font-family: 'Roboto', sans-serif;
     color: #f7f7f7 !important;
     font-size: 1.5em;
+    /*
     position: absolute;
+     */
     bottom: 1em;
+}
+
+a {
+    text-decoration: none;
 }
 
 .btn {
     display: block;
-    margin: 30px auto;
+    margin: 10em auto;
+    /*
     padding: 0;
+     */
 
     overflow: hidden;
 
@@ -107,14 +120,15 @@ html {
     border-radius: 2px;
     box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
 
-    background-color: #4CAF50;
+    background-color: #b2045e;
     color: #ecf0f1;
 
     transition: background-color .3s;
+    text-decoration: none;
 }
 
 .btn:hover, .btn:focus {
-    background-color: #4CAF50;
+    background-color: #751048 ;
 }
 
 .btn span {
