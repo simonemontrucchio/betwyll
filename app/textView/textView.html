@@ -1,24 +1,24 @@
 <div ng-controller="textViewCtrl">
     <div class="col-lg-6">
         <b>Data di inizio</b>
-        <input input-text type="text" ng-model="dataInizio" ng-change="setHeader()"  placeholder="Lunedì 14" class="input-info"/>
+        <input input-text type="text" ng-model="dataInizio" ng-change="setHeader()"  placeholder="Lunedì 14" class="input-info" onClick="this.select();" />
     </div>
     <div class="col-lg-6">
         <b>Data di fine</b>
-        <input  input-text type="text" ng-model="dataFine" ng-change="setHeader()"  placeholder="Domenica 21 gennaio" class="input-info"/>
+        <input  input-text type="text" ng-model="dataFine" ng-change="setHeader()"  placeholder="Domenica 21 gennaio" class="input-info" onClick="this.select();" />
     </div>
 
 
 
     <div class="col-lg-6">
         <b>Hashtag</b>
-        <input  input-text type="text" ng-model="hashtag" ng-change="setHeader()"  placeholder="#TwInferno" class="input-info"/>
+        <input  input-text type="text" ng-model="hashtag" ng-change="setHeader()"  placeholder="#TwInferno" class="input-info" onClick="this.select();" />
     </div >
 
 
     <div class="col-lg-2">
         <b>ID titolo</b>
-        <input  input-text type="number" ng-model="numero" ng-change="setNumber()"  value="1" placeholder="1"  class="input-info"/>
+        <input  input-text type="number" ng-model="numero" ng-change="setNumber()"  value="1" placeholder="1"  class="input-info" onClick="this.select();" />
     </div>
 
     <div class="col-lg-2">
@@ -41,12 +41,12 @@
 
     <div class="col-lg-6">
         <b>Titolo</b>
-        <input  input-text type="text" ng-model="titolo" ng-change="setTitle()"  placeholder="Canto XXVI" class="input-info"/>
+        <input  input-text type="text" ng-model="titolo" ng-change="setTitle()"  placeholder="Canto XXVI" class="input-info" onClick="this.select();"  />
     </div>
 
     <div class="col-lg-6">
         <b>Sottotitolo</b>
-        <input  input-text type="text" ng-model="sottotitolo" ng-change="setSubTitle()"  placeholder="Ulisse" class="input-info"/>
+        <input  input-text type="text" ng-model="sottotitolo" ng-change="setSubTitle()"  placeholder="Ulisse" class="input-info" onClick="this.select();" />
     </div>
 
 
@@ -54,7 +54,7 @@
 
 
     <div  class="col-lg-12">
-        <textarea ng-model="corpo" ng-change="setBody()"  placeholder="Testo diviso in paragrafi (saltando una riga)" class="input"></textarea>
+        <textarea ng-model="corpo" ng-change="setBody()"  placeholder="Testo diviso in paragrafi (saltando una riga)" class="input" onClick="this.select();" ></textarea>
     </div>
 
     <hr>
