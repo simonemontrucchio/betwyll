@@ -53,6 +53,32 @@
 
 
 
+    <div class="col-lg-3">
+        <b>Newsletter</b>
+        <div class="checkbox">
+            <label><input type="checkbox" ng-model="newsletter" ng-change="setNewsletter()" value="">Banner</label>
+        </div>
+    </div>
+
+    <div class="col-lg-3">
+        <b>Immagine</b>
+        <input  input-text type="text" ng-model="immagine" ng-change="setImage()"  placeholder=""  class="input-info" onClick="this.select();" />
+    </div>
+
+    <div class="col-lg-3">
+        <b>Call 1</b>
+        <input  input-text type="text" ng-model="call1" ng-change="setCall1()"  placeholder=""  class="input-info" onClick="this.select();" />
+    </div>
+
+    <div class="col-lg-3">
+        <b>Call 2</b>
+        <input  input-text type="text" ng-model="call2" ng-change="setCall2()"  placeholder=""  class="input-info" onClick="this.select();" />
+    </div>
+
+
+
+
+
     <div  class="col-lg-12">
         <textarea ng-model="corpo" ng-change="setBody()"  placeholder="Testo diviso in paragrafi (saltando una riga)" class="input" onClick="this.select();" ></textarea>
     </div>
@@ -67,6 +93,8 @@
 {{sottotitolo_html}}
 
 {{corpo_html}}
+
+{{newsletter_html}}
 
 {{interruzione_html}}
         </textarea>

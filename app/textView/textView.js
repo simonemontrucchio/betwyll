@@ -26,12 +26,19 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
     $scope.interruzione = false;
     $scope.cifre = true;
     $scope.corpo = "";
+    $scope.newsletter = true;
+    $scope.immagine = "http://www.betwyll.com/website/wp-content/uploads/2018/10/bg-progetto.jpg";
+    $scope.call1 = "Ti è piaciuto questo progetto?";
+    $scope.call2 = "Rimani aggiornato!";
+
+
 
     $scope.intestazione_html = "";
     $scope.titolo_html = "";
     $scope.sottotitolo_html = "";
     $scope.corpo_html = "";
     $scope.interruzione_html = "";
+    $scope.newsletter_html = "";
 
     $scope.conversione = "";
     $scope.copied = "";
@@ -139,7 +146,7 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
 
 
         }
-
+        $scope.setNewsletter();
 
     };
 
@@ -151,6 +158,60 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
             $scope.interruzione_html = '';
         }
     };
+
+
+
+
+
+    $scope.setNewsletter = function () {
+        if ($scope.newsletter) {
+            $scope.newsletter_html = '<div style="\n' +
+                'background: url(' + $scope.immagine + ');\n' +
+                'background-position: top left;\n' +
+                'background-size: cover;\n' +
+                'height: 190px;\n' +
+                'margin: 0 -50px 0 -25px;\n' +
+                'padding: 19px;">\n' +
+                '  <div style="\n' +
+                '  color: #fff;\n' +
+                '  padding-bottom: 38px;">\n' +
+                '    <h2 style="color:#fff;margin:0px;">' + $scope.call1 + '</h2>\n' +
+                '    <p style="margin-top:10px; ">' + $scope.call2 + '</p>\n' +
+                '  </div>\n' +
+                '  <div class="text-center">\n' +
+                '    <a class="btn btn-link"  style="\n' +
+                'background-color: #b2045e;\n' +
+                'color:#fff;"\n' +
+                'href="http://www.betwyll.com/website/it/newsletter/">\n' +
+                '      <span>Iscriviti alla newsletter</span>\n' +
+                '      <i class="icon ion-android-mail"></i>\n' +
+                '    </a>\n' +
+                '  </div>\n' +
+                '</div>';
+        }
+        else {
+            $scope.newsletter_html = '';
+        }
+    };
+
+
+
+    $scope.setImage = function () {
+        $scope.setNewsletter();
+    };
+
+    $scope.setCall1 = function () {
+        $scope.setNewsletter();
+    };
+
+    $scope.setCall2 = function () {
+        $scope.setNewsletter();
+    };
+
+
+
+
+
 
     $scope.setDigits = function () {
         $scope.setBody();
