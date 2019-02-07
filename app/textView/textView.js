@@ -29,7 +29,7 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
     $scope.newsletter = true;
     $scope.immagine = "http://www.betwyll.com/website/wp-content/uploads/2018/10/bg-progetto.jpg";
     $scope.call1 = "Ti è piaciuto questo progetto?";
-    $scope.call2 = "Rimani aggiornato!";
+    $scope.call2 = "Rimani aggiornato sui prossimi!";
 
 
 
