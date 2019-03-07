@@ -24,7 +24,7 @@ angular.module('myApp.textView', ['ngRoute', 'myApp.analytics'])
     $scope.sottotitolo = "";
     $scope.numero = 1;
     $scope.interruzione = false;
-    $scope.cifre = true;
+    $scope.cifre = false;
     $scope.corpo = "";
     $scope.newsletter = true;
     $scope.immagine = "http://www.betwyll.com/website/wp-content/uploads/2018/10/bg-progetto.jpg";
